@@ -313,10 +313,10 @@ export default function EventsPage() {
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-bold font-headline">Featured</h2>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+          <div className="flex gap-4 overflow-x-auto py-4 snap-x snap-mandatory scrollbar-hide">
             {featuredEvents.map((event) => (
               <div key={event.title} className="w-[85%] sm:w-80 flex-shrink-0 snap-start">
-                <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-video group" onClick={() => handleEventClick(event as Event)}>
+                <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-[4/3] group" onClick={() => handleEventClick(event as Event)}>
                   {event.image && (
                     <Image
                       src={event.image.imageUrl}
@@ -477,5 +477,7 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
 
     
