@@ -57,91 +57,91 @@
     {
       "id": "camel-trek-sunset",
       "description": "Silhouettes of camels and people trekking in the desert during sunset.",
-      "imageUrl": "https://images.unsplash.com/photo-1520625332693-5b871d397858?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYW1lbCUyMGRlc2VydCUyMHN1bnNldHxlbnwwfHx8fDE3NjcxNTM1NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1565985481353-3d8e2c30051f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHN1bnNldHxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "camel sunset"
     },
     {
       "id": "pottery-making-hands",
       "description": "Close-up of hands shaping clay on a pottery wheel.",
-      "imageUrl": "https://images.unsplash.com/photo-1597960194599-22929afc25b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8d29ya3Nob3B8ZW58MHx8fHwxNzY2NDA0NTk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1676125105332-608345abe20e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3Jrc2hvcCUyMHBvdHRlcnl8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "workshop pottery"
     },
     {
       "id": "souk-spices-market",
       "description": "Colorful spices arranged in bowls at a bustling souk.",
-      "imageUrl": "https://images.unsplash.com/photo-1761828122820-9f6d2261ac52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzb3VrJTIwdG91cnxlbnwwfHx8fDE3NjY0MDQ2MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1669406542628-56141edd534b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "souk tour"
     },
     {
       "id": "traditional-music-night",
       "description": "Musicians playing traditional instruments under starry night.",
-      "imageUrl": "https://images.unsplash.com/photo-1528999834169-140a3c2a138c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0cmFkaXRpb25hbCUyMG11c2ljfGVufDB8fHx8MTc3MDE3MTE1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1698627124505-103cb28e56ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0cmFkaXRpb25hbCUyMG11c2ljfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "traditional music"
     },
     {
       "id": "ksar-guided-tour",
       "description": "A guide explaining history in an ancient ksar.",
-      "imageUrl": "https://images.unsplash.com/photo-1569936848203-0938f3881333?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhbmNpZW50JTIwY2l0eSUyMHRvdXJ8ZW58MHx8fHwxNzcwMTcxMTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1582036743525-de5e24c460f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxoaXN0b3J5JTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "history tour"
     },
     {
       "id": "saharan-cooking-class",
       "description": "Hands preparing a traditional Tagine dish.",
-      "imageUrl": "https://images.unsplash.com/photo-1588103650634-31d5515c32a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0YWdpbmUlMjBjb29raW5nfGVufDB8fHx8MTc3MDE3MTI0OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29va2luZyUyMGNsYXNzfGVufDB8fHx8MTc2NjQwNzI4NXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "cooking class"
     },
     {
       "id": "stargazing-desert",
       "description": "A clear night sky full of stars over the Sahara desert.",
-      "imageUrl": "https://images.unsplash.com/photo-1506859336152-9f3d679a933d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc3MDE3MTI3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1741789598390-443bebcc025d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "desert stargazing"
     },
     {
       "id": "sandboarding-dunes",
       "description": "A person sandboarding down a large desert dune.",
-      "imageUrl": "https://images.unsplash.com/photo-1621849490075-0924aa91a457?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYW5kYm9hcmRpbmd8ZW58MHx8fHwxNzcwMTcxMzAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1647934544556-5010fb46e03c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzYW5kYm9hcmRpbmclMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "sandboarding desert"
     },
     {
       "id": "date-harvest-festival",
       "description": "Close-up of fresh dates on a palm tree during harvest.",
-      "imageUrl": "https://images.unsplash.com/photo-1614188424244-93840733a18a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXRlJTIwaGFydmVzdHxlbnwwfHx8fDE3NzAxNzEzMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1758546517190-2de09f5cd805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGF0ZSUyMGhhcnZlc3R8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "date harvest"
     },
     {
       "id": "oasis-picnic",
       "description": "A beautiful picnic setup in a lush green oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1694326938363-999335a123a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxvYXNpcyUyMHBpY25pY3xlbnwwfHx8fDE3NzAxNzEzNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1763901326432-4b08b99e03e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8b2FzaXMlMjBwaWNuaWN8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "oasis picnic"
     },
     {
       "id": "leather-workshop",
       "description": "Artisan working with leather and tools in a workshop.",
-      "imageUrl": "https://images.unsplash.com/photo-1559523236-419a4dc2a2b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwd29ya3Nob3B8ZW58MHx8fHwxNzcwMTcxMzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1607969891751-1374d59ab4fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsZWF0aGVyJTIwd29ya3Nob3B8ZW58MHx8fHwxNzY2MzcyODI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "leather workshop"
     },
     {
       "id": "tuareg-tea-ceremony",
       "description": "Traditional Tuareg tea being poured.",
-      "imageUrl": "https://images.unsplash.com/photo-1590393275754-b673645c4535?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0dWFyZWclMjB0ZWF8ZW58MHx8fHwxNzcwMTcxNDIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1728037134136-f8f610b4bcc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0dWFyZWclMjB0ZWF8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "tuareg tea"
     },
     {
       "id": "foggara-tour",
       "description": "Entrance to an ancient foggara underground irrigation channel.",
-      "imageUrl": "https://images.unsplash.com/photo-1620888933931-a6b0042fd8d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwaXJyaWdhdGlvbnxlbnwwfHx8fDE3NzAxNzE0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1759212445830-848ce08cc0c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmNpZW50JTIwaXJyaWdhdGlvbnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ancient irrigation"
     },
     {
       "id": "camel-race",
       "description": "Camels racing across the desert plains.",
-      "imageUrl": "https://images.unsplash.com/photo-1634543450371-3d75241162a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYW1lbCUyMHJhY2V8ZW58MHx8fHwxNzcwMTcxNDcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1754323924996-38de8e7f6471?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHJhY2V8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "camel race"
     },
     {
       "id": "saharan-storytelling",
       "description": "A group gathered around a fire listening to a storyteller.",
-      "imageUrl": "https://images.unsplash.com/photo-1544573111-85b9a19a4a42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdG9yeXRlbGxpbmclMjBmaXJlc2lkZXxlbnwwfHx8fDE3NzAxNzE0OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593898798217-e7e9a38ecb0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdG9yeXRlbGxpbmclMjBmaXJlc2lkZXxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "storytelling fireside"
     }
   ]
