@@ -3,22 +3,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { WandSparkles, Map, QrCode, CalendarDays, Phone } from 'lucide-react';
+import { Home, Heart, Book, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/', label: 'Itinerary', icon: WandSparkles },
-  { href: '/map', label: 'Map', icon: Map },
-  { href: '/scan', label: 'Scan', icon: QrCode },
-  { href: '/events', label: 'Events', icon: CalendarDays },
-  { href: '/contact', label: 'Contact', icon: Phone },
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/saved', label: 'Saved', icon: Heart },
+  { href: '/map', label: 'Map', icon: Book },
+  { href: '/profile', label: 'Profile', icon: User },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-card border-t border-border shadow-t-lg z-50 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 h-20 bg-background/80 backdrop-blur-sm border-t border-border z-50 md:hidden">
       <div className="flex justify-around items-center h-full max-w-lg mx-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
@@ -33,8 +32,16 @@ export default function BottomNav() {
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
-              <Icon className="w-6 h-6 mb-1" />
-              <span className="text-xs">{label}</span>
+               <div className={cn(
+                  'p-3 rounded-full transition-colors',
+                  isActive ? 'bg-primary/10' : 'bg-transparent'
+               )}>
+                <Icon className="w-6 h-6" />
+               </div>
+              <span className={cn(
+                  "text-xs mt-1",
+                  isActive ? 'font-bold' : 'font-medium'
+              )}>{label}</span>
             </Link>
           );
         })}
