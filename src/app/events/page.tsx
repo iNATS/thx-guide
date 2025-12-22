@@ -425,10 +425,6 @@ export default function EventsPage() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             </div>
                         )}
-                        <Button variant="ghost" size="icon" className="absolute top-4 right-4 h-8 w-8 rounded-full bg-black/30 hover:bg-black/50 text-white" onClick={() => setIsSheetOpen(false)}>
-                            <X className="h-4 w-4"/>
-                            <span className="sr-only">Close</span>
-                        </Button>
                         <div className="p-6 -mt-16 relative z-10">
                             <div className="flex justify-between items-start mb-2">
                                 <h2 className="text-2xl font-bold font-headline text-white">{selectedEvent.title}</h2>
