@@ -41,7 +41,7 @@ const MapView = dynamic(() => import('@/app/map'), {
 
 const filterButtons = [
   { label: 'All', category: 'All', icon: Navigation },
-  { label: 'Cultural', category: 'Cultural', icon: Castle },
+  { label: 'Culture', category: 'Culture', icon: Castle },
   { label: 'Nature', category: 'Nature', icon: Landmark },
   { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
@@ -147,11 +147,11 @@ export default function Home() {
   );
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
-  const popularRoutes = useMemo(() => {
+  const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
-      return allPopularRoutes;
+      return topPlaces;
     }
-    return allPopularRoutes.filter(route => route.category === activeFilter);
+    return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
 
 
@@ -211,32 +211,12 @@ export default function Home() {
             Discover the Red Oasis
           </h1>
         </div>
-
-        {/* Filter Buttons */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-          {filterButtons.map((filter) => {
-            const isActive = activeFilter === filter.category;
-            return (
-                <Button
-                key={filter.label}
-                variant={isActive ? 'default' : 'secondary'}
-                onClick={() => setActiveFilter(filter.category)}
-                className={`rounded-full flex-shrink-0 ${
-                    isActive ? 'bg-primary' : 'bg-card'
-                }`}
-                >
-                <filter.icon className="mr-2 h-4 w-4" />
-                {filter.label}
-                </Button>
-            );
-            })}
-        </div>
-
+        
         {/* Popular Routes */}
         <div className="mb-8">
           
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-            {popularRoutes.map((route, index) => (
+            {allPopularRoutes.map((route, index) => (
               <div
                 key={index}
                 className="w-64 flex-shrink-0 snap-start"
@@ -287,8 +267,27 @@ export default function Home() {
                 See All
                 </Link>
             </div>
+             {/* Filter Buttons */}
+            <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+                {filterButtons.map((filter) => {
+                    const isActive = activeFilter === filter.category;
+                    return (
+                        <Button
+                        key={filter.label}
+                        variant={isActive ? 'default' : 'secondary'}
+                        onClick={() => setActiveFilter(filter.category)}
+                        className={`rounded-full flex-shrink-0 ${
+                            isActive ? 'bg-primary' : 'bg-card'
+                        }`}
+                        >
+                        <filter.icon className="mr-2 h-4 w-4" />
+                        {filter.label}
+                        </Button>
+                    );
+                })}
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {topPlaces.map(place => (
+                {filteredPlaces.map(place => (
                 <div
                     key={place.id}
                     className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
