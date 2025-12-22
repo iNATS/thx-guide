@@ -131,7 +131,7 @@ export default function Home() {
         {!isMapFullscreen && (
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
         )}
-        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'bg-background/80 backdrop-blur-sm p-4 rounded-b-2xl shadow-lg')}>
+        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4')}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
