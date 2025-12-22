@@ -65,9 +65,6 @@ export default function EventsPage() {
       <header className="flex items-center justify-between p-4 sm:p-6 sticky top-0 bg-background/80 backdrop-blur-sm z-40 border-b">
         <h1 className="text-2xl font-bold font-headline">Upcoming Events</h1>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <Search className="h-5 w-5" />
-          </Button>
           <div className="relative">
             <Button variant="ghost" size="icon" className="rounded-full">
                 <Bell className="h-5 w-5" />
