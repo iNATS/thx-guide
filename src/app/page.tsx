@@ -261,7 +261,7 @@ export default function Home() {
       <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background", isMapFullscreen && 'hidden')}>
         
         <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
-          <div className="mb-6 px-4 sm:px-6 lg:px-8 pt-8">
+          <div className="px-4 sm:px-6 lg:px-8 py-4">
             <p className="text-muted-foreground">Salam 👋</p>
             <h1 className="text-3xl font-bold font-headline text-foreground">
               Discover the Red Oasis
