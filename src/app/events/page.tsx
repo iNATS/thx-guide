@@ -412,14 +412,7 @@ export default function EventsPage() {
             </div>
              {selectedEvent && (
                 <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn("p-0 rounded-t-2xl sm:max-w-lg", isMobile ? 'h-[90vh]' : '')}>
-                    <SheetHeader className="p-4 border-b">
-                        <SheetTitle className="font-headline sr-only">{selectedEvent.title}</SheetTitle>
-                        <Button variant="ghost" size="icon" className="absolute top-3 right-3 h-8 w-8 rounded-full" onClick={() => setIsSheetOpen(false)}>
-                            <X className="h-4 w-4"/>
-                            <span className="sr-only">Close</span>
-                        </Button>
-                    </SheetHeader>
-                    <div className="h-full overflow-y-auto pb-24">
+                    <div className="h-full overflow-y-auto pb-24 relative">
                         {selectedEvent.image && (
                             <div className="relative h-64 w-full">
                                 <Image
@@ -429,37 +422,45 @@ export default function EventsPage() {
                                     objectFit="cover"
                                     data-ai-hint={selectedEvent.image.imageHint}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             </div>
                         )}
-                        <div className="p-6">
+                        <Button variant="ghost" size="icon" className="absolute top-4 right-4 h-8 w-8 rounded-full bg-black/30 hover:bg-black/50 text-white" onClick={() => setIsSheetOpen(false)}>
+                            <X className="h-4 w-4"/>
+                            <span className="sr-only">Close</span>
+                        </Button>
+                        <div className="p-6 -mt-16 relative z-10">
                             <div className="flex justify-between items-start mb-2">
-                                <h2 className="text-2xl font-bold font-headline ">{selectedEvent.title}</h2>
+                                <h2 className="text-2xl font-bold font-headline text-white">{selectedEvent.title}</h2>
                                 <Button variant="ghost" size="icon" onClick={() => toggleFavorite(selectedEvent.title)}>
-                                    <Heart className={cn("w-6 h-6 text-muted-foreground", favoritedEvents.has(selectedEvent.title) && "fill-primary text-primary")}/>
+                                    <Heart className={cn("w-6 h-6 text-white/80", favoritedEvents.has(selectedEvent.title) && "fill-primary text-primary")}/>
                                 </Button>
                             </div>
-                            <div className="space-y-2 text-muted-foreground mb-4">
-                                <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-primary"/>
-                                    <span>{selectedEvent.time}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 text-primary"/>
-                                    <span>{selectedEvent.location}</span>
-                                </div>
-                            </div>
-                            <p className="text-foreground/90 mb-6">{selectedEvent.description}</p>
+                             <div className="bg-background rounded-xl p-6 shadow-xl">
 
-                            <div className="flex flex-col sm:flex-row gap-2">
-                                <Button size="lg" className="w-full" onClick={() => handleAddToCalendar(selectedEvent)}>
-                                    <CalendarPlus className="mr-2 h-4 w-4" />
-                                    Add to Calendar
-                                </Button>
+                                <div className="space-y-2 text-muted-foreground mb-4">
+                                    <div className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4 text-primary"/>
+                                        <span>{selectedEvent.time}</span>
+                                    </div>
 
-                                <Button size="lg" variant="outline" className="w-full">
-                                    {selectedEvent.actionVariant === 'secondary' ? 'Join Waiting List' : 'Book Now'}
-                                </Button>
+                                    <div className="flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-primary"/>
+                                        <span>{selectedEvent.location}</span>
+                                    </div>
+                                </div>
+                                <p className="text-foreground/90 mb-6">{selectedEvent.description}</p>
+
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <Button size="lg" className="w-full" onClick={() => handleAddToCalendar(selectedEvent)}>
+                                        <CalendarPlus className="mr-2 h-4 w-4" />
+                                        Add to Calendar
+                                    </Button>
+
+                                    <Button size="lg" variant="outline" className="w-full">
+                                        {selectedEvent.actionVariant === 'secondary' ? 'Join Waiting List' : 'Book Now'}
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
