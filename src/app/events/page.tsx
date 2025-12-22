@@ -46,7 +46,7 @@ const thisWeekEvents = [
         time: 'Today, 17:00',
         location: 'Dunes of Timimoun',
         image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset'),
-        action: 'Book Spot',
+        action: 'Know more',
         actionVariant: 'default' as const,
         description: 'Enjoy a peaceful camel trek through the iconic red dunes of Timimoun, culminating in a traditional tea ceremony as the sun sets over the Sahara.'
     },
@@ -55,7 +55,7 @@ const thisWeekEvents = [
         time: 'Sat, 10:00',
         location: 'Old Ksar District',
         image: PlaceHolderImages.find((img) => img.id === 'pottery-making-hands'),
-        action: 'Reserve • $15',
+        action: 'Know more',
         actionVariant: 'default' as const,
         description: 'Learn the ancient art of pottery from a local artisan in the historic Old Ksar district. Create your own unique souvenir to take home.'
     },
@@ -64,7 +64,7 @@ const thisWeekEvents = [
         time: 'Tue, 08:00',
         location: 'Timimoun Center',
         image: PlaceHolderImages.find((img) => img.id === 'souk-spices-market'),
-        action: 'Join Waiting List',
+        action: 'Know more',
         actionVariant: 'secondary' as const,
         description: 'Discover the sights, sounds, and smells of the weekly market. A guided tour to help you find the best local products and crafts.'
     }
@@ -121,12 +121,12 @@ export default function EventsPage() {
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory">
             {featuredEvents.map((event) => (
               <div key={event.title} className="w-[85%] sm:w-80 flex-shrink-0 snap-start">
-                <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-video group" onClick={() => handleEventClick(event)}>
+                <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-video group" onClick={() => handleEventClick(event as Event)}>
                   {event.image && (
                     <Image
                       src={event.image.imageUrl}
                       alt={event.title}
-                      layout="fill"
+                      fill
                       objectFit="cover"
                       data-ai-hint={event.image.imageHint}
                     />
@@ -226,7 +226,7 @@ export default function EventsPage() {
                                 <Image
                                     src={selectedEvent.image.imageUrl}
                                     alt={selectedEvent.title}
-                                    layout="fill"
+                                    fill
                                     objectFit="cover"
                                     data-ai-hint={selectedEvent.image.imageHint}
                                 />
