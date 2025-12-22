@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Bell, Clock, Heart, Landmark, MapPin, Music, Search, Utensils, X, Star, Wind, Tractor, BookOpen, Sprout, ShoppingBag, Drama } from 'lucide-react';
+import { Bell, Clock, Heart, Landmark, MapPin, Music, Search, Utensils, X, Star, Wind, Tractor, BookOpen, Sprout, ShoppingBag, Drama, CalendarPlus } from 'lucide-react';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -205,6 +205,7 @@ export default function EventsPage() {
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [favoritedEvents, setFavoritedEvents] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -225,6 +226,62 @@ export default function EventsPage() {
     }
     return thisWeekEvents.filter(event => event.category === activeFilter);
   }, [activeFilter]);
+  
+  const toggleFavorite = (eventTitle: string) => {
+    setFavoritedEvents(prev => {
+        const newFavs = new Set(prev);
+        if (newFavs.has(eventTitle)) {
+            newFavs.delete(eventTitle);
+        } else {
+            newFavs.add(eventTitle);
+        }
+        return newFavs;
+    });
+  };
+
+  const handleAddToCalendar = (event: Event) => {
+    const formatIcsDate = (date: Date) => {
+        return date.toISOString().replace(/-|:|\.\d+/g, '');
+    }
+    
+    // Note: This is a simplified date parsing. For a real app, use a robust library.
+    const now = new Date();
+    // A simple mock for event start time. In a real app this would come from the event data.
+    const startTime = new Date(now.getTime() + 2 * 60 * 60 * 1000); 
+    const endTime = new Date(startTime.getTime() + 1 * 60 * 60 * 1000); // 1 hour duration
+
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'BEGIN:VEVENT',
+        `UID:${event.title.replace(/\s/g, '')}-${Date.now()}@timimoun-guide.app`,
+        `DTSTAMP:${formatIcsDate(now)}`,
+        `DTSTART:${formatIcsDate(startTime)}`,
+        `DTEND:${formatIcsDate(endTime)}`,
+        `SUMMARY:${event.title}`,
+        `DESCRIPTION:${event.description}`,
+        `LOCATION:${event.location}`,
+        'BEGIN:VALARM',
+        'TRIGGER:-PT15M',
+        'ACTION:DISPLAY',
+        'DESCRIPTION:Reminder',
+        'END:VALARM',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${event.title}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
 
   return (
     <div className="bg-background min-h-screen pb-24">
@@ -325,8 +382,8 @@ export default function EventsPage() {
                     <div className="flex-grow">
                             <div className="flex justify-between items-start">
                             <h3 className="font-bold text-base mb-2">{event.title}</h3>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 -mt-1 -mr-1">
-                                    <Heart className="w-4 h-4 text-muted-foreground"/>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 -mt-1 -mr-1" onClick={() => toggleFavorite(event.title)}>
+                                    <Heart className={cn("w-4 h-4 text-muted-foreground", favoritedEvents.has(event.title) && "fill-primary text-primary")}/>
                             </Button>
                             </div>
                             
@@ -372,7 +429,12 @@ export default function EventsPage() {
                             </div>
                         )}
                         <div className="p-6">
-                            <h2 className="text-2xl font-bold font-headline mb-2">{selectedEvent.title}</h2>
+                            <div className="flex justify-between items-start mb-2">
+                                <h2 className="text-2xl font-bold font-headline ">{selectedEvent.title}</h2>
+                                <Button variant="ghost" size="icon" onClick={() => toggleFavorite(selectedEvent.title)}>
+                                    <Heart className={cn("w-6 h-6 text-muted-foreground", favoritedEvents.has(selectedEvent.title) && "fill-primary text-primary")}/>
+                                </Button>
+                            </div>
                             <div className="space-y-2 text-muted-foreground mb-4">
                                 <div className="flex items-center gap-2">
                                     <Clock className="w-4 h-4 text-primary"/>
@@ -386,12 +448,12 @@ export default function EventsPage() {
                             <p className="text-foreground/90 mb-6">{selectedEvent.description}</p>
 
                             <div className="flex flex-col sm:flex-row gap-2">
-                                <Button size="lg" className="w-full">
-                                    {selectedEvent.actionVariant === 'secondary' ? 'Join Waiting List' : 'Book Now'}
+                                <Button size="lg" className="w-full" onClick={() => handleAddToCalendar(selectedEvent)}>
+                                    <CalendarPlus className="mr-2 h-4 w-4" />
+                                    Add to Calendar
                                 </Button>
                                 <Button size="lg" variant="outline" className="w-full">
-                                    <Heart className="mr-2 h-4 w-4"/>
-                                    Add to Favorites
+                                    {selectedEvent.actionVariant === 'secondary' ? 'Join Waiting List' : 'Book Now'}
                                 </Button>
                             </div>
                         </div>
@@ -404,3 +466,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
