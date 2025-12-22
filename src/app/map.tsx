@@ -11,6 +11,16 @@ const timimounPosition = {
 };
 
 export default function MapView() {
+  const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
+
+  if (!mapTilerKey) {
+    return (
+        <div className="flex items-center justify-center w-full h-full bg-muted text-muted-foreground">
+            <p>MapTiler API key is missing.</p>
+        </div>
+    )
+  }
+
   return (
     <Map
         initialViewState={{
@@ -18,7 +28,7 @@ export default function MapView() {
             zoom: 12
         }}
         style={{width: '100%', height: '100%'}}
-        mapStyle="https://api.maptiler.com/maps/streets-v2/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL"
+        mapStyle={`https://api.maptiler.com/maps/streets-v2/style.json?key=${mapTilerKey}`}
     >
         <Marker longitude={timimounPosition.longitude} latitude={timimounPosition.latitude} anchor="bottom" >
            <div className="flex flex-col items-center">
