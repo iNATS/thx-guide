@@ -91,6 +91,37 @@ const topPlaces: Place[] = [
   },
 ];
 
+const popularRoutes = [
+    {
+      id: 'route-1',
+      title: '4x4 Desert Adventure',
+      duration: 'Full Day',
+      category: 'Adventure',
+      image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
+    },
+    {
+      id: 'route-2',
+      title: 'Old Ksar Heritage Walk',
+      duration: '2-3 Hours',
+      category: 'Culture',
+      image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
+    },
+    {
+      id: 'route-3',
+      title: 'Oasis & Foggara Tour',
+      duration: 'Half Day',
+      category: 'Nature',
+      image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
+    },
+    {
+      id: 'route-4',
+      title: 'Sunset Camel Trek',
+      duration: '2 Hours',
+      category: 'Adventure',
+      image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
+    },
+  ];
+
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
@@ -227,6 +258,41 @@ export default function Home() {
             Discover the Red Oasis
           </h1>
         </div>
+
+        {/* Popular Routes Section */}
+        <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
+                <Link href="/events" className="text-sm font-medium text-primary hover:underline">
+                    See All
+                </Link>
+            </div>
+            <Carousel opts={{ align: "start" }} className="w-full -mx-4">
+                <CarouselContent className="px-4">
+                    {popularRoutes.map((route) => (
+                    <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3">
+                        <div className="relative rounded-2xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                            {route.image && (
+                                <Image
+                                    src={route.image.imageUrl}
+                                    alt={route.title}
+                                    fill
+                                    objectFit="cover"
+                                    className="group-hover:scale-105 transition-transform duration-300"
+                                    data-ai-hint={route.image.imageHint}
+                                />
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                <h3 className="text-lg font-bold">{route.title}</h3>
+                                <p className="text-sm opacity-90">{route.duration}</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
+        </div>
         
         {/* Top Places Section */}
         <div className="mb-6">
@@ -328,7 +394,5 @@ export default function Home() {
     </div>
   );
 }
-
-    
 
     
