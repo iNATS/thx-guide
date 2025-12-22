@@ -2,11 +2,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -20,10 +15,8 @@ import { Input } from '@/components/ui/input';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import {
   Castle,
-  Heart,
   Landmark,
   Mic,
-  Mountain,
   Navigation,
   Search,
   Wind,
@@ -44,49 +37,6 @@ const filterButtons = [
   { label: 'Culture', category: 'Culture', icon: Castle },
   { label: 'Nature', category: 'Nature', icon: Landmark },
   { label: 'Adventure', category: 'Adventure', icon: Wind },
-];
-
-const allPopularRoutes = [
-  {
-    title: 'Grand Ksar Circuit',
-    duration: '3h 20m',
-    distance: '12km',
-    category: 'Cultural',
-    image: PlaceHolderImages.find((img) => img.id === 'ksar-ruins'),
-    icon: Heart,
-    iconColor: 'text-white',
-    iconBg: 'bg-black/30',
-  },
-  {
-    title: 'Sunset Oasis Trail',
-    duration: '2h 00m',
-    distance: '5km',
-    category: 'Nature',
-    image: PlaceHolderImages.find((img) => img.id === 'oasis-palm-grove'),
-    icon: Navigation,
-    iconColor: 'text-black',
-    iconBg: 'bg-primary',
-  },
-  {
-    title: 'Dune Adventure',
-    duration: '4h 00m',
-    distance: '20km',
-    category: 'Adventure',
-    image: PlaceHolderImages.find((img) => img.id === 'desert-landscape'),
-    icon: Mountain,
-    iconColor: 'text-white',
-    iconBg: 'bg-black/30',
-  },
-  {
-    title: 'Sebkha Salt Flats',
-    duration: '5h 00m',
-    distance: '30km',
-    category: 'Nature',
-    image: PlaceHolderImages.find((img) => img.id === 'stargazing-desert'), // Using a placeholder, should be a salt flat image
-    icon: Mountain,
-    iconColor: 'text-white',
-    iconBg: 'bg-black/30',
-  },
 ];
 
 type Place = {
@@ -142,10 +92,9 @@ const topPlaces: Place[] = [
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
-  const avatarImage = PlaceHolderImages.find(
-    (img) => img.id === 'tour-guide-avatar'
-  );
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [isMapFullscreen, setIsMapFullscreen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
@@ -154,46 +103,87 @@ export default function Home() {
     return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
 
+  const handleSearchFocus = () => {
+    setIsMapFullscreen(true);
+  };
+
+  const handleCloseFullscreen = () => {
+    setIsMapFullscreen(false);
+    setSearchQuery('');
+    // Blur the input
+    const input = document.getElementById('map-search-input');
+    if (input) {
+      input.blur();
+    }
+  };
+
 
   return (
     <div className="relative min-h-screen bg-background pb-24">
       {/* Map Section */}
-      <div className="relative h-96">
+      <div
+        className={cn(
+          'relative h-96 transition-all duration-500 ease-in-out',
+          isMapFullscreen && 'fixed inset-0 h-screen w-screen z-50'
+        )}
+      >
         <MapView />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
-        <div className="absolute top-8 left-4 right-4 z-10">
+        {!isMapFullscreen && (
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
+        )}
+        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'bg-background/80 backdrop-blur-sm p-4 rounded-b-2xl shadow-lg')}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
+              id="map-search-input"
               placeholder="Search routes, ksars, or oases..."
-              className="w-full rounded-full bg-card/90 py-6 pl-10 pr-14 shadow-lg backdrop-blur-sm"
+              className={cn(
+                'w-full rounded-full bg-card/90 py-6 pl-10 pr-14 shadow-lg backdrop-blur-sm',
+                isMapFullscreen && 'bg-card'
+              )}
+              onFocus={handleSearchFocus}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
-              >
-                <Mic className="h-5 w-5" />
-              </Button>
+              {isMapFullscreen ? (
+                 <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
+                  onClick={handleCloseFullscreen}
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
+                >
+                  <Mic className="h-5 w-5" />
+                </Button>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <div className="bg-background p-3 rounded-full shadow-lg">
-            <div className="bg-black text-primary rounded-full p-3">
-              <Landmark className="h-6 w-6" />
+        {!isMapFullscreen && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <div className="bg-background p-3 rounded-full shadow-lg">
+              <div className="bg-black text-primary rounded-full p-3">
+                <Landmark className="h-6 w-6" />
+              </div>
+            </div>
+            <div className="mt-2 bg-card text-card-foreground rounded-full px-3 py-1 text-sm font-medium shadow">
+              Red Oasis
             </div>
           </div>
-          <div className="mt-2 bg-card text-card-foreground rounded-full px-3 py-1 text-sm font-medium shadow">
-            Red Oasis
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Content Section */}
-      <div className="relative z-10 -mt-24 rounded-t-3xl bg-background p-4 sm:p-6 lg:p-8">
+      <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background p-4 sm:p-6 lg:p-8", isMapFullscreen && 'hidden')}>
         <div className="mx-auto w-16 h-1.5 bg-border rounded-full mb-4" />
 
         <div className="mb-6">
@@ -203,53 +193,6 @@ export default function Home() {
           </h1>
         </div>
         
-        {/* Popular Routes */}
-        <div className="mb-8">
-          
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-            {allPopularRoutes.map((route, index) => (
-              <div
-                key={index}
-                className="w-64 flex-shrink-0 snap-start"
-              >
-                <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-[3/4] group">
-                  {route.image && (
-                    <Image
-                      src={route.image.imageUrl}
-                      alt={route.title}
-                      layout="fill"
-                      objectFit="cover"
-                      data-ai-hint={route.image.imageHint}
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-
-                  <div className="absolute top-2 right-2">
-                    <Button
-                      size="icon"
-                      className={`rounded-full h-10 w-10 ${route.iconBg}`}
-                    >
-                      <route.icon className={`h-5 w-5 ${route.iconColor}`} />
-                    </Button>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <div className="inline-block bg-white/20 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm mb-2">
-                      &#128337; {route.duration}
-                    </div>
-                    <h3 className="text-lg font-bold">{route.title}</h3>
-                    <div className="text-xs flex items-center gap-2 opacity-80">
-                      <span>{route.distance}</span>
-                      <span>&bull;</span>
-                      <span>{route.category}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Top Places Section */}
         <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
@@ -350,7 +293,5 @@ export default function Home() {
     </div>
   );
 }
-
-    
 
     
