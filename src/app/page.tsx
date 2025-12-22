@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useState, useMemo } from 'react';
 import {
   Avatar,
   AvatarFallback,
@@ -15,17 +18,19 @@ import {
   Mountain,
   Navigation,
   Search,
+  Wind,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const filterButtons = [
-  { label: 'Routes', icon: Navigation, active: true },
-  { label: 'History', icon: Castle, active: false },
-  { label: 'Palm Grove', icon: Landmark, active: false },
+  { label: 'All', category: 'All', icon: Navigation },
+  { label: 'Cultural', category: 'Cultural', icon: Castle },
+  { label: 'Nature', category: 'Nature', icon: Landmark },
+  { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
 
-const popularRoutes = [
+const allPopularRoutes = [
   {
     title: 'Grand Ksar Circuit',
     duration: '3h 20m',
@@ -56,13 +61,32 @@ const popularRoutes = [
     iconColor: 'text-white',
     iconBg: 'bg-black/30',
   },
+  {
+    title: 'Sebkha Salt Flats',
+    duration: '5h 00m',
+    distance: '30km',
+    category: 'Nature',
+    image: PlaceHolderImages.find((img) => img.id === 'stargazing-desert'), // Using a placeholder, should be a salt flat image
+    icon: Mountain,
+    iconColor: 'text-white',
+    iconBg: 'bg-black/30',
+  },
 ];
 
 export default function Home() {
+  const [activeFilter, setActiveFilter] = useState('All');
   const mapImage = PlaceHolderImages.find((img) => img.id === 'timimoun-map');
   const avatarImage = PlaceHolderImages.find(
     (img) => img.id === 'tour-guide-avatar'
   );
+
+  const popularRoutes = useMemo(() => {
+    if (activeFilter === 'All') {
+      return allPopularRoutes;
+    }
+    return allPopularRoutes.filter(route => route.category === activeFilter);
+  }, [activeFilter]);
+
 
   return (
     <div className="relative min-h-screen bg-background pb-24">
@@ -131,18 +155,22 @@ export default function Home() {
 
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-          {filterButtons.map((filter) => (
-            <Button
-              key={filter.label}
-              variant={filter.active ? 'default' : 'secondary'}
-              className={`rounded-full flex-shrink-0 ${
-                filter.active ? 'bg-primary' : 'bg-card'
-              }`}
-            >
-              <filter.icon className="mr-2 h-4 w-4" />
-              {filter.label}
-            </Button>
-          ))}
+          {filterButtons.map((filter) => {
+            const isActive = activeFilter === filter.category;
+            return (
+                <Button
+                key={filter.label}
+                variant={isActive ? 'default' : 'secondary'}
+                onClick={() => setActiveFilter(filter.category)}
+                className={`rounded-full flex-shrink-0 ${
+                    isActive ? 'bg-primary' : 'bg-card'
+                }`}
+                >
+                <filter.icon className="mr-2 h-4 w-4" />
+                {filter.label}
+                </Button>
+            );
+            })}
         </div>
 
         {/* Popular Routes */}
