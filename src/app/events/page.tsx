@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Bell, Clock, Heart, Landmark, MapPin, Music, Search, Utensils, X, Star, Wind, Tractor, BookOpen, Sprout, ShoppingBag, Drama, CalendarPlus } from 'lucide-react';
 import Link from 'next/link';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
@@ -43,7 +43,7 @@ const featuredEvents = [
     }
 ]
 
-const thisWeekEvents = [
+const comingEvents = [
     {
         title: 'Sunset Camel Trek & Tea',
         time: 'Today, 17:00',
@@ -196,7 +196,7 @@ const thisWeekEvents = [
     }
 ]
 
-type Event = typeof thisWeekEvents[0];
+type Event = typeof comingEvents[0];
 
 
 export default function EventsPage() {
@@ -230,9 +230,9 @@ export default function EventsPage() {
 
   const filteredEvents = useMemo(() => {
     if (activeFilter === 'All') {
-      return thisWeekEvents;
+      return comingEvents;
     }
-    return thisWeekEvents.filter(event => event.category === activeFilter);
+    return comingEvents.filter(event => event.category === activeFilter);
   }, [activeFilter]);
   
   const toggleFavorite = (eventTitle: string) => {
@@ -362,10 +362,10 @@ export default function EventsPage() {
             })}
         </div>
 
-        {/* This Week Section */}
+        {/* Coming Events Section */}
         <section>
           <div className="flex items-center gap-2 mb-4">
-             <h2 className="text-xl font-bold font-headline">This Week</h2>
+             <h2 className="text-xl font-bold font-headline">coming events</h2>
              <span className="text-sm bg-muted text-muted-foreground px-2 py-0.5 rounded-md font-medium">{filteredEvents.length} Events</span>
           </div>
 
@@ -411,7 +411,7 @@ export default function EventsPage() {
                 ))}
             </div>
              {selectedEvent && (
-                <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn(isMobile ? "p-0 rounded-t-2xl max-w-2xl mx-auto h-[90vh] flex flex-col items-center" : "p-0 w-full max-w-md")}>
+                <SheetContent side={'bottom'} className={cn("p-0 rounded-t-2xl max-w-2xl mx-auto h-[90vh] flex flex-col items-center w-full")}>
                     <div className="h-full overflow-y-auto pb-24 relative w-full scrollbar-hide">
                         <div className="absolute top-3 right-3 z-20">
                             <SheetClose asChild>
@@ -476,5 +476,3 @@ export default function EventsPage() {
     </div>
   );
 }
-
-    
