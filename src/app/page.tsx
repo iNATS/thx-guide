@@ -206,7 +206,7 @@ export default function Home() {
         <div className="mx-auto w-16 h-1.5 bg-border rounded-full mb-4" />
 
         <div className="mb-6">
-          <p className="text-muted-foreground">Salam,</p>
+          <p className="text-muted-foreground">Salam, 👋</p>
           <h1 className="text-3xl font-bold font-headline text-foreground">
             Discover the Red Oasis
           </h1>
@@ -359,3 +359,4 @@ export default function Home() {
     </div>
   );
 }
+
