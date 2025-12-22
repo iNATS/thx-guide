@@ -49,8 +49,8 @@ export default function BottomNav() {
               )}
             >
                <div className={cn(
-                  'p-3 rounded-full transition-colors',
-                  isActive ? 'bg-primary/10' : 'bg-transparent'
+                  'p-3 transition-colors',
+                  isActive ? 'bg-primary/10 rounded-lg' : 'bg-transparent'
                )}>
                 <Icon className="w-6 h-6" />
                </div>
