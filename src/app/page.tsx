@@ -263,9 +263,6 @@ export default function Home() {
         <div className="mb-8">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
-                <Link href="/events" className="text-sm font-medium text-primary hover:underline">
-                    See All
-                </Link>
             </div>
             <Carousel opts={{ align: "start" }} className="w-full -mx-4">
                 <CarouselContent className="px-4">
