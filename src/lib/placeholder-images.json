@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "desert-landscape",
+      "description": "A sweeping view of the Sahara desert dunes near Timimoun at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1509316785289-025f5b846b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZXNlcnQlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY2MzA3MTI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desert landscape"
+    },
+    {
+      "id": "tour-guide-avatar",
+      "description": "A friendly-looking tour guide for the Timimoun region.",
+      "imageUrl": "https://images.unsplash.com/photo-1580893472468-01373fe4c97e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjYyNzc1ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person"
+    },
+    {
+      "id": "timimoun-map",
+      "description": "An illustrated map of the Timimoun region.",
+      "imageUrl": "https://images.unsplash.com/photo-1578924825042-31d14cf13c35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYXAlMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "map illustration"
+    },
+    {
+      "id": "ksar-ruins",
+      "description": "Ancient ksar ruins in the Timimoun area.",
+      "imageUrl": "https://images.unsplash.com/photo-1717518213995-455025e3b0bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHJ1aW5zfGVufDB8fHx8MTc2NjMyNzQ5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient ruins"
+    },
+    {
+      "id": "oasis-palm-grove",
+      "description": "A lush palm grove in a Timimoun oasis.",
+      "imageUrl": "https://images.unsplash.com/photo-1630085613769-f119154fb900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwYWxtJTIwdHJlZXN8ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "palm trees"
+    },
+    {
+      "id": "local-market",
+      "description": "A bustling local market scene in Timimoun.",
+      "imageUrl": "https://images.unsplash.com/photo-1765862857037-2fe5036b46e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYXJrZXQlMjBzY2VuZXxlbnwwfHx8fDE3NjYzNjY3NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "market scene"
+    },
+    {
+      "id": "berber-crafts",
+      "description": "Handmade Berber crafts and textiles.",
+      "imageUrl": "https://images.unsplash.com/photo-1760647832573-969bf71d12b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMGNyYWZ0c3xlbnwwfHx8fDE3NjYzNTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "local crafts"
+    }
+  ]
 }
