@@ -166,9 +166,9 @@ export default function Home() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               placeholder="Search routes, ksars, or oases..."
-              className="w-full rounded-full bg-card/90 py-6 pl-10 pr-24 shadow-lg backdrop-blur-sm"
+              className="w-full rounded-full bg-card/90 py-6 pl-10 pr-14 shadow-lg backdrop-blur-sm"
             />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
               <Button
                 variant="ghost"
                 size="icon"
@@ -176,15 +176,6 @@ export default function Home() {
               >
                 <Mic className="h-5 w-5" />
               </Button>
-              <Avatar className="h-9 w-9 border-2 border-primary/50">
-                {avatarImage && (
-                  <AvatarImage
-                    src={avatarImage.imageUrl}
-                    alt="User Avatar"
-                  />
-                )}
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
             </div>
           </div>
         </div>
@@ -359,5 +350,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
