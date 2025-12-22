@@ -250,9 +250,9 @@ export default function Home() {
 
       {/* Content Section */}
       <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background", isMapFullscreen && 'hidden')}>
-        <div className="mx-auto w-16 h-1.5 bg-border rounded-full mb-4 mt-4" />
+        
 
-        <div className="mb-6 px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 px-4 sm:px-6 lg:px-8 pt-8">
           <p className="text-muted-foreground">Salam 👋</p>
           <h1 className="text-3xl font-bold font-headline text-foreground">
             Discover the Red Oasis
@@ -388,5 +388,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
