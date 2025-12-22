@@ -207,6 +207,14 @@ export default function EventsPage() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [favoritedEvents, setFavoritedEvents] = useState<Set<string>>(new Set());
 
+  // Load favorites from localStorage on initial render
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('timimoun-guide-favorites');
+    if (storedFavorites) {
+      setFavoritedEvents(new Set(JSON.parse(storedFavorites)));
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -228,15 +236,14 @@ export default function EventsPage() {
   }, [activeFilter]);
   
   const toggleFavorite = (eventTitle: string) => {
-    setFavoritedEvents(prev => {
-        const newFavs = new Set(prev);
-        if (newFavs.has(eventTitle)) {
-            newFavs.delete(eventTitle);
-        } else {
-            newFavs.add(eventTitle);
-        }
-        return newFavs;
-    });
+    const newFavs = new Set(favoritedEvents);
+    if (newFavs.has(eventTitle)) {
+      newFavs.delete(eventTitle);
+    } else {
+      newFavs.add(eventTitle);
+    }
+    setFavoritedEvents(newFavs);
+    localStorage.setItem('timimoun-guide-favorites', JSON.stringify(Array.from(newFavs)));
   };
 
   const handleAddToCalendar = (event: Event) => {
