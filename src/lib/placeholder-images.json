@@ -43,22 +43,34 @@
       "imageHint": "local crafts"
     },
     {
-      "id": "sboue-festival",
-      "description": "The Sboue festival in the Gourara region.",
-      "imageUrl": "https://images.unsplash.com/photo-1518463891957-933e49c71a36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmZXN0aXZhbCUyMGNyb3dkfGVufDB8fHx8MTc2NzE1MzUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "festival crowd"
+      "id": "sboue-festival-vibrant",
+      "description": "Vibrant and colorful crowd at a cultural festival.",
+      "imageUrl": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmZXN0aXZhbCUyMGNyb3dkfGVufDB8fHx8MTc2NzE1MzUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "festival celebration"
     },
     {
-      "id": "camel-trek",
-      "description": "Camels in the desert at sunset.",
-      "imageUrl": "https://images.unsplash.com/photo-1543653457-a64c67851a7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYW1lbCUyMGRlc2VydHxlbnwwfHx8fDE3NjcxNTM1NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "camel desert"
+      "id": "dune-adventure-4x4",
+      "description": "A 4x4 vehicle driving over sand dunes in the desert.",
+      "imageUrl": "https://images.unsplash.com/photo-1568541304037-a517032599b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY5MDQ0NTYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "4x4 desert"
     },
     {
-      "id": "pottery-workshop",
-      "description": "A person making pottery.",
-      "imageUrl": "https://images.unsplash.com/photo-1554201384-da3817dc5BD4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3R0ZXJ5JTIwd29ya3Nob3B8ZW58MHx8fHwxNzY3MTUzNTgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "pottery workshop"
+      "id": "camel-trek-sunset",
+      "description": "Silhouettes of camels and people trekking in the desert during sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1520625332693-5b871d397858?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYW1lbCUyMGRlc2VydCUyMHN1bnNldHxlbnwwfHx8fDE3NjcxNTM1NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "camel sunset"
+    },
+    {
+      "id": "pottery-making-hands",
+      "description": "Close-up of hands shaping clay on a pottery wheel.",
+      "imageUrl": "https://images.unsplash.com/photo-1510011560139-d04261d741c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwb3R0ZXJ5JTIwaGFuZHN8ZW58MHx8fHwxNzY5MDQ0NjE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pottery hands"
+    },
+    {
+      "id": "souk-spices-market",
+      "description": "Colorful spices arranged in bowls at a bustling souk.",
+      "imageUrl": "https://images.unsplash.com/photo-1593389279189-3a3224f80c6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzb3VrJTIwc3BpY2VzfGVufDB8fHx8MTc2OTA0NDYzNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "souk spices"
     }
   ]
 }

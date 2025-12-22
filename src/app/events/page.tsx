@@ -19,13 +19,13 @@ const featuredEvents = [
         title: 'Sboue Festival',
         subtitle: 'The Soul of the Oasis • Gourara Region',
         badge: 'HAPPENING NOW',
-        image: PlaceHolderImages.find((img) => img.id === 'sboue-festival'),
+        image: PlaceHolderImages.find((img) => img.id === 'sboue-festival-vibrant'),
     },
     {
         title: 'Dune Adventure',
         subtitle: 'An exhilarating 4x4 desert safari',
         badge: 'FEATURED',
-        image: PlaceHolderImages.find((img) => img.id === 'desert-landscape'),
+        image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4'),
     }
 ]
 
@@ -34,7 +34,7 @@ const thisWeekEvents = [
         title: 'Sunset Camel Trek & Tea',
         time: 'Today, 17:00',
         location: 'Dunes of Timimoun',
-        image: PlaceHolderImages.find((img) => img.id === 'camel-trek'),
+        image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset'),
         action: 'Book Spot',
         actionVariant: 'default' as const,
     },
@@ -42,7 +42,7 @@ const thisWeekEvents = [
         title: 'Local Pottery Workshop',
         time: 'Sat, 10:00',
         location: 'Old Ksar District',
-        image: PlaceHolderImages.find((img) => img.id === 'pottery-workshop'),
+        image: PlaceHolderImages.find((img) => img.id === 'pottery-making-hands'),
         action: 'Reserve • $15',
         actionVariant: 'default' as const,
     },
@@ -50,7 +50,7 @@ const thisWeekEvents = [
         title: 'Weekly Souk Tour',
         time: 'Tue, 08:00',
         location: 'Timimoun Center',
-        image: PlaceHolderImages.find((img) => img.id === 'local-market'),
+        image: PlaceHolderImages.find((img) => img.id === 'souk-spices-market'),
         action: 'Join Waiting List',
         actionVariant: 'secondary' as const,
     }
