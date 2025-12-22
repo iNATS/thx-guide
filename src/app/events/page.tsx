@@ -296,14 +296,6 @@ export default function EventsPage() {
       <header className={cn("sticky top-0 bg-background/80 backdrop-blur-sm z-40 transition-all duration-300", isScrolled ? 'border-b shadow-sm' : 'border-b-transparent')}>
         <div className="flex items-center justify-between p-4 sm:p-6">
             <h1 className={cn("font-bold font-headline transition-all duration-300", isScrolled ? 'text-xl' : 'text-2xl')}>Upcoming Events</h1>
-            <div className="flex items-center gap-2">
-            <div className="relative">
-                <Button variant="ghost" size="icon" className="rounded-full">
-                    <Bell className="h-5 w-5" />
-                </Button>
-                <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-primary ring-2 ring-background" />
-            </div>
-            </div>
         </div>
       </header>
 
