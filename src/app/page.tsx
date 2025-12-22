@@ -130,7 +130,7 @@ export default function Home() {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
           {filterButtons.map((filter) => (
             <Button
               key={filter.label}
@@ -152,7 +152,7 @@ export default function Home() {
               Popular Routes
             </h2>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
             {popularRoutes.map((route, index) => (
               <div
                 key={index}

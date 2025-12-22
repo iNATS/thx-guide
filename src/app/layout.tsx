@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import BottomNav from '@/components/bottom-nav';
+import BottomNav from '@/app/bottom-nav';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={cn(
           'font-body antialiased min-h-screen bg-background',
-          'flex flex-col'
+          'flex flex-col scrollbar-hide'
         )}
       >
         <main className="flex-grow">{children}</main>

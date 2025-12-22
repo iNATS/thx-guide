@@ -313,7 +313,7 @@ export default function EventsPage() {
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-bold font-headline">Featured</h2>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory">
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
             {featuredEvents.map((event) => (
               <div key={event.title} className="w-[85%] sm:w-80 flex-shrink-0 snap-start">
                 <div className="rounded-2xl overflow-hidden shadow-lg relative aspect-video group" onClick={() => handleEventClick(event as Event)}>
@@ -343,7 +343,7 @@ export default function EventsPage() {
         </section>
 
         {/* Filter Buttons */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
           {filterButtonsConfig.map((filter) => {
             const isActive = activeFilter === filter.category;
             return (
@@ -411,8 +411,8 @@ export default function EventsPage() {
                 ))}
             </div>
              {selectedEvent && (
-                <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn("p-0 rounded-t-2xl sm:max-w-lg", isMobile ? 'h-[90vh]' : '')}>
-                    <div className="h-full overflow-y-auto pb-24 relative">
+                <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn("p-0 rounded-t-2xl sm:max-w-lg scrollbar-hide", isMobile ? 'h-[90vh]' : '')}>
+                    <div className="h-full overflow-y-auto pb-24 relative scrollbar-hide">
                         {selectedEvent.image && (
                             <div className="relative h-64 w-full">
                                 <Image
