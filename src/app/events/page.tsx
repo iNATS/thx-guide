@@ -411,8 +411,8 @@ export default function EventsPage() {
                 ))}
             </div>
              {selectedEvent && (
-                <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn("p-0 rounded-t-2xl sm:max-w-lg scrollbar-hide", isMobile ? 'h-[90vh]' : '')}>
-                    <div className="h-full overflow-y-auto pb-24 relative scrollbar-hide">
+                <SheetContent side='bottom' className="p-0 rounded-t-2xl max-w-2xl mx-auto h-[90vh] flex flex-col items-center">
+                    <div className="h-full overflow-y-auto pb-24 relative w-full scrollbar-hide">
                         {selectedEvent.image && (
                             <div className="relative h-64 w-full">
                                 <Image
