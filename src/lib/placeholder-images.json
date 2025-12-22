@@ -3,7 +3,7 @@
     {
       "id": "desert-landscape",
       "description": "A sweeping view of the Sahara desert dunes near Timimoun at sunset.",
-      "imageUrl": "https://images.unsplash.com/photo-1509316785289-025f5b846b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkZXNlcnQlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY2MzA3MTI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1617374128851-c84e37dc9f37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZXNlcnQlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY2NDEzMTE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "desert landscape"
     },
     {
@@ -21,13 +21,13 @@
     {
       "id": "ksar-ruins",
       "description": "Ancient ksar ruins in the Timimoun area.",
-      "imageUrl": "https://images.unsplash.com/photo-1717518213995-455025e3b0bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHJ1aW5zfGVufDB8fHx8MTc2NjMyNzQ5MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1603566541830-972ff1b4b2cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhbmNpZW50JTIwcnVpbnN8ZW58MHx8fHwxNzY2MzI3NDkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ancient ruins"
     },
     {
       "id": "oasis-palm-grove",
       "description": "A lush palm grove in a Timimoun oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1630085613769-f119154fb900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwYWxtJTIwdHJlZXN8ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1421284621639-884f4129b61d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwYWxtJTIwdHJlZXN8ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "palm trees"
     },
     {
@@ -93,7 +93,7 @@
     {
       "id": "stargazing-desert",
       "description": "A clear night sky full of stars over the Sahara desert.",
-      "imageUrl": "https://images.unsplash.com/photo-1741789598390-443bebcc025d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1600184436223-01227d1a5a58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "desert stargazing"
     },
     {
@@ -147,7 +147,7 @@
     {
       "id": "top-place-ksar-1",
       "description": "The imposing and beautiful Ksar of Timimoun, showing its red mud-brick architecture.",
-      "imageUrl": "https://images.unsplash.com/photo-1582036743525-de5e24c460f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0aW1pbW91biUyMGFsZ2VyaWF8ZW58MHx8fHwxNzE3NjQ2MjM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1602496252172-8030f4df6ed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY0MTUzODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "algerian architecture"
     },
     {
@@ -159,7 +159,7 @@
     {
       "id": "top-place-grand-erg-1",
       "description": "The vast, rolling dunes of the Grand Erg Occidental.",
-      "imageUrl": "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYWhhcmElMjBkdW5lc3xlbnwwfHx8fDE3MTc2NDY0MTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1706804198725-fa51050a1047?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzYWhhcmElMjBkdW5lc3xlbnwwfHx8fDE3NjY0MTUzODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "sahara dunes"
     },
     {
@@ -171,19 +171,19 @@
     {
       "id": "top-place-sebka-1",
       "description": "The cracked earth of the Sebkha, a large salt flat.",
-      "imageUrl": "https://images.unsplash.com/photo-1544498302-3683f19e4911?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3MTc2NDY1MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1714428561194-319ced5ae16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3NjY0MTUzODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "salt flat"
     },
     {
       "id": "top-place-sebka-2",
       "description": "A wide view of the Sebkha, stretching to the horizon.",
-      "imageUrl": "https://images.unsplash.com/photo-1447958272890-7d2169b35e18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3MTc2NDY1MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1447958272890-7d2169b35e18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3MTc2NDY1MTJ8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "dry lake"
     },
     {
       "id": "top-place-palm-grove-1",
       "description": "A dense and lush palm grove in the Timimoun oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1589138409203-d144e13e54b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzE3NjQ2ODUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1667115492610-df72ac281e3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzY2NDE1Mzg5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "palm grove"
     },
     {
