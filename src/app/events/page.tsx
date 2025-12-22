@@ -386,7 +386,7 @@ export default function EventsPage() {
                     <div className="flex-grow">
                             <div className="flex justify-between items-start">
                             <h3 className="font-bold text-base mb-2">{event.title}</h3>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 -mt-1 -mr-1" onClick={() => toggleFavorite(event.title)}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 -mt-1 -mr-1 hover:bg-transparent focus:bg-transparent" onClick={() => toggleFavorite(event.title)}>
                                     <Heart className={cn("w-4 h-4 text-muted-foreground", favoritedEvents.has(event.title) && "fill-primary text-primary")}/>
                             </Button>
                             </div>
@@ -411,8 +411,16 @@ export default function EventsPage() {
                 ))}
             </div>
              {selectedEvent && (
-                <SheetContent side='bottom' className="p-0 rounded-t-2xl max-w-2xl mx-auto h-[90vh] flex flex-col items-center">
+                <SheetContent side={isMobile ? 'bottom' : 'right'} className={cn(isMobile ? "p-0 rounded-t-2xl max-w-2xl mx-auto h-[90vh] flex flex-col items-center" : "p-0 w-full max-w-md")}>
                     <div className="h-full overflow-y-auto pb-24 relative w-full scrollbar-hide">
+                        <div className="absolute top-3 right-3 z-20">
+                            <SheetClose asChild>
+                                <Button variant="ghost" size="icon" className="rounded-full bg-black/20 hover:bg-black/30 text-white">
+                                    
+                                    <span className="sr-only">Close</span>
+                                </Button>
+                            </SheetClose>
+                        </div>
                         {selectedEvent.image && (
                             <div className="relative h-64 w-full">
                                 <Image
@@ -422,7 +430,7 @@ export default function EventsPage() {
                                     objectFit="cover"
                                     data-ai-hint={selectedEvent.image.imageHint}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                             </div>
                         )}
                         <div className="p-6 -mt-16 relative z-10">
@@ -468,3 +476,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
