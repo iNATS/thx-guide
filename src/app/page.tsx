@@ -1,3 +1,4 @@
+
 import {
   Avatar,
   AvatarFallback,
@@ -150,12 +151,6 @@ export default function Home() {
             <h2 className="text-xl font-bold font-headline">
               Popular Routes
             </h2>
-            <Link
-              href="#"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              See All
-            </Link>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
             {popularRoutes.map((route, index) => (

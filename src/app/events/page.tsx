@@ -312,9 +312,6 @@ export default function EventsPage() {
         <section className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-bold font-headline">Featured</h2>
-            <Link href="#" className="text-sm font-medium text-primary hover:underline">
-              See All
-            </Link>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory">
             {featuredEvents.map((event) => (
@@ -459,6 +456,7 @@ export default function EventsPage() {
                                     <CalendarPlus className="mr-2 h-4 w-4" />
                                     Add to Calendar
                                 </Button>
+
                                 <Button size="lg" variant="outline" className="w-full">
                                     {selectedEvent.actionVariant === 'secondary' ? 'Join Waiting List' : 'Book Now'}
                                 </Button>
@@ -473,5 +471,3 @@ export default function EventsPage() {
     </div>
   );
 }
-
-    
