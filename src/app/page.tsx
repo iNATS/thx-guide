@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -27,6 +27,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
 
 const MapView = dynamic(() => import('@/app/map'), {
   ssr: false,
@@ -95,6 +96,7 @@ export default function Home() {
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
@@ -102,6 +104,17 @@ export default function Home() {
     }
     return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
+  
+  useEffect(() => {
+    if (isMapFullscreen && searchQuery.length > 1) {
+      const suggestions = topPlaces.filter(place =>
+        place.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setAutocompleteSuggestions(suggestions);
+    } else {
+      setAutocompleteSuggestions([]);
+    }
+  }, [searchQuery, isMapFullscreen]);
 
   const handleSearchFocus = () => {
     setIsMapFullscreen(true);
@@ -110,11 +123,17 @@ export default function Home() {
   const handleCloseFullscreen = () => {
     setIsMapFullscreen(false);
     setSearchQuery('');
+    setAutocompleteSuggestions([]);
     // Blur the input
     const input = document.getElementById('map-search-input');
     if (input) {
       input.blur();
     }
+  };
+
+  const handleSuggestionClick = (place: Place) => {
+    setSearchQuery(place.title);
+    setAutocompleteSuggestions([]);
   };
 
 
@@ -131,7 +150,7 @@ export default function Home() {
         {!isMapFullscreen && (
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
         )}
-        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4')}>
+        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4 bg-transparent')}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
@@ -165,13 +184,29 @@ export default function Home() {
                 </Button>
               )}
             </div>
+             {autocompleteSuggestions.length > 0 && (
+              <Card className="absolute top-full mt-2 w-full shadow-lg rounded-xl">
+                <ul>
+                  {autocompleteSuggestions.map((place) => (
+                    <li key={place.id}>
+                      <button
+                        onClick={() => handleSuggestionClick(place)}
+                        className="w-full text-left px-4 py-3 hover:bg-muted first:rounded-t-xl last:rounded-b-xl"
+                      >
+                        {place.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
           </div>
         </div>
 
         {!isMapFullscreen && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
             <div className="bg-background p-3 rounded-full shadow-lg">
-              <div className="bg-black text-primary rounded-full p-3">
+              <div className="bg-primary text-primary-foreground rounded-full p-3">
                 <Landmark className="h-6 w-6" />
               </div>
             </div>
@@ -293,5 +328,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
