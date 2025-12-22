@@ -25,8 +25,8 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/scan', label: 'Scan', icon: QrCode },
-  { href: '/map', label: 'Map', icon: MapPinnedIcon },
-  { href: '/contact', label: 'Contact', icon: HeadsetIcon },
+  { href: '/map', label: 'Explore', icon: MapPinnedIcon },
+  { href: '/contact', label: 'Guide', icon: HeadsetIcon },
 ];
 
 export default function BottomNav() {
