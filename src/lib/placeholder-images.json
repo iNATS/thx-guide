@@ -71,6 +71,78 @@
       "description": "Colorful spices arranged in bowls at a bustling souk.",
       "imageUrl": "https://images.unsplash.com/photo-1761828122820-9f6d2261ac52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzb3VrJTIwdG91cnxlbnwwfHx8fDE3NjY0MDQ2MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "souk tour"
+    },
+    {
+      "id": "traditional-music-night",
+      "description": "Musicians playing traditional instruments under starry night.",
+      "imageUrl": "https://images.unsplash.com/photo-1528999834169-140a3c2a138c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0cmFkaXRpb25hbCUyMG11c2ljfGVufDB8fHx8MTc3MDE3MTE1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "traditional music"
+    },
+    {
+      "id": "ksar-guided-tour",
+      "description": "A guide explaining history in an ancient ksar.",
+      "imageUrl": "https://images.unsplash.com/photo-1569936848203-0938f3881333?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhbmNpZW50JTIwY2l0eSUyMHRvdXJ8ZW58MHx8fHwxNzcwMTcxMTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "history tour"
+    },
+    {
+      "id": "saharan-cooking-class",
+      "description": "Hands preparing a traditional Tagine dish.",
+      "imageUrl": "https://images.unsplash.com/photo-1588103650634-31d5515c32a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0YWdpbmUlMjBjb29raW5nfGVufDB8fHx8MTc3MDE3MTI0OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cooking class"
+    },
+    {
+      "id": "stargazing-desert",
+      "description": "A clear night sky full of stars over the Sahara desert.",
+      "imageUrl": "https://images.unsplash.com/photo-1506859336152-9f3d679a933d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc3MDE3MTI3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desert stargazing"
+    },
+    {
+      "id": "sandboarding-dunes",
+      "description": "A person sandboarding down a large desert dune.",
+      "imageUrl": "https://images.unsplash.com/photo-1621849490075-0924aa91a457?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYW5kYm9hcmRpbmd8ZW58MHx8fHwxNzcwMTcxMzAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sandboarding desert"
+    },
+    {
+      "id": "date-harvest-festival",
+      "description": "Close-up of fresh dates on a palm tree during harvest.",
+      "imageUrl": "https://images.unsplash.com/photo-1614188424244-93840733a18a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXRlJTIwaGFydmVzdHxlbnwwfHx8fDE3NzAxNzEzMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "date harvest"
+    },
+    {
+      "id": "oasis-picnic",
+      "description": "A beautiful picnic setup in a lush green oasis.",
+      "imageUrl": "https://images.unsplash.com/photo-1694326938363-999335a123a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxvYXNpcyUyMHBpY25pY3xlbnwwfHx8fDE3NzAxNzEzNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "oasis picnic"
+    },
+    {
+      "id": "leather-workshop",
+      "description": "Artisan working with leather and tools in a workshop.",
+      "imageUrl": "https://images.unsplash.com/photo-1559523236-419a4dc2a2b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwd29ya3Nob3B8ZW58MHx8fHwxNzcwMTcxMzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather workshop"
+    },
+    {
+      "id": "tuareg-tea-ceremony",
+      "description": "Traditional Tuareg tea being poured.",
+      "imageUrl": "https://images.unsplash.com/photo-1590393275754-b673645c4535?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0dWFyZWclMjB0ZWF8ZW58MHx8fHwxNzcwMTcxNDIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tuareg tea"
+    },
+    {
+      "id": "foggara-tour",
+      "description": "Entrance to an ancient foggara underground irrigation channel.",
+      "imageUrl": "https://images.unsplash.com/photo-1620888933931-a6b0042fd8d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmNpZW50JTIwaXJyaWdhdGlvbnxlbnwwfHx8fDE3NzAxNzE0NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient irrigation"
+    },
+    {
+      "id": "camel-race",
+      "description": "Camels racing across the desert plains.",
+      "imageUrl": "https://images.unsplash.com/photo-1634543450371-3d75241162a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYW1lbCUyMHJhY2V8ZW58MHx8fHwxNzcwMTcxNDcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "camel race"
+    },
+    {
+      "id": "saharan-storytelling",
+      "description": "A group gathered around a fire listening to a storyteller.",
+      "imageUrl": "https://images.unsplash.com/photo-1544573111-85b9a19a4a42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdG9yeXRlbGxpbmclMjBmaXJlc2lkZXxlbnwwfHx8fDE3NzAxNzE0OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "storytelling fireside"
     }
   ]
 }

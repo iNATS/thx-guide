@@ -1,22 +1,23 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Bell, Clock, Heart, Landmark, MapPin, Music, Search, Utensils, X } from 'lucide-react';
+import { Bell, Clock, Heart, Landmark, MapPin, Music, Search, Utensils, X, Star, Wind, Tractor, BookOpen, Sprout, ShoppingBag, Drama } from 'lucide-react';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
 
-const filterButtons = [
-  { label: 'All', active: true },
-  { label: 'Music', icon: Music, active: false },
-  { label: 'Heritage', icon: Landmark, active: false },
-  { label: 'Food', icon: Utensils, active: false },
+const filterButtonsConfig = [
+  { label: 'All', category: 'All' },
+  { label: 'Music', category: 'Music', icon: Music },
+  { label: 'Heritage', category: 'Heritage', icon: Landmark },
+  { label: 'Food', category: 'Food', icon: Utensils },
+  { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
 
 const featuredEvents = [
@@ -27,7 +28,8 @@ const featuredEvents = [
         image: PlaceHolderImages.find((img) => img.id === 'sboue-festival-vibrant'),
         time: 'All Week',
         location: 'Gourara Region',
-        description: 'Experience the vibrant Sboue festival, a week-long celebration of culture, music, and tradition that represents the soul of the oasis.'
+        description: 'Experience the vibrant Sboue festival, a week-long celebration of culture, music, and tradition that represents the soul of the oasis.',
+        category: 'Music'
     },
     {
         title: 'Dune Adventure',
@@ -36,7 +38,8 @@ const featuredEvents = [
         image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4'),
         time: 'Daily Departures',
         location: 'Erg Chech Dunes',
-        description: 'Embark on an exhilarating 4x4 desert safari across the stunning Erg Chech dunes. A must-do for thrill-seekers!'
+        description: 'Embark on an exhilarating 4x4 desert safari across the stunning Erg Chech dunes. A must-do for thrill-seekers!',
+        category: 'Adventure'
     }
 ]
 
@@ -48,7 +51,8 @@ const thisWeekEvents = [
         image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset'),
         action: 'Know more',
         actionVariant: 'default' as const,
-        description: 'Enjoy a peaceful camel trek through the iconic red dunes of Timimoun, culminating in a traditional tea ceremony as the sun sets over the Sahara.'
+        description: 'Enjoy a peaceful camel trek through the iconic red dunes of Timimoun, culminating in a traditional tea ceremony as the sun sets over the Sahara.',
+        category: 'Adventure'
     },
     {
         title: 'Local Pottery Workshop',
@@ -57,7 +61,8 @@ const thisWeekEvents = [
         image: PlaceHolderImages.find((img) => img.id === 'pottery-making-hands'),
         action: 'Know more',
         actionVariant: 'default' as const,
-        description: 'Learn the ancient art of pottery from a local artisan in the historic Old Ksar district. Create your own unique souvenir to take home.'
+        description: 'Learn the ancient art of pottery from a local artisan in the historic Old Ksar district. Create your own unique souvenir to take home.',
+        category: 'Heritage'
     },
     {
         title: 'Weekly Souk Tour',
@@ -66,7 +71,128 @@ const thisWeekEvents = [
         image: PlaceHolderImages.find((img) => img.id === 'souk-spices-market'),
         action: 'Know more',
         actionVariant: 'secondary' as const,
-        description: 'Discover the sights, sounds, and smells of the weekly market. A guided tour to help you find the best local products and crafts.'
+        description: 'Discover the sights, sounds, and smells of the weekly market. A guided tour to help you find the best local products and crafts.',
+        category: 'Heritage'
+    },
+    {
+        title: 'Traditional Music Night',
+        time: 'Fri, 20:00',
+        location: 'Dar Gnaoua',
+        image: PlaceHolderImages.find((img) => img.id === 'traditional-music-night'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Immerse yourself in the enchanting sounds of Gnawa music in a traditional house. A mystical and unforgettable experience.',
+        category: 'Music'
+    },
+    {
+        title: 'Guided Tour of the Old Ksar',
+        time: 'Daily, 09:00',
+        location: 'Historic Center',
+        image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Explore the ancient history of Timimoun with a guided walk through its labyrinthine alleys and red-mud buildings.',
+        category: 'Heritage'
+    },
+    {
+        title: 'Saharan Cooking Class',
+        time: 'Wed, 11:00',
+        location: 'Local Family Home',
+        image: PlaceHolderImages.find((img) => img.id === 'saharan-cooking-class'),
+        action: 'Know more',
+        actionVariant: 'secondary' as const,
+        description: 'Learn the secrets of Saharan cuisine, including how to prepare a perfect tagine and bake bread in the sand.',
+        category: 'Food'
+    },
+    {
+        title: 'Stargazing in the Desert',
+        time: 'Mon & Thu, 21:00',
+        location: 'Outside the Oasis',
+        image: PlaceHolderImages.find((img) => img.id === 'stargazing-desert'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Witness the breathtaking beauty of the Milky Way in one of the darkest skies on Earth. A guided astronomical tour.',
+        category: 'Adventure'
+    },
+    {
+        title: 'Sandboarding on the Dunes',
+        time: 'Daily, 16:00',
+        location: 'Erg Mehedjibat',
+        image: PlaceHolderImages.find((img) => img.id === 'sandboarding-dunes'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Surf the golden waves of the Sahara. A fun and thrilling activity for all ages on the majestic dunes near Timimoun.',
+        category: 'Adventure'
+    },
+    {
+        title: 'Date Harvest Festival',
+        time: 'Sun, all day',
+        location: 'Palm Grove',
+        image: PlaceHolderImages.find((img) => img.id === 'date-harvest-festival'),
+        action: 'Know more',
+        actionVariant: 'secondary' as const,
+        description: 'Join the locals in celebrating the annual date harvest with music, food, and festivities in the heart of the oasis.',
+        category: 'Food'
+    },
+    {
+        title: 'Picnic in the Oasis',
+        time: 'Sat, 13:00',
+        location: 'Secret Garden Oasis',
+        image: PlaceHolderImages.find((img) => img.id === 'oasis-picnic'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Enjoy a delicious, traditional lunch in a secluded and lush part of the Timimoun palm grove. A moment of pure tranquility.',
+        category: 'Food'
+    },
+    {
+        title: 'Leather Artisan Visit',
+        time: 'Daily, by appointment',
+        location: 'Artisans Quarter',
+        image: PlaceHolderImages.find((img) => img.id === 'leather-workshop'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Watch a master artisan at work, crafting traditional leather goods like sandals and bags. An intimate cultural exchange.',
+        category: 'Heritage'
+    },
+    {
+        title: 'Tuareg Tea Ceremony',
+        time: 'Daily, 18:00',
+        location: 'Café des Sables',
+        image: PlaceHolderImages.find((img) => img.id === 'tuareg-tea-ceremony'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Participate in the ancient and symbolic Tuareg tea ceremony, a ritual of hospitality and friendship.',
+        category: 'Heritage'
+    },
+    {
+        title: 'Foggara Irrigation Tour',
+        time: 'Wed, 09:00',
+        location: 'Ancient Irrigation Channels',
+        image: PlaceHolderImages.find((img) => img.id === 'foggara-tour'),
+        action: 'Know more',
+        actionVariant: 'secondary' as const,
+        description: 'Discover the ingenious ancient underground irrigation system that has sustained life in the oasis for centuries.',
+        category: 'Heritage'
+    },
+    {
+        title: 'Annual Camel Race',
+        time: 'Next Sat, 14:00',
+        location: 'Desert Race Track',
+        image: PlaceHolderImages.find((img) => img.id === 'camel-race'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Experience the thunder of hooves at the annual Timimoun camel race, a major cultural and sporting event.',
+        category: 'Adventure'
+    },
+    {
+        title: 'Fireside Storytelling',
+        time: 'Tue, 20:30',
+        location: 'Desert Camp',
+        image: PlaceHolderImages.find((img) => img.id === 'saharan-storytelling'),
+        action: 'Know more',
+        actionVariant: 'default' as const,
+        description: 'Listen to ancient Saharan tales and legends told by a local storyteller around a crackling bonfire under the stars.',
+        category: 'Heritage'
     }
 ]
 
@@ -78,6 +204,7 @@ export default function EventsPage() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('All');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,6 +218,13 @@ export default function EventsPage() {
     setSelectedEvent(event);
     setIsSheetOpen(true);
   }
+
+  const filteredEvents = useMemo(() => {
+    if (activeFilter === 'All') {
+      return thisWeekEvents;
+    }
+    return thisWeekEvents.filter(event => event.category === activeFilter);
+  }, [activeFilter]);
 
   return (
     <div className="bg-background min-h-screen pb-24">
@@ -149,30 +283,34 @@ export default function EventsPage() {
 
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4">
-          {filterButtons.map((filter) => (
-            <Button
-              key={filter.label}
-              variant={filter.active ? 'default' : 'secondary'}
-              className={`rounded-full flex-shrink-0 ${
-                filter.active ? 'bg-primary' : 'bg-card text-card-foreground shadow-sm'
-              }`}
-            >
-              {filter.icon && <filter.icon className="mr-2 h-4 w-4" />}
-              {filter.label}
-            </Button>
-          ))}
+          {filterButtonsConfig.map((filter) => {
+            const isActive = activeFilter === filter.category;
+            return (
+                <Button
+                key={filter.label}
+                variant={isActive ? 'default' : 'secondary'}
+                onClick={() => setActiveFilter(filter.category)}
+                className={`rounded-full flex-shrink-0 ${
+                    isActive ? 'bg-primary' : 'bg-card text-card-foreground shadow-sm'
+                }`}
+                >
+                {filter.icon && <filter.icon className="mr-2 h-4 w-4" />}
+                {filter.label}
+                </Button>
+            );
+            })}
         </div>
 
         {/* This Week Section */}
         <section>
           <div className="flex items-center gap-2 mb-4">
              <h2 className="text-xl font-bold font-headline">This Week</h2>
-             <span className="text-sm bg-muted text-muted-foreground px-2 py-0.5 rounded-md font-medium">{thisWeekEvents.length} Events</span>
+             <span className="text-sm bg-muted text-muted-foreground px-2 py-0.5 rounded-md font-medium">{filteredEvents.length} Events</span>
           </div>
 
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <div className="space-y-4">
-                {thisWeekEvents.map((event) => (
+                {filteredEvents.map((event) => (
                     <div key={event.title} className="bg-card p-3 rounded-2xl shadow-sm flex items-center gap-4">
                     {event.image && (
                         <Image
