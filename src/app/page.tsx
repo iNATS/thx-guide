@@ -265,7 +265,7 @@ export default function Home() {
                 <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
             </div>
             <Carousel opts={{ align: "start" }} className="w-full">
-                <CarouselContent className="px-4 sm:px-6 lg:px-8">
+                <CarouselContent className="-ml-4 pl-4 sm:pl-6 lg:pl-8">
                     {popularRoutes.map((route) => (
                     <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3">
                         <div className="relative rounded-2xl overflow-hidden aspect-[4/6] group cursor-pointer shadow-lg">
@@ -295,9 +295,6 @@ export default function Home() {
         <div className="mb-6 px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold font-headline">Top Places</h2>
-                <Link href="#" className="text-sm font-medium text-primary hover:underline">
-                See All
-                </Link>
             </div>
              {/* Filter Buttons */}
             <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
@@ -392,5 +389,4 @@ export default function Home() {
   );
 }
 
-    
     
