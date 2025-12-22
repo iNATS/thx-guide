@@ -128,6 +128,15 @@ export default function Home() {
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
@@ -251,13 +260,14 @@ export default function Home() {
       {/* Content Section */}
       <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background", isMapFullscreen && 'hidden')}>
         
-
-        <div className="mb-6 px-4 sm:px-6 lg:px-8 pt-8">
-          <p className="text-muted-foreground">Salam 👋</p>
-          <h1 className="text-3xl font-bold font-headline text-foreground">
-            Discover the Red Oasis
-          </h1>
-        </div>
+        <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
+          <div className="mb-6 px-4 sm:px-6 lg:px-8 pt-8">
+            <p className="text-muted-foreground">Salam 👋</p>
+            <h1 className="text-3xl font-bold font-headline text-foreground">
+              Discover the Red Oasis
+            </h1>
+          </div>
+        </header>
 
         {/* Popular Routes Section */}
         <div className="mb-8">
@@ -388,7 +398,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
