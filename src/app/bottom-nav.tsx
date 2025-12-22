@@ -6,11 +6,18 @@ import { usePathname } from 'next/navigation';
 import { Home, CalendarDays, QrCode } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const MapPinnedIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const HotelIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/>
-        <circle cx="12" cy="8" r="2"/>
-        <path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>
+        <path d="M10 22v-6.57"/>
+        <path d="M12 11h.01"/>
+        <path d="M12 7h.01"/>
+        <path d="M14 15.43V22"/>
+        <path d="M15 16a5 5 0 0 0-6 0"/>
+        <path d="M16 11h.01"/>
+        <path d="M16 7h.01"/>
+        <path d="M8 11h.01"/>
+        <path d="M8 7h.01"/>
+        <rect x="4" y="2" width="16" height="20" rx="2"/>
     </svg>
 )
 
@@ -25,7 +32,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/scan', label: 'Scan', icon: QrCode },
-  { href: '/map', label: 'Explore', icon: MapPinnedIcon },
+  { href: '/map', label: 'Explore', icon: HotelIcon },
   { href: '/contact', label: 'Guide', icon: HeadsetIcon },
 ];
 
