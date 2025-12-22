@@ -249,10 +249,10 @@ export default function Home() {
       </div>
 
       {/* Content Section */}
-      <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background p-4 sm:p-6 lg:p-8", isMapFullscreen && 'hidden')}>
-        <div className="mx-auto w-16 h-1.5 bg-border rounded-full mb-4" />
+      <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background", isMapFullscreen && 'hidden')}>
+        <div className="mx-auto w-16 h-1.5 bg-border rounded-full mb-4 mt-4" />
 
-        <div className="mb-6">
+        <div className="mb-6 px-4 sm:px-6 lg:px-8">
           <p className="text-muted-foreground">Salam 👋</p>
           <h1 className="text-3xl font-bold font-headline text-foreground">
             Discover the Red Oasis
@@ -261,14 +261,14 @@ export default function Home() {
 
         {/* Popular Routes Section */}
         <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 px-4 sm:px-6 lg:px-8">
                 <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
             </div>
-            <Carousel opts={{ align: "start" }} className="w-full -mx-4">
-                <CarouselContent className="px-4">
+            <Carousel opts={{ align: "start" }} className="w-full">
+                <CarouselContent className="px-4 sm:px-6 lg:px-8">
                     {popularRoutes.map((route) => (
                     <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3">
-                        <div className="relative rounded-2xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                        <div className="relative rounded-2xl overflow-hidden aspect-[4/6] group cursor-pointer shadow-lg">
                             {route.image && (
                                 <Image
                                     src={route.image.imageUrl}
@@ -292,7 +292,7 @@ export default function Home() {
         </div>
         
         {/* Top Places Section */}
-        <div className="mb-6">
+        <div className="mb-6 px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold font-headline">Top Places</h2>
                 <Link href="#" className="text-sm font-medium text-primary hover:underline">
@@ -392,4 +392,5 @@ export default function Home() {
   );
 }
 
+    
     
