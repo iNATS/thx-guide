@@ -39,34 +39,34 @@ export function EventsView() {
     : [];
 
   return (
-    <div className="grid md:grid-cols-2 gap-8">
-      <div className="flex justify-center">
+    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+      <div className="flex justify-center w-full">
         <Calendar
           mode="single"
           selected={date}
           onSelect={setDate}
-          className="rounded-md border"
+          className="rounded-md border shadow-sm w-full"
         />
       </div>
       <div className="space-y-4">
-        <h3 className="font-headline text-lg font-semibold">
+        <h3 className="font-headline text-xl font-semibold">
           Events for {date ? format(date, 'PPP') : '...'}
         </h3>
         {selectedDayEvents.length > 0 ? (
           <ul className="space-y-4">
             {selectedDayEvents.map((event, index) => (
               <li key={index}>
-                <Card className="bg-background/50 hover:bg-background transition-colors">
+                <Card className="bg-card/80 hover:bg-card transition-colors shadow-sm">
                   <div className="p-4">
                     <CardTitle className="text-base font-bold">{event.title}</CardTitle>
-                    <CardDescription className="text-sm mt-1">{event.description}</CardDescription>
+                    <CardDescription className="text-sm mt-1 text-muted-foreground">{event.description}</CardDescription>
                   </div>
                 </Card>
               </li>
             ))}
           </ul>
         ) : (
-          <div className="text-center text-muted-foreground py-8 border-2 border-dashed rounded-lg">
+          <div className="text-center text-muted-foreground py-12 border-2 border-dashed rounded-lg">
             <p>No events scheduled for this day.</p>
           </div>
         )}
