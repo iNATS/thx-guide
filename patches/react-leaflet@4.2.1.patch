@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-leaflet/package.json b/node_modules/react-leaflet/package.json
+index 1195982..3a2167d 100644
+--- a/node_modules/react-leaflet/package.json
++++ b/node_modules/react-leaflet/package.json
+@@ -62,7 +62,7 @@
+     "leaflet": ">=1.7.1 <2.0.0",
+     "react": "^18.0.0",
+     "react-dom": "^18.0.0"
+-  }
++  },
++  "overrides": {
++    "react": "$react"
++  }
+ }
