@@ -33,14 +33,32 @@
     {
       "id": "local-market",
       "description": "A bustling local market scene in Timimoun.",
-      "imageUrl": "https://images.unsplash.com/photo-1765862857037-2fe5036b46e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYXJrZXQlMjBzY2VuZXxlbnwwfHx8fDE3NjYzNjY3NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "market scene"
+      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "souk market"
     },
     {
       "id": "berber-crafts",
       "description": "Handmade Berber crafts and textiles.",
       "imageUrl": "https://images.unsplash.com/photo-1760647832573-969bf71d12b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMGNyYWZ0c3xlbnwwfHx8fDE3NjYzNTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "local crafts"
+    },
+    {
+      "id": "sboue-festival",
+      "description": "The Sboue festival in the Gourara region.",
+      "imageUrl": "https://images.unsplash.com/photo-1518463891957-933e49c71a36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmZXN0aXZhbCUyMGNyb3dkfGVufDB8fHx8MTc2NzE1MzUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "festival crowd"
+    },
+    {
+      "id": "camel-trek",
+      "description": "Camels in the desert at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1543653457-a64c67851a7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYW1lbCUyMGRlc2VydHxlbnwwfHx8fDE3NjcxNTM1NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "camel desert"
+    },
+    {
+      "id": "pottery-workshop",
+      "description": "A person making pottery.",
+      "imageUrl": "https://images.unsplash.com/photo-1554201384-da3817dc5BD4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3R0ZXJ5JTIwd29ya3Nob3B8ZW58MHx8fHwxNzY3MTUzNTgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pottery workshop"
     }
   ]
 }
