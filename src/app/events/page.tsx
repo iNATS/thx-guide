@@ -365,7 +365,7 @@ export default function EventsPage() {
         {/* Coming Events Section */}
         <section>
           <div className="flex items-center gap-2 mb-4">
-             <h2 className="text-xl font-bold font-headline">coming events</h2>
+             <h2 className="text-xl font-bold font-headline">Upcoming Events</h2>
              <span className="text-sm bg-muted text-muted-foreground px-2 py-0.5 rounded-md font-medium">{filteredEvents.length} Events</span>
           </div>
 
@@ -452,6 +452,7 @@ export default function EventsPage() {
                                         <MapPin className="w-4 h-4 text-primary"/>
                                         <span>{selectedEvent.location}</span>
                                     </div>
+
                                 </div>
                                 <p className="text-foreground/90 mb-6">{selectedEvent.description}</p>
 
@@ -476,3 +477,5 @@ export default function EventsPage() {
     </div>
   );
 }
+
+    
