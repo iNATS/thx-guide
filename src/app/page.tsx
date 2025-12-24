@@ -200,8 +200,8 @@ export default function Home() {
       {/* Map Section */}
       <div
         className={cn(
-          'absolute inset-x-0 top-0 h-[70vh] transition-transform duration-500 ease-in-out',
-          isMapFullscreen ? 'z-50 h-full' : ''
+          'fixed inset-x-0 top-0 h-[70vh] transition-transform duration-500 ease-in-out',
+          isMapFullscreen ? 'z-50 h-full' : 'z-0'
         )}
       >
         <div className="absolute inset-0">
