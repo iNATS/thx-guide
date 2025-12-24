@@ -323,7 +323,7 @@ export default function Home() {
                                     </div>
                                     <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
                                     <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                                      <span>{route.distance}</span>
+                                      
                                       <div className="flex items-center gap-1.5">
                                         <route.categoryIcon className="w-4 h-4"/>
                                         <span>{route.category}</span>
