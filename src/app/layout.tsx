@@ -1,14 +1,22 @@
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { manifest } from 'next/dist/lib/metadata/manifest';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import BottomNav from '@/app/bottom-nav';
 import { Toaster } from '@/components/ui/toaster';
+import { PwaRegistration } from '@/components/pwa-registration';
 
 export const metadata: Metadata = {
   title: 'Timimoun Oasis Guide',
   description: 'Your personal AI guide to the Red Oasis of Timimoun, Algeria.',
+  manifest: '/manifest.ts'
 };
+
+export const viewport: Viewport = {
+  themeColor: '#E2725B',
+  viewportFit: 'cover',
+}
 
 export default function RootLayout({
   children,
@@ -44,6 +52,7 @@ export default function RootLayout({
         <main className="flex-grow">{children}</main>
         <BottomNav />
         <Toaster />
+        <PwaRegistration />
       </body>
     </html>
   );
