@@ -9,8 +9,8 @@ const Map = dynamic(() => import('@/app/map'), { ssr: false });
 
 export default function MapPage() {
   return (
-    <div className="container mx-auto p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center min-h-full pb-24">
-      <Card className="w-full max-w-4xl shadow-lg">
+    <div className="p-0 sm:p-0 lg:p-0 flex flex-col items-center justify-center min-h-full pb-24 w-full">
+      <Card className="w-full max-w-full shadow-lg rounded-none sm:rounded-lg">
         <CardHeader>
           <CardTitle className="font-headline text-2xl flex items-center gap-2">
             <MapPin className="w-6 h-6 text-primary" />
