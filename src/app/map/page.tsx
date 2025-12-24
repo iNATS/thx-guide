@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-const MapView = dynamic(() => import('@/app/map'), { ssr: false });
+const Map = dynamic(() => import('@/app/map'), { ssr: false });
 
 export default function MapPage() {
   return (
@@ -22,7 +22,7 @@ export default function MapPage() {
             Explore Timimoun and its surrounding points of interest. You can pan and zoom on the map.
           </p>
           <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border">
-            <MapView />
+            <Map />
           </div>
         </CardContent>
       </Card>

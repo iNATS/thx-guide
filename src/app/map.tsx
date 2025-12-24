@@ -1,43 +1,72 @@
 
 'use client';
 
-import 'maplibre-gl/dist/maplibre-gl.css';
-import Map, { Marker } from 'react-map-gl/maplibre';
+import { useEffect, useRef } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { Landmark } from 'lucide-react';
 
-const timimounPosition = {
-    longitude: 0.25,
-    latitude: 29.25
-};
+const timimounPosition: [number, number] = [29.25, 0.25];
 
-export default function MapView() {
-  const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
-
-  if (!mapTilerKey) {
-    return (
-        <div className="flex items-center justify-center w-full h-full bg-muted text-muted-foreground">
-            <p>MapTiler API key is missing.</p>
-        </div>
-    )
-  }
-
-  return (
-    <Map
-        initialViewState={{
-            ...timimounPosition,
-            zoom: 12
-        }}
-        style={{width: '100%', height: '100%'}}
-        mapStyle={`https://api.maptiler.com/maps/streets-v2/style.json?key=${mapTilerKey}`}
-    >
-        <Marker longitude={timimounPosition.longitude} latitude={timimounPosition.latitude} anchor="bottom" >
-           <div className="flex flex-col items-center">
-              <div className="bg-background p-2 rounded-full shadow-lg border border-primary/50">
-                  <Landmark className="text-primary" size={24} />
-              </div>
-              <div className="w-2 h-2 bg-primary rounded-full -mt-1 shadow-md"></div>
+const createCustomIcon = (L: any) => {
+    const iconMarkup = renderToStaticMarkup(
+        <div className="flex flex-col items-center">
+           <div className="bg-background p-2 rounded-full shadow-lg border border-primary/50">
+               <Landmark className="text-primary" size={24} />
            </div>
-        </Marker>
-    </Map>
-  );
+           <div className="w-2 h-2 bg-primary rounded-full -mt-1 shadow-md"></div>
+        </div>
+    );
+    return L.divIcon({
+        html: iconMarkup,
+        className: 'bg-transparent border-none',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+    })
+}
+
+export default function Map() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<any>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && mapRef.current && !mapInstance.current) {
+      const L = (window as any).L;
+
+      if (!L) {
+          console.error("Leaflet is not loaded");
+          return;
+      }
+
+      // Fix for default marker icon issue with webpack
+      delete L.Icon.Default.prototype._getIconUrl;
+
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+
+      const map = L.map(mapRef.current).setView(timimounPosition, 12);
+      mapInstance.current = map;
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      const customIcon = createCustomIcon(L);
+
+      L.marker(timimounPosition, { icon: customIcon })
+        .addTo(map)
+        .bindPopup('Timimoun, the Red Oasis.');
+    }
+     // Cleanup function to remove the map instance on component unmount
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+      }
+    };
+  }, []);
+
+  return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
 }

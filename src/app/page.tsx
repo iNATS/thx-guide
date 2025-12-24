@@ -190,7 +190,7 @@ export default function Home() {
         {!isMapFullscreen && (
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
         )}
-        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4 bg-transparent')}>
+        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4 bg-transparent z-[60]')}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
@@ -242,19 +242,6 @@ export default function Home() {
             )}
           </div>
         </div>
-
-        {!isMapFullscreen && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-            <div className="bg-background p-3 rounded-full shadow-lg">
-              <div className="bg-primary text-primary-foreground rounded-full p-3">
-                <Landmark className="h-6 w-6" />
-              </div>
-            </div>
-            <div className="mt-2 bg-card text-card-foreground rounded-full px-3 py-1 text-sm font-medium shadow">
-              Red Oasis
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Content Section */}
