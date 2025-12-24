@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
@@ -194,8 +195,9 @@ export default function Home() {
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (e.currentTarget.scrollTop === 0) {
-       // Allow collapsing if scrolled to the top
+    // Expand when scrolling up from the collapsed state
+    if (e.currentTarget.scrollTop > 0 && !isSheetExpanded) {
+        setIsSheetExpanded(true);
     }
   };
 
@@ -258,7 +260,7 @@ export default function Home() {
         )}
       >
           <div 
-            className="w-12 h-1.5 bg-muted rounded-full mx-auto my-3"
+            className="w-12 h-1.5 bg-muted rounded-full mx-auto my-3 cursor-grab"
             onClick={() => setIsSheetExpanded(!isSheetExpanded)}
           />
           <div className="pb-24">
@@ -424,5 +426,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
