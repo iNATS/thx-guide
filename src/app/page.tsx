@@ -200,8 +200,8 @@ export default function Home() {
       {/* Map Section */}
       <div
         className={cn(
-          'fixed inset-x-0 top-0 h-full transition-transform duration-500 ease-in-out',
-          isMapFullscreen ? 'z-50 scale-100' : 'scale-100'
+          'absolute inset-x-0 top-0 h-[70vh] transition-transform duration-500 ease-in-out',
+          isMapFullscreen ? 'z-50 h-full' : ''
         )}
       >
         <div className="absolute inset-0">
@@ -265,7 +265,7 @@ export default function Home() {
       </div>
 
       {/* Content Section */}
-      <div className={cn("relative z-10 pt-40 transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
+      <div className={cn("relative z-10 pt-[65vh] transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
         
         <div className="bg-background rounded-t-3xl">
           <header className={cn("top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
