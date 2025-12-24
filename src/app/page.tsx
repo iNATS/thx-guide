@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -137,6 +137,11 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
+  const [isSheetExpanded, setIsSheetExpanded] = useState(false);
+  
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const touchMoveY = useRef(0);
 
   const toggleFavorite = (routeId: string) => {
     setPopularRoutes(
@@ -169,16 +174,41 @@ export default function Home() {
     setAutocompleteSuggestions([]);
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartY.current = e.targetTouches[0].clientY;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchMoveY.current = e.targetTouches[0].clientY;
+    const deltaY = touchStartY.current - touchMoveY.current;
+    
+    // Swipe up to expand
+    if (deltaY > 50 && !isSheetExpanded) {
+      setIsSheetExpanded(true);
+    }
+    
+    // Swipe down to collapse (only if at the top of the scroll)
+    if (deltaY < -50 && isSheetExpanded && sheetRef.current?.scrollTop === 0) {
+      setIsSheetExpanded(false);
+    }
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (e.currentTarget.scrollTop === 0) {
+       // Allow collapsing if scrolled to the top
+    }
+  };
+
 
   return (
-    <div className="relative min-h-screen bg-background pb-24">
-      {/* Map Section */}
-      <div className="fixed inset-0 h-full w-full z-0">
+    <div className="relative h-[100svh] w-full overflow-hidden bg-background">
+      {/* Map Background */}
+      <div className="absolute inset-0 z-0 h-full w-full">
         <MapView />
       </div>
 
       {/* Search Bar */}
-      <div className='fixed top-8 left-4 right-4 z-20'>
+      <div className='absolute top-8 left-4 right-4 z-20'>
         <div className="relative max-w-4xl mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
@@ -217,120 +247,133 @@ export default function Home() {
       </div>
 
       {/* Content Sheet */}
-      <div className="absolute inset-x-0 bottom-0 top-[30vh] z-10">
-        <div className="bg-background rounded-t-3xl h-full overflow-y-auto pb-24">
-          <header className="p-4 sm:p-6 lg:px-8">
-            <p className="text-muted-foreground">Salam 👋</p>
-            <h1 className="text-3xl font-bold font-headline text-foreground">
-              Discover the Red Oasis
-            </h1>
-          </header>
+      <div
+        ref={sheetRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onScroll={handleScroll}
+        className={cn(
+          "absolute inset-x-0 bottom-0 z-10 bg-background rounded-t-3xl transition-all duration-500 ease-in-out overflow-y-auto",
+          isSheetExpanded ? 'top-[5vh]' : 'top-[70vh]'
+        )}
+      >
+          <div 
+            className="w-12 h-1.5 bg-muted rounded-full mx-auto my-3"
+            onClick={() => setIsSheetExpanded(!isSheetExpanded)}
+          />
+          <div className="pb-24">
+            <header className="p-4 sm:p-6 lg:px-8">
+              <p className="text-muted-foreground">Salam 👋</p>
+              <h1 className="text-3xl font-bold font-headline text-foreground">
+                Discover the Red Oasis
+              </h1>
+            </header>
 
-          <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            {/* Popular Routes Section */}
-            <div className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
-                </div>
-                <Carousel opts={{ align: "start" }} className="w-full">
-                    <CarouselContent className="-ml-4">
-                        {popularRoutes.map((route) => (
-                        <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
-                            <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
-                                {route.image && (
-                                    <Image
-                                        src={route.image.imageUrl}
-                                        alt={route.title}
-                                        fill
-                                        style={{objectFit: 'cover'}}
-                                        className="group-hover:scale-105 transition-transform duration-300"
-                                        data-ai-hint={route.image.imageHint}
-                                    />
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                                
-                                <Button
-                                  size="icon"
-                                  variant="ghost"
-                                  className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleFavorite(route.id);
-                                  }}
-                                >
-                                  <Heart className={cn("w-5 h-5", route.favorited && "fill-white")}/>
-                                </Button>
-                                
-                                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
-                                      <Clock className="w-4 h-4"/>
-                                      <span className="text-xs font-semibold">{route.duration}</span>
-                                    </div>
-                                    <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
-                                    <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                                      
-                                      <div className="flex items-center gap-1.5">
-                                        <route.categoryIcon className="w-4 h-4"/>
-                                        <span>{route.category}</span>
+            <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+              {/* Popular Routes Section */}
+              <div className="mb-8">
+                  <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
+                  </div>
+                  <Carousel opts={{ align: "start" }} className="w-full">
+                      <CarouselContent className="-ml-4">
+                          {popularRoutes.map((route) => (
+                          <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
+                              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                                  {route.image && (
+                                      <Image
+                                          src={route.image.imageUrl}
+                                          alt={route.title}
+                                          fill
+                                          style={{objectFit: 'cover'}}
+                                          className="group-hover:scale-105 transition-transform duration-300"
+                                          data-ai-hint={route.image.imageHint}
+                                      />
+                                  )}
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                                  
+                                  <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleFavorite(route.id);
+                                    }}
+                                  >
+                                    <Heart className={cn("w-5 h-5", route.favorited && "fill-white")}/>
+                                  </Button>
+                                  
+                                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
+                                        <Clock className="w-4 h-4"/>
+                                        <span className="text-xs font-semibold">{route.duration}</span>
                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
+                                      <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
+                                      <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
+                                        
+                                        <div className="flex items-center gap-1.5">
+                                          <route.categoryIcon className="w-4 h-4"/>
+                                          <span>{route.category}</span>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </CarouselItem>
+                          ))}
+                      </CarouselContent>
+                  </Carousel>
+              </div>
+              
+              {/* Top Places Section */}
+              <div className="mb-6">
+                  <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold font-headline">Top Places</h2>
+                  </div>
+                  {/* Filter Buttons */}
+                  <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+                      {filterButtons.map((filter) => {
+                          const isActive = activeFilter === filter.category;
+                          return (
+                              <Button
+                              key={filter.label}
+                              variant={isActive ? 'default' : 'secondary'}
+                              onClick={() => setActiveFilter(filter.category)}
+                              className={`rounded-full flex-shrink-0 ${
+                                  isActive ? 'bg-primary' : 'bg-card'
+                              }`}
+                              >
+                              <filter.icon className="mr-2 h-4 w-4" />
+                              {filter.label}
+                              </Button>
+                          );
+                      })}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {filteredPlaces.map(place => (
+                      <div
+                          key={place.id}
+                          className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
+                          onClick={() => setSelectedPlace(place)}
+                      >
+                          <Image
+                          src={place.images[0].imageUrl}
+                          alt={place.title}
+                          fill
+                          style={{objectFit: 'cover'}}
+                          className="group-hover:scale-105 transition-transform duration-300"
+                          data-ai-hint={place.images[0].imageHint}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                          <h3 className="text-lg font-bold">{place.title}</h3>
+                          <p className="text-sm opacity-90">{place.category}</p>
+                          </div>
+                      </div>
+                      ))}
+                  </div>
+              </div>
             </div>
-            
-            {/* Top Places Section */}
-            <div className="mb-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold font-headline">Top Places</h2>
-                </div>
-                {/* Filter Buttons */}
-                <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-                    {filterButtons.map((filter) => {
-                        const isActive = activeFilter === filter.category;
-                        return (
-                            <Button
-                            key={filter.label}
-                            variant={isActive ? 'default' : 'secondary'}
-                            onClick={() => setActiveFilter(filter.category)}
-                            className={`rounded-full flex-shrink-0 ${
-                                isActive ? 'bg-primary' : 'bg-card'
-                            }`}
-                            >
-                            <filter.icon className="mr-2 h-4 w-4" />
-                            {filter.label}
-                            </Button>
-                        );
-                    })}
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {filteredPlaces.map(place => (
-                    <div
-                        key={place.id}
-                        className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
-                        onClick={() => setSelectedPlace(place)}
-                    >
-                        <Image
-                        src={place.images[0].imageUrl}
-                        alt={place.title}
-                        fill
-                        style={{objectFit: 'cover'}}
-                        className="group-hover:scale-105 transition-transform duration-300"
-                        data-ai-hint={place.images[0].imageHint}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 className="text-lg font-bold">{place.title}</h3>
-                        <p className="text-sm opacity-90">{place.category}</p>
-                        </div>
-                    </div>
-                    ))}
-                </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -381,3 +424,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
