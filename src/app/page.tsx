@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -22,6 +21,8 @@ import {
   Wind,
   X,
   Map,
+  Heart,
+  Clock,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -91,36 +92,48 @@ const topPlaces: Place[] = [
   },
 ];
 
-const popularRoutes = [
-    {
-      id: 'route-1',
-      title: '4x4 Desert Adventure',
-      duration: 'Full Day',
-      category: 'Adventure',
-      image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
-    },
-    {
-      id: 'route-2',
-      title: 'Old Ksar Heritage Walk',
-      duration: '2-3 Hours',
-      category: 'Culture',
-      image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
-    },
-    {
-      id: 'route-3',
-      title: 'Oasis & Foggara Tour',
-      duration: 'Half Day',
-      category: 'Nature',
-      image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
-    },
-    {
-      id: 'route-4',
-      title: 'Sunset Camel Trek',
-      duration: '2 Hours',
-      category: 'Adventure',
-      image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
-    },
-  ];
+const initialPopularRoutes = [
+  {
+    id: 'route-1',
+    title: '4x4 Desert Adventure',
+    duration: 'Full Day',
+    distance: '150km',
+    category: 'Adventure',
+    categoryIcon: Wind,
+    image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
+    favorited: false,
+  },
+  {
+    id: 'route-2',
+    title: 'Old Ksar Heritage Walk',
+    duration: '2-3 Hours',
+    distance: '5km',
+    category: 'Culture',
+    categoryIcon: Castle,
+    image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
+    favorited: true,
+  },
+  {
+    id: 'route-3',
+    title: 'Oasis & Foggara Tour',
+    duration: 'Half Day',
+    distance: '10km',
+    category: 'Nature',
+    categoryIcon: Landmark,
+    image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
+    favorited: false,
+  },
+  {
+    id: 'route-4',
+    title: 'Sunset Camel Trek',
+    duration: '2 Hours',
+    distance: '8km',
+    category: 'Adventure',
+    categoryIcon: Wind,
+    image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
+    favorited: true,
+  },
+];
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -129,6 +142,15 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
+
+  const toggleFavorite = (routeId: string) => {
+    setPopularRoutes(
+      popularRoutes.map(route =>
+        route.id === routeId ? { ...route, favorited: !route.favorited } : route
+      )
+    );
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -268,8 +290,8 @@ export default function Home() {
                 <Carousel opts={{ align: "start" }} className="w-full">
                     <CarouselContent className="-ml-4">
                         {popularRoutes.map((route) => (
-                        <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3 pl-4">
-                            <div className="relative rounded-2xl overflow-hidden aspect-[4/6] group cursor-pointer shadow-lg">
+                        <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
+                            <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
                                 {route.image && (
                                     <Image
                                         src={route.image.imageUrl}
@@ -280,10 +302,33 @@ export default function Home() {
                                         data-ai-hint={route.image.imageHint}
                                     />
                                 )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                                    <h3 className="text-lg font-bold">{route.title}</h3>
-                                    <p className="text-sm opacity-90">{route.duration}</p>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                                
+                                <Button
+                                  size="icon"
+                                  variant="ghost"
+                                  className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleFavorite(route.id);
+                                  }}
+                                >
+                                  <Heart className={cn("w-5 h-5", route.favorited && "fill-white")}/>
+                                </Button>
+                                
+                                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
+                                      <Clock className="w-4 h-4"/>
+                                      <span className="text-xs font-semibold">{route.duration}</span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
+                                    <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
+                                      <span>{route.distance}</span>
+                                      <div className="flex items-center gap-1.5">
+                                        <route.categoryIcon className="w-4 h-4"/>
+                                        <span>{route.category}</span>
+                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </CarouselItem>
