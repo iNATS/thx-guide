@@ -97,7 +97,6 @@ const initialPopularRoutes = [
     id: 'route-1',
     title: '4x4 Desert Adventure',
     duration: 'Full Day',
-    distance: '150km',
     category: 'Adventure',
     categoryIcon: Wind,
     image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
@@ -107,7 +106,6 @@ const initialPopularRoutes = [
     id: 'route-2',
     title: 'Old Ksar Heritage Walk',
     duration: '2-3 Hours',
-    distance: '5km',
     category: 'Culture',
     categoryIcon: Castle,
     image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
@@ -117,7 +115,6 @@ const initialPopularRoutes = [
     id: 'route-3',
     title: 'Oasis & Foggara Tour',
     duration: 'Half Day',
-    distance: '10km',
     category: 'Nature',
     categoryIcon: Landmark,
     image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
@@ -271,7 +268,7 @@ export default function Home() {
       <div className={cn("relative z-10 pt-40 transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
         
         <div className="bg-background rounded-t-3xl">
-          <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
+          <header className={cn("top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
             <div className="px-4 sm:px-6 lg:px-8 py-4 max-w-7xl mx-auto">
               <p className="text-muted-foreground">Salam 👋</p>
               <h1 className="text-3xl font-bold font-headline text-foreground">
