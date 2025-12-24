@@ -182,11 +182,13 @@ export default function Home() {
       {/* Map Section */}
       <div
         className={cn(
-          'relative h-96 transition-all duration-500 ease-in-out',
-          isMapFullscreen && 'fixed inset-0 h-screen w-screen z-50'
+          'fixed inset-x-0 top-0 h-96 transition-transform duration-500 ease-in-out',
+          isMapFullscreen ? 'z-50 scale-100' : 'scale-75 -translate-y-1/4'
         )}
       >
-        <MapView />
+        <div className="absolute inset-0">
+          <MapView />
+        </div>
         {!isMapFullscreen && (
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
         )}
@@ -245,96 +247,98 @@ export default function Home() {
       </div>
 
       {/* Content Section */}
-      <div className={cn("relative z-10 -mt-24 rounded-t-3xl bg-background", isMapFullscreen && 'hidden')}>
+      <div className={cn("relative z-10 pt-72 transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
         
-        <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
-          <div className="px-4 sm:px-6 lg:px-8 py-4">
-            <p className="text-muted-foreground">Salam 👋</p>
-            <h1 className="text-3xl font-bold font-headline text-foreground">
-              Discover the Red Oasis
-            </h1>
-          </div>
-        </header>
+        <div className="bg-background rounded-t-3xl">
+          <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
+            <div className="px-4 sm:px-6 lg:px-8 py-4">
+              <p className="text-muted-foreground">Salam 👋</p>
+              <h1 className="text-3xl font-bold font-headline text-foreground">
+                Discover the Red Oasis
+              </h1>
+            </div>
+          </header>
 
-        {/* Popular Routes Section */}
-        <div className="mb-8">
-            <div className="flex justify-between items-center mb-4 px-4 sm:px-6 lg:px-8">
-                <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
-            </div>
-            <Carousel opts={{ align: "start" }} className="w-full">
-                <CarouselContent className="-ml-4 pl-4 sm:pl-6 lg:pl-8">
-                    {popularRoutes.map((route) => (
-                    <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3">
-                        <div className="relative rounded-2xl overflow-hidden aspect-[4/6] group cursor-pointer shadow-lg">
-                            {route.image && (
-                                <Image
-                                    src={route.image.imageUrl}
-                                    alt={route.title}
-                                    fill
-                                    style={{objectFit: 'cover'}}
-                                    className="group-hover:scale-105 transition-transform duration-300"
-                                    data-ai-hint={route.image.imageHint}
-                                />
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                                <h3 className="text-lg font-bold">{route.title}</h3>
-                                <p className="text-sm opacity-90">{route.duration}</p>
-                            </div>
-                        </div>
-                    </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
-        </div>
-        
-        {/* Top Places Section */}
-        <div className="mb-6 px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold font-headline">Top Places</h2>
-            </div>
-             {/* Filter Buttons */}
-            <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-                {filterButtons.map((filter) => {
-                    const isActive = activeFilter === filter.category;
-                    return (
-                        <Button
-                        key={filter.label}
-                        variant={isActive ? 'default' : 'secondary'}
-                        onClick={() => setActiveFilter(filter.category)}
-                        className={`rounded-full flex-shrink-0 ${
-                            isActive ? 'bg-primary' : 'bg-card'
-                        }`}
-                        >
-                        <filter.icon className="mr-2 h-4 w-4" />
-                        {filter.label}
-                        </Button>
-                    );
-                })}
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {filteredPlaces.map(place => (
-                <div
-                    key={place.id}
-                    className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
-                    onClick={() => setSelectedPlace(place)}
-                >
-                    <Image
-                    src={place.images[0].imageUrl}
-                    alt={place.title}
-                    fill
-                    style={{objectFit: 'cover'}}
-                    className="group-hover:scale-105 transition-transform duration-300"
-                    data-ai-hint={place.images[0].imageHint}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3 className="text-lg font-bold">{place.title}</h3>
-                    <p className="text-sm opacity-90">{place.category}</p>
-                    </div>
-                </div>
-                ))}
-            </div>
+          {/* Popular Routes Section */}
+          <div className="mb-8">
+              <div className="flex justify-between items-center mb-4 px-4 sm:px-6 lg:px-8">
+                  <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
+              </div>
+              <Carousel opts={{ align: "start" }} className="w-full">
+                  <CarouselContent className="-ml-4 pl-4 sm:pl-6 lg:pl-8">
+                      {popularRoutes.map((route) => (
+                      <CarouselItem key={route.id} className="basis-2/3 sm:basis-1/2 md:basis-1/3">
+                          <div className="relative rounded-2xl overflow-hidden aspect-[4/6] group cursor-pointer shadow-lg">
+                              {route.image && (
+                                  <Image
+                                      src={route.image.imageUrl}
+                                      alt={route.title}
+                                      fill
+                                      style={{objectFit: 'cover'}}
+                                      className="group-hover:scale-105 transition-transform duration-300"
+                                      data-ai-hint={route.image.imageHint}
+                                  />
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                  <h3 className="text-lg font-bold">{route.title}</h3>
+                                  <p className="text-sm opacity-90">{route.duration}</p>
+                              </div>
+                          </div>
+                      </CarouselItem>
+                      ))}
+                  </CarouselContent>
+              </Carousel>
+          </div>
+          
+          {/* Top Places Section */}
+          <div className="mb-6 px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-bold font-headline">Top Places</h2>
+              </div>
+              {/* Filter Buttons */}
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+                  {filterButtons.map((filter) => {
+                      const isActive = activeFilter === filter.category;
+                      return (
+                          <Button
+                          key={filter.label}
+                          variant={isActive ? 'default' : 'secondary'}
+                          onClick={() => setActiveFilter(filter.category)}
+                          className={`rounded-full flex-shrink-0 ${
+                              isActive ? 'bg-primary' : 'bg-card'
+                          }`}
+                          >
+                          <filter.icon className="mr-2 h-4 w-4" />
+                          {filter.label}
+                          </Button>
+                      );
+                  })}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {filteredPlaces.map(place => (
+                  <div
+                      key={place.id}
+                      className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
+                      onClick={() => setSelectedPlace(place)}
+                  >
+                      <Image
+                      src={place.images[0].imageUrl}
+                      alt={place.title}
+                      fill
+                      style={{objectFit: 'cover'}}
+                      className="group-hover:scale-105 transition-transform duration-300"
+                      data-ai-hint={place.images[0].imageHint}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                      <h3 className="text-lg font-bold">{place.title}</h3>
+                      <p className="text-sm opacity-90">{place.category}</p>
+                      </div>
+                  </div>
+                  ))}
+              </div>
+          </div>
         </div>
       </div>
 
