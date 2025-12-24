@@ -271,7 +271,7 @@ export default function Home() {
                                     src={route.image.imageUrl}
                                     alt={route.title}
                                     fill
-                                    objectFit="cover"
+                                    style={{objectFit: 'cover'}}
                                     className="group-hover:scale-105 transition-transform duration-300"
                                     data-ai-hint={route.image.imageHint}
                                 />
@@ -323,7 +323,7 @@ export default function Home() {
                     src={place.images[0].imageUrl}
                     alt={place.title}
                     fill
-                    objectFit="cover"
+                    style={{objectFit: 'cover'}}
                     className="group-hover:scale-105 transition-transform duration-300"
                     data-ai-hint={place.images[0].imageHint}
                     />
@@ -351,7 +351,7 @@ export default function Home() {
                             src={image.imageUrl}
                             alt={`${selectedPlace.title} - image ${index + 1}`}
                             fill
-                            objectFit="cover"
+                            style={{objectFit: 'cover'}}
                             data-ai-hint={image.imageHint}
                             />
                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
@@ -385,3 +385,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
