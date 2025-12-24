@@ -205,8 +205,9 @@ export default function Home() {
       <div
         className={cn(
           'fixed inset-x-0 top-0 h-full transition-transform duration-500 ease-in-out',
-          isMapFullscreen ? 'z-50 scale-100' : 'scale-75 -translate-y-1/4'
+          isMapFullscreen ? 'z-50 scale-100' : 'scale-100'
         )}
+        style={{ zIndex: isMapFullscreen ? 50 : -9999 }}
       >
         <div className="absolute inset-0">
           <MapView />
@@ -269,7 +270,7 @@ export default function Home() {
       </div>
 
       {/* Content Section */}
-      <div className={cn("relative z-10 pt-72 transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
+      <div className={cn("relative z-10 pt-40 transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
         
         <div className="bg-background rounded-t-3xl">
           <header className={cn("sticky top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
