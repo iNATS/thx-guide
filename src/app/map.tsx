@@ -46,12 +46,10 @@ export default function Map() {
         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
       });
 
-      const map = L.map(mapRef.current).setView(timimounPosition, 12);
+      const map = L.map(mapRef.current, { attributionControl: false }).setView(timimounPosition, 12);
       mapInstance.current = map;
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
       const customIcon = createCustomIcon(L);
 

@@ -134,10 +134,8 @@ const initialPopularRoutes = [
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const [isMapFullscreen, setIsMapFullscreen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
 
   const toggleFavorite = (routeId: string) => {
@@ -148,14 +146,6 @@ export default function Home() {
     );
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
       return topPlaces;
@@ -164,7 +154,7 @@ export default function Home() {
   }, [activeFilter]);
   
   useEffect(() => {
-    if (isMapFullscreen && searchQuery.length > 1) {
+    if (searchQuery.length > 1) {
       const suggestions = topPlaces.filter(place =>
         place.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -172,22 +162,7 @@ export default function Home() {
     } else {
       setAutocompleteSuggestions([]);
     }
-  }, [searchQuery, isMapFullscreen]);
-
-  const handleSearchFocus = () => {
-    setIsMapFullscreen(true);
-  };
-
-  const handleCloseFullscreen = () => {
-    setIsMapFullscreen(false);
-    setSearchQuery('');
-    setAutocompleteSuggestions([]);
-    // Blur the input
-    const input = document.getElementById('map-search-input');
-    if (input) {
-      input.blur();
-    }
-  };
+  }, [searchQuery]);
 
   const handleSuggestionClick = (place: Place) => {
     setSearchQuery(place.title);
@@ -198,83 +173,57 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-background pb-24">
       {/* Map Section */}
-      <div
-        className={cn(
-          'fixed inset-x-0 top-0 h-[70vh] transition-transform duration-500 ease-in-out',
-          isMapFullscreen ? 'z-50 h-full' : ''
-        )}
-      >
-        <div className="absolute inset-0">
-          <MapView />
-        </div>
-        {!isMapFullscreen && (
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent pointer-events-none" />
-        )}
-        <div className={cn('absolute top-8 left-4 right-4 z-10 transition-all duration-300', isMapFullscreen && 'pt-4 bg-transparent z-[60]')}>
-          <div className="relative max-w-4xl mx-auto">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              id="map-search-input"
-              placeholder="Search routes, ksars, or oases..."
-              className={cn(
-                'w-full rounded-full bg-card/90 py-6 pl-10 pr-14 shadow-lg backdrop-blur-sm',
-                isMapFullscreen && 'bg-card'
-              )}
-              onFocus={handleSearchFocus}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
-              {isMapFullscreen ? (
-                 <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
-                  onClick={handleCloseFullscreen}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
-                >
-                  <Mic className="h-5 w-5" />
-                </Button>
-              )}
-            </div>
-             {autocompleteSuggestions.length > 0 && (
-              <Card className="absolute top-full mt-2 w-full shadow-lg rounded-xl">
-                <ul>
-                  {autocompleteSuggestions.map((place) => (
-                    <li key={place.id}>
-                      <button
-                        onClick={() => handleSuggestionClick(place)}
-                        className="w-full text-left px-4 py-3 hover:bg-muted first:rounded-t-xl last:rounded-b-xl"
-                      >
-                        {place.title}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            )}
+      <div className="fixed inset-0 h-full w-full z-0">
+        <MapView />
+      </div>
+
+      {/* Search Bar */}
+      <div className='fixed top-8 left-4 right-4 z-20'>
+        <div className="relative max-w-4xl mx-auto">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Input
+            id="map-search-input"
+            placeholder="Search routes, ksars, or oases..."
+            className="w-full rounded-full bg-card/90 py-6 pl-10 pr-14 shadow-lg backdrop-blur-sm"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9"
+            >
+              <Mic className="h-5 w-5" />
+            </Button>
           </div>
+            {autocompleteSuggestions.length > 0 && (
+            <Card className="absolute top-full mt-2 w-full shadow-lg rounded-xl">
+              <ul>
+                {autocompleteSuggestions.map((place) => (
+                  <li key={place.id}>
+                    <button
+                      onClick={() => handleSuggestionClick(place)}
+                      className="w-full text-left px-4 py-3 hover:bg-muted first:rounded-t-xl last:rounded-b-xl"
+                    >
+                      {place.title}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className={cn("relative pt-[70vh] transition-opacity duration-500", isMapFullscreen && 'opacity-0 pointer-events-none')}>
-        
-        <div className="bg-background rounded-t-3xl z-10 relative">
-          <header className={cn("top-0 z-20 transition-all duration-300", isScrolled && "bg-background/80 backdrop-blur-sm shadow-sm rounded-t-3xl")}>
-            <div className="px-4 sm:px-6 lg:px-8 py-4 max-w-7xl mx-auto">
-              <p className="text-muted-foreground">Salam 👋</p>
-              <h1 className="text-3xl font-bold font-headline text-foreground">
-                Discover the Red Oasis
-              </h1>
-            </div>
+      {/* Content Sheet */}
+      <div className="absolute inset-x-0 bottom-0 top-[30vh] z-10">
+        <div className="bg-background rounded-t-3xl h-full overflow-y-auto pb-24">
+          <header className="p-4 sm:p-6 lg:px-8">
+            <p className="text-muted-foreground">Salam 👋</p>
+            <h1 className="text-3xl font-bold font-headline text-foreground">
+              Discover the Red Oasis
+            </h1>
           </header>
 
           <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
