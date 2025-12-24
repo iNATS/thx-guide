@@ -127,7 +127,6 @@ const initialPopularRoutes = [
     id: 'route-4',
     title: 'Sunset Camel Trek',
     duration: '2 Hours',
-    distance: '8km',
     category: 'Adventure',
     categoryIcon: Wind,
     image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
@@ -207,7 +206,6 @@ export default function Home() {
           'fixed inset-x-0 top-0 h-full transition-transform duration-500 ease-in-out',
           isMapFullscreen ? 'z-50 scale-100' : 'scale-100'
         )}
-        style={{ zIndex: isMapFullscreen ? 50 : -9999 }}
       >
         <div className="absolute inset-0">
           <MapView />
