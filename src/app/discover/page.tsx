@@ -14,7 +14,6 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const filterButtons = [
-    { label: 'All', category: 'All' },
     { label: 'Hotels', category: 'Hotels' },
     { label: 'Camps', category: 'Camps' },
     { label: 'Restaurants', category: 'Restaurants' },
@@ -24,7 +23,7 @@ const filterButtons = [
 
 export default function DiscoverPage() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState('All');
+    const [activeFilter, setActiveFilter] = useState('Hotels');
 
     const popularStays = useMemo(() => {
         return discoverData.filter(item => 
@@ -46,10 +45,9 @@ export default function DiscoverPage() {
         <div className="bg-background min-h-screen pb-24">
             <header className="p-4 sm:p-6 lg:px-8">
                 <div className="flex justify-between items-center">
-                    <div>
-                        <p className="text-primary font-semibold text-sm">WELCOME TO</p>
-                        <h1 className="text-3xl font-bold font-headline text-foreground">Timimoun</h1>
-                    </div>
+                   <h1 className="text-3xl font-bold font-headline text-foreground">
+                        Discover the <span className="text-primary">Red Oasis</span>
+                    </h1>
                 </div>
                 <div className="relative mt-4">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
