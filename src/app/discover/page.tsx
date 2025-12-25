@@ -102,7 +102,7 @@ export default function DiscoverPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                                         
                                         <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-sm font-semibold">
-                                            <Star className="w-4 h-4 text-primary fill-primary"/>
+                                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
                                             <span>{experience.rating}</span>
                                         </div>
                                         
@@ -166,7 +166,7 @@ export default function DiscoverPage() {
                                         <div className="flex justify-between items-center">
                                             <h3 className="font-bold text-lg">{item.title}</h3>
                                             <div className="flex items-center gap-1.5 text-sm">
-                                                <Star className="w-4 h-4 text-primary fill-primary"/>
+                                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
                                                 <span className="font-bold">{item.rating}</span>
                                             </div>
                                         </div>
