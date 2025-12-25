@@ -230,7 +230,7 @@ export default function Home() {
                                       toggleFavoriteRoute(route.id);
                                     }}
                                   >
-                                    <Heart className={cn("w-5 h-5", route.favorited && "fill-white")}/>
+                                    <Heart className={cn("w-5 h-5", route.favorited && "fill-primary text-primary")}/>
                                   </Button>
                                   
                                   <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
@@ -302,7 +302,7 @@ export default function Home() {
                                       className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
                                       onClick={(e) => { e.stopPropagation(); toggleFavoritePlace(place.id); }}
                                   >
-                                      <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-white")} />
+                                      <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-primary text-primary")} />
                                   </Button>
                               </div>
                               <div className="mt-3">
@@ -335,7 +335,7 @@ export default function Home() {
       </div>
 
        <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && setSelectedPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-full w-full h-full max-h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
+        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
             {selectedPlace && (
                 <>
                 <Carousel className="relative w-full h-1/2 sm:h-3/5" opts={{ loop: true }}>
@@ -399,3 +399,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
