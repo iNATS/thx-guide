@@ -171,7 +171,10 @@ export default function Home() {
   }, [activeFilter]);
   
   return (
-    <div className="flex flex-col min-h-screen bg-background pb-24">
+    <div className={cn(
+        "flex flex-col min-h-screen bg-background",
+        view === 'list' ? 'pb-24' : ''
+      )}>
       <main className="flex-grow">
           <header className="p-4 sm:p-6 lg:px-8">
             <div>
@@ -360,5 +363,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

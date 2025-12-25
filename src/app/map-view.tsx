@@ -159,10 +159,10 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
 
   return (
-    <div className="relative w-full h-[calc(100vh-8rem)]">
+    <div className="relative w-full h-[calc(100vh-5rem-4rem)] md:h-[calc(100vh-4rem)]">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute bottom-20 left-0 right-0 z-10 w-full">
+        <div className="absolute bottom-24 left-0 right-0 z-10 w-full">
             <div className="w-full px-4 mb-4">
                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
                     {filterButtons.map((filter) => {
@@ -242,5 +242,3 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     </div>
   );
 }
-
-    
