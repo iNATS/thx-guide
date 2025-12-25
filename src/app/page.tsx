@@ -418,7 +418,7 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
             {selectedRoute && (
                 <>
-                <div className="relative w-full h-1/2 sm:h-3/5">
+                <div className="relative w-full h-1/2 sm:h-2/5">
                     <Image
                         src={selectedRoute.image.imageUrl}
                         alt={selectedRoute.title}
@@ -429,20 +429,23 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
                 
-                <div className="p-6 flex-grow overflow-y-auto -mt-20 relative z-10 text-white">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
-                        <Clock className="w-4 h-4"/>
-                        <span className="text-xs font-semibold">{selectedRoute.duration}</span>
-                    </div>
-                     <div className="flex justify-between items-start mb-2">
+                <div className="p-6 flex-grow overflow-y-auto">
+                    <div className="flex justify-between items-start mb-2">
                         <h2 className="text-3xl font-bold font-headline">{selectedRoute.title}</h2>
                     </div>
-                     <div className="flex items-center gap-2 text-base opacity-90 mb-4">
-                        <selectedRoute.categoryIcon className="w-5 h-5" />
-                        <span>{selectedRoute.category}</span>
+
+                    <div className="flex items-center gap-6 text-base text-muted-foreground mb-4">
+                        <div className="flex items-center gap-2">
+                           <Clock className="w-5 h-5 text-primary"/>
+                           <span>{selectedRoute.duration}</span>
+                        </div>
+                         <div className="flex items-center gap-2">
+                           <selectedRoute.categoryIcon className="w-5 h-5 text-primary" />
+                           <span>{selectedRoute.category}</span>
+                        </div>
                     </div>
 
-                    <p className="text-white/90 prose prose-lg">{selectedRoute.description}</p>
+                    <p className="text-muted-foreground prose prose-lg">{selectedRoute.description}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
                    <Link href="/discover">
