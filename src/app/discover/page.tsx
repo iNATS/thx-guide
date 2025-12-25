@@ -110,16 +110,15 @@ export default function DiscoverPage() {
                                             TOP PICK
                                         </div>
 
-                                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white flex justify-between items-end">
+                                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white flex flex-col justify-end h-full">
                                             <div>
                                                 <h3 className="text-2xl font-bold font-headline">{experience.title}</h3>
                                                 <p className="text-sm max-w-xs mt-1 opacity-90">{experience.description}</p>
                                             </div>
+                                            <div className="mt-4">
+                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
+                                            </div>
                                         </div>
-                                         <div className="absolute bottom-6 right-6 text-white text-right">
-                                           
-                                        </div>
-                                        <Button className="absolute bottom-6 left-6 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
                                     </div>
                                 </CarouselItem>
                                 ))}
