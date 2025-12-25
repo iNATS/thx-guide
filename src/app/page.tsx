@@ -149,7 +149,7 @@ export default function Home() {
           <header className="p-4 sm:p-6 lg:px-8">
             <p className="text-muted-foreground">Salam 👋</p>
             <h1 className="text-3xl font-bold font-headline text-foreground">
-              Discover the Red Oasis
+              Discover the <span className="text-primary">Red Oasis</span>
             </h1>
           </header>
 
