@@ -178,7 +178,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
              <div className="w-12 h-1.5 bg-muted rounded-full mx-auto mb-2"></div>
              <Button variant="ghost" className={cn(
                 "w-full font-bold hover:bg-transparent",
-                isDrawerOpen ? "text-primary" : "text-foreground"
+                isDrawerOpen ? "text-primary" : "text-foreground hover:text-primary"
              )}>
                  {isDrawerOpen ? <ChevronDown className="mr-2"/> : <ChevronUp className="mr-2"/>}
                 {isDrawerOpen ? 'Hide Places' : 'Show Places'}
