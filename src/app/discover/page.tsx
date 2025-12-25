@@ -106,9 +106,9 @@ export default function DiscoverPage() {
                                 <Carousel opts={{ align: "start" }} className="w-full">
                                     <CarouselContent className="-ml-4">
                                         {featuredItems.map((item) => (
-                                            <CarouselItem key={item.id} className="basis-4/5 sm:basis-1/2 md:basis-2/3 pl-4">
+                                            <CarouselItem key={item.id} className="basis-full sm:basis-1/2 md:basis-2/3 pl-4">
                                                 <Link href="#" className="group">
-                                                    <div className="relative rounded-2xl overflow-hidden aspect-[16/10] group cursor-pointer shadow-lg">
+                                                    <div className="relative rounded-2xl overflow-hidden aspect-[16/10] group cursor-pointer shadow-2xl">
                                                         {item.image && (
                                                             <Image
                                                                 src={item.image.imageUrl}
@@ -119,6 +119,7 @@ export default function DiscoverPage() {
                                                                 data-ai-hint={item.image.imageHint}
                                                             />
                                                         )}
+                                                        <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs font-bold uppercase px-2 py-1 rounded-md">Ad</div>
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                                                         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                                                             <h3 className="text-2xl font-bold font-headline">{item.title}</h3>
