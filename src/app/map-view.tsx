@@ -162,27 +162,27 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     <div className="relative w-full h-[calc(100vh-8rem)]">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-full px-4">
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
-                {filterButtons.map((filter) => {
-                    const isActive = activeFilter === filter.category;
-                    return (
-                        <Button
-                        key={filter.label}
-                        variant={isActive ? 'default' : 'secondary'}
-                        size="sm"
-                        onClick={() => setActiveFilter(filter.category)}
-                        className={cn('rounded-full flex-shrink-0 bg-background/80 shadow-lg backdrop-blur-sm', isActive && 'bg-primary text-primary-foreground')}
-                        >
-                        <filter.icon className="mr-2 h-4 w-4" />
-                        {filter.label}
-                        </Button>
-                    );
-                })}
+        <div className="absolute bottom-4 left-0 right-0 z-10 w-full">
+            <div className="w-full px-4 mb-4">
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
+                    {filterButtons.map((filter) => {
+                        const isActive = activeFilter === filter.category;
+                        return (
+                            <Button
+                            key={filter.label}
+                            variant={isActive ? 'default' : 'secondary'}
+                            size="sm"
+                            onClick={() => setActiveFilter(filter.category)}
+                            className={cn('rounded-full flex-shrink-0 bg-background/80 shadow-lg backdrop-blur-sm', isActive && 'bg-primary text-primary-foreground')}
+                            >
+                            <filter.icon className="mr-2 h-4 w-4" />
+                            {filter.label}
+                            </Button>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
-
-        <div className="absolute bottom-4 left-0 right-0 z-10">
+            
             <Carousel opts={{ align: "start", loop: false }} className="w-full">
                 <CarouselContent className="-ml-4">
                     {filteredPlaces.map((place, index) => (
