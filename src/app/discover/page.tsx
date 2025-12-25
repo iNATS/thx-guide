@@ -87,8 +87,8 @@ export default function DiscoverPage() {
                         <Carousel opts={{ align: "start" }} className="w-full">
                             <CarouselContent className="-ml-4">
                                 {experiencesOfTheWeek.map((experience) => (
-                                <CarouselItem key={experience.id} className="basis-4/5 sm:basis-1/2 md:basis-2/3 pl-4">
-                                    <div className="relative rounded-3xl overflow-hidden aspect-[16/10] group cursor-pointer shadow-lg">
+                                <CarouselItem key={experience.id} className="basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 pl-4">
+                                    <div className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-video md:aspect-[16/10] group cursor-pointer shadow-lg">
                                         {experience.image && (
                                             <Image
                                                 src={experience.image.imageUrl}
@@ -102,11 +102,11 @@ export default function DiscoverPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                                         
                                         <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-sm font-semibold">
-                                            <Star className="w-4 h-4 fill-white"/>
+                                            <Star className="w-4 h-4 text-primary fill-primary"/>
                                             <span>{experience.rating}</span>
                                         </div>
                                         
-                                        <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-md text-xs font-bold uppercase">
+                                        <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1 rounded-md text-xs font-bold uppercase">
                                             TOP PICK
                                         </div>
 
@@ -121,7 +121,7 @@ export default function DiscoverPage() {
                                                 <p className="text-2xl font-bold">${experience.price}</p>
                                                 <p className="text-sm opacity-90">/ person</p>
                                             </div>
-                                            <Button className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
+                                            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
                                         </div>
                                     </div>
                                 </CarouselItem>
@@ -166,7 +166,7 @@ export default function DiscoverPage() {
                                         <div className="flex justify-between items-center">
                                             <h3 className="font-bold text-lg">{item.title}</h3>
                                             <div className="flex items-center gap-1.5 text-sm">
-                                                <Star className="w-4 h-4 text-yellow-500 fill-yellow-500"/>
+                                                <Star className="w-4 h-4 text-primary fill-primary"/>
                                                 <span className="font-bold">{item.rating}</span>
                                             </div>
                                         </div>
