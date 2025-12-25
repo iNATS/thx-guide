@@ -3,7 +3,7 @@
 
 import { useEffect, useRef } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Landmark } from 'lucide-react';
+import { Landmark, MapPin } from 'lucide-react';
 
 const timimounPosition: [number, number] = [29.25, 0.25];
 
@@ -68,3 +68,5 @@ export default function Map() {
 
   return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
 }
+
+    
