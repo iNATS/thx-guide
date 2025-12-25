@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -116,8 +117,7 @@ export default function DiscoverPage() {
                                             </div>
                                         </div>
                                          <div className="absolute bottom-6 right-6 text-white text-right">
-                                            <p className="text-2xl font-bold">${experience.price}</p>
-                                            <p className="text-sm opacity-90">/ person</p>
+                                           
                                         </div>
                                         <Button className="absolute bottom-6 left-6 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
                                     </div>
@@ -168,7 +168,6 @@ export default function DiscoverPage() {
                                             </div>
                                         </div>
                                         <p className="text-muted-foreground text-sm">{item.location}</p>
-                                        <p className="font-semibold mt-1.5"><span className="text-lg">${item.price}</span> / night</p>
                                     </div>
                                 </div>
                             ))}

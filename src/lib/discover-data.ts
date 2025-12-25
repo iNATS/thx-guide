@@ -10,7 +10,6 @@ export type DiscoverItem = {
     coords: [number, number];
     featured?: boolean;
     rating?: number;
-    price?: number;
     location?: string;
 };
 
@@ -24,7 +23,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.255, 0.235],
         featured: true,
         rating: 4.8,
-        price: 120,
         location: 'Historic Center • 0.5km away'
     },
     {
@@ -36,7 +34,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.18, 0.30],
         featured: false,
         rating: 4.9,
-        price: 200,
         location: 'Dunes Edge • 15km away'
     },
     {
@@ -47,7 +44,6 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-hotel-riad')!,
         coords: [29.261, 0.232],
         rating: 4.7,
-        price: 95,
         location: 'Old Ksar • 0.1km away'
     },
     {
@@ -59,7 +55,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.258, 0.23],
         featured: true,
         rating: 4.6,
-        price: 30,
         location: 'City Center'
     },
      {
@@ -70,7 +65,6 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-restaurant-2')!,
         coords: [29.259, 0.234],
         rating: 4.4,
-        price: 20,
         location: 'Near Market'
     },
     {
@@ -82,7 +76,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.25, 0.233],
         featured: true,
         rating: 4.9,
-        price: 150,
         location: 'Agency Office'
     },
     {
@@ -93,7 +86,6 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-rental-bike')!,
         coords: [29.252, 0.234],
         rating: 4.5,
-        price: 10,
         location: 'Near Palmeraie'
     },
     {
@@ -105,7 +97,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.26, 0.231],
         featured: true,
         rating: 4.7,
-        price: 50,
         location: 'Old Ksar District'
     },
     {
@@ -116,7 +107,6 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-shopping-dates')!,
         coords: [29.259, 0.235],
         rating: 4.6,
-        price: 5,
         location: 'Central Market'
     },
     {
@@ -128,7 +118,6 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.18, 0.30],
         featured: true,
         rating: 4.9,
-        price: 180,
         location: 'Deep Desert'
     },
     {
@@ -139,7 +128,6 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-camp-eco')!,
         coords: [29.28, 0.20],
         rating: 4.8,
-        price: 220,
         location: 'Palmeraie Outskirts'
     },
 ];
