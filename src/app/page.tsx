@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -173,9 +172,9 @@ export default function Home() {
   return (
     <div className={cn(
         "flex flex-col min-h-screen bg-background",
-        view === 'list' ? 'pb-24' : 'overflow-hidden h-screen'
+        view === 'map' && 'overflow-hidden h-screen'
       )}>
-      <main className="flex-grow">
+       <div className={cn(view === 'list' ? 'pb-24' : 'h-full overflow-hidden')}>
         {view === 'list' && (
           <header className="p-4 sm:p-6 lg:px-8">
             <div>
@@ -296,9 +295,6 @@ export default function Home() {
                               <div className="mt-3">
                                   <div className="flex justify-between items-center">
                                       <h3 className="font-bold text-lg">{place.title}</h3>
-                                      <div className="flex items-center gap-1.5 text-sm">
-                                          {/* You can add a rating if you add it to the data */}
-                                      </div>
                                   </div>
                                   <p className="text-muted-foreground text-sm">{place.category}</p>
                               </div>
@@ -316,7 +312,7 @@ export default function Home() {
             />
           )}
 
-      </main>
+      </div>
 
        <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && setSelectedPlace(null)}>
         <DialogContent className="p-0 border-0 max-w-full w-full h-full max-h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
@@ -348,10 +344,14 @@ export default function Home() {
                     <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
-                   <Link href="/map">
-                     <Map className="mr-2 h-5 w-5" />
-                     View on Map
-                    </Link>
+                   <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                     <Navigation className="mr-2 h-5 w-5" />
+                     Get Directions
+                    </a>
                  </Button>
 
                 <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
@@ -365,3 +365,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
