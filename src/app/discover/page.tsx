@@ -20,7 +20,6 @@ const categoryIcons = {
 };
 
 const filterButtons = [
-    { label: 'All', category: 'All' },
     { label: 'Hotels', category: 'Hotels', icon: Bed },
     { label: 'Restaurants', category: 'Restaurants', icon: Utensils },
     { label: 'Rentals', category: 'Rentals', icon: Car },
@@ -30,7 +29,7 @@ const filterButtons = [
 
 export default function DiscoverPage() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState('All');
+    const [activeFilter, setActiveFilter] = useState('Hotels');
 
     const filteredData = useMemo(() => {
         return discoverData.filter(item => {
