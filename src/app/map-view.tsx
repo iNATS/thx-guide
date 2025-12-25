@@ -3,13 +3,13 @@
 
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Landmark, Navigation, Castle, Wind, MapPin, User, List } from 'lucide-react';
+import { Landmark, Navigation, Castle, Wind, MapPin, User, List, Heart, Clock } from 'lucide-react';
 import { Place } from './page';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const timimounPosition: [number, number] = [29.25, 0.25];
 
@@ -20,9 +20,9 @@ const filterButtons = [
   { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
 
-const createCustomIcon = (L: any, color: string = 'hsl(var(--primary))') => {
+const createCustomIcon = (L: any, color: string = 'hsl(var(--primary))', isSelected: boolean = false) => {
     const iconMarkup = renderToStaticMarkup(
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center transition-transform duration-300" style={{ transform: isSelected ? 'scale(1.2)' : 'scale(1)' }}>
            <div style={{ backgroundColor: 'white', padding: '8px', borderRadius: '9999px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', border: `2px solid ${color}` }}>
                <MapPin style={{ color }} size={20} />
            </div>
@@ -66,11 +66,24 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
   const userMarkerRef = useRef<any>(null);
   const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+  const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') return places;
     return places.filter(place => place.category === activeFilter);
   }, [activeFilter, places]);
+  
+  const toggleFavorite = (placeId: string) => {
+    setFavoritedPlaces(prev => {
+        const newFavs = new Set(prev);
+        if (newFavs.has(placeId)) {
+            newFavs.delete(placeId);
+        } else {
+            newFavs.add(placeId);
+        }
+        return newFavs;
+    })
+  }
 
   useEffect(() => {
     onFilterChange(activeFilter);
@@ -99,15 +112,20 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
       map.on('locationfound', function(e: any) {
         if (!userMarkerRef.current) {
             userMarkerRef.current = L.marker(e.latlng, { icon: createUserIcon(L) }).addTo(map)
-                .bindPopup("You are here").openPopup();
+                .bindPopup("You are here");
         } else {
             userMarkerRef.current.setLatLng(e.latlng);
         }
       });
+
+      map.on('click', () => {
+        setSelectedPlaceId(null);
+      })
     }
 
     return () => {
       if (mapInstance.current) {
+        mapInstance.current.off();
         mapInstance.current.remove();
         mapInstance.current = null;
       }
@@ -118,18 +136,18 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     if (!mapInstance.current) return;
     const L = (window as any).L;
 
-    // Clear existing markers
     Object.values(markersRef.current).forEach((marker: any) => marker.remove());
     markersRef.current = {};
 
-    // Add new markers
     filteredPlaces.forEach(place => {
       const isSelected = place.id === selectedPlaceId;
       const color = isSelected ? 'hsl(var(--primary))' : 'hsl(var(--foreground))';
-      const icon = createCustomIcon(L, color);
+      const icon = createCustomIcon(L, color, isSelected);
+
       const marker = L.marker(place.coords, { icon })
         .addTo(mapInstance.current)
-        .on('click', () => {
+        .on('click', (e: any) => {
+            L.DomEvent.stopPropagation(e);
             setSelectedPlaceId(place.id);
             mapInstance.current.setView(place.coords, 14);
         });
@@ -144,57 +162,78 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     <div className="relative w-full h-[calc(100vh-8rem)]">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        <Card className="absolute bottom-4 left-4 right-4 md:left-auto md:w-96 max-h-[45vh] flex flex-col shadow-2xl animate-fade-in-up z-10">
-            <CardContent className="p-3 flex flex-col flex-grow">
-                <div className="flex gap-2 mb-3 overflow-x-auto pb-2 scrollbar-hide">
-                    {filterButtons.map((filter) => {
-                        const isActive = activeFilter === filter.category;
-                        return (
-                            <Button
-                            key={filter.label}
-                            variant={isActive ? 'default' : 'secondary'}
-                            size="sm"
-                            onClick={() => setActiveFilter(filter.category)}
-                            className={cn('rounded-full flex-shrink-0', isActive && 'bg-primary')}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-full px-4">
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
+                {filterButtons.map((filter) => {
+                    const isActive = activeFilter === filter.category;
+                    return (
+                        <Button
+                        key={filter.label}
+                        variant={isActive ? 'default' : 'secondary'}
+                        size="sm"
+                        onClick={() => setActiveFilter(filter.category)}
+                        className={cn('rounded-full flex-shrink-0 bg-background/80 shadow-lg backdrop-blur-sm', isActive && 'bg-primary text-primary-foreground')}
+                        >
+                        <filter.icon className="mr-2 h-4 w-4" />
+                        {filter.label}
+                        </Button>
+                    );
+                })}
+            </div>
+        </div>
+
+        <div className="absolute bottom-4 left-0 right-0 z-10">
+            <Carousel opts={{ align: "start", loop: false }} className="w-full">
+                <CarouselContent className="-ml-4">
+                    {filteredPlaces.map((place, index) => (
+                         <CarouselItem key={place.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
+                            <Card 
+                                className={cn(
+                                    "w-full cursor-pointer transition-all duration-300", 
+                                    selectedPlaceId === place.id ? "border-primary shadow-2xl" : "border-transparent"
+                                )}
+                                onClick={() => {
+                                    setSelectedPlaceId(place.id)
+                                    mapInstance.current.setView(place.coords, 14);
+                                }}
                             >
-                            <filter.icon className="mr-2 h-4 w-4" />
-                            {filter.label}
-                            </Button>
-                        );
-                    })}
-                </div>
-                <ScrollArea className="flex-grow">
-                  <div className="space-y-3 pr-3">
-                    {filteredPlaces.map(place => (
-                         <div
-                            key={place.id}
-                            className={cn(
-                                "flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors",
-                                selectedPlaceId === place.id ? 'bg-primary/10' : 'hover:bg-muted/50'
-                            )}
-                            onClick={() => {
-                                setSelectedPlaceId(place.id)
-                                mapInstance.current.setView(place.coords, 14);
-                            }}
-                            >
-                            <Image 
-                                src={place.images[0].imageUrl} 
-                                alt={place.title}
-                                width={64}
-                                height={64}
-                                className="w-16 h-16 rounded-md object-cover"
-                                data-ai-hint={place.images[0].imageHint}
-                            />
-                            <div className="flex-1">
-                                <h3 className="font-semibold text-sm">{place.title}</h3>
-                                <p className="text-xs text-muted-foreground">{place.category}</p>
-                            </div>
-                        </div>
+                                <CardContent className="p-0">
+                                    <div className="relative rounded-2xl overflow-hidden aspect-video group">
+                                        <Image
+                                            src={place.images[0].imageUrl}
+                                            alt={place.title}
+                                            fill
+                                            style={{objectFit: 'cover'}}
+                                            className="group-hover:scale-105 transition-transform duration-300"
+                                            data-ai-hint={place.images[0].imageHint}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                        <Button
+                                            size="icon"
+                                            variant="ghost"
+                                            className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
+                                            onClick={(e) => { e.stopPropagation(); toggleFavorite(place.id); }}
+                                        >
+                                            <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-white")} />
+                                        </Button>
+                                    </div>
+                                    <div className="p-3">
+                                        <h3 className="font-bold text-lg">{place.title}</h3>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                            {(() => {
+                                                const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
+                                                return <CategoryIcon className="w-4 h-4" />
+                                            })()}
+                                            <span>{place.category}</span>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </CarouselItem>
                     ))}
-                  </div>
-                </ScrollArea>
-            </CardContent>
-        </Card>
+                </CarouselContent>
+            </Carousel>
+        </div>
 
         <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
             <List className="mr-2 h-4 w-4" />

@@ -160,10 +160,12 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background pb-24">
       <main className="flex-grow">
           <header className="p-4 sm:p-6 lg:px-8">
-            <p className="text-muted-foreground">Salam 👋</p>
-            <h1 className="text-3xl font-bold font-headline text-foreground">
-              Welcome to the <span className="text-primary">Red Oasis</span>
-            </h1>
+            <div className="flex items-center gap-2">
+              <p className="text-muted-foreground">Salam 👋</p>
+              <h1 className="text-3xl font-bold font-headline text-foreground">
+                Welcome to the <span className="text-primary">Red Oasis</span>
+              </h1>
+            </div>
           </header>
 
           {view === 'list' ? (
