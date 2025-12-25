@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -116,13 +115,11 @@ export default function DiscoverPage() {
                                                 <p className="text-sm max-w-xs mt-1 opacity-90">{experience.description}</p>
                                             </div>
                                         </div>
-                                        <div className="absolute bottom-6 right-6 flex items-center gap-4">
-                                             <div className="text-white text-right">
-                                                <p className="text-2xl font-bold">${experience.price}</p>
-                                                <p className="text-sm opacity-90">/ person</p>
-                                            </div>
-                                            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
+                                         <div className="absolute bottom-6 right-6 text-white text-right">
+                                            <p className="text-2xl font-bold">${experience.price}</p>
+                                            <p className="text-sm opacity-90">/ person</p>
                                         </div>
+                                        <Button className="absolute bottom-6 left-6 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
                                     </div>
                                 </CarouselItem>
                                 ))}
