@@ -173,7 +173,7 @@ export default function Home() {
   return (
     <div className={cn(
         "flex flex-col min-h-screen bg-background",
-        view === 'list' ? 'pb-24' : ''
+        view === 'list' ? 'pb-24' : 'overflow-hidden'
       )}>
       <main className="flex-grow">
         {view === 'list' && (

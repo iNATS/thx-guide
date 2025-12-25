@@ -162,7 +162,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
 
   return (
-    <div className="relative w-full h-[calc(100vh_-_5rem)] md:h-[calc(100vh)] overflow-hidden">
+    <div className="relative w-full h-[calc(100vh_-_5rem)] md:h-[calc(100vh_-_5rem)] overflow-hidden">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
         <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
@@ -176,17 +176,14 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
         )}>
            <div className="p-4 bg-gradient-to-t from-background via-background/90 to-background/0 cursor-pointer" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
              <div className="w-12 h-1.5 bg-muted rounded-full mx-auto mb-2"></div>
-             <Button variant="ghost" className={cn(
-                "w-full font-bold hover:bg-transparent",
-                isDrawerOpen ? "text-primary" : "text-foreground hover:text-primary"
-             )}>
+              <Button variant="ghost" className="w-full font-bold hover:bg-transparent text-foreground">
                  {isDrawerOpen ? <ChevronDown className="mr-2"/> : <ChevronUp className="mr-2"/>}
                 {isDrawerOpen ? 'Hide Places' : 'Show Places'}
              </Button>
            </div>
             
-            <div className="bg-background px-4 pb-24 pt-4">
-                <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide justify-center -mx-4 px-4">
+            <div className="bg-background px-4 pb-2 pt-4">
+                <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
                     {filterButtons.map((filter) => {
                         const isActive = activeFilter === filter.category;
                         return (
@@ -210,7 +207,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                             <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/5 lg:basis-1/5 pl-4">
                                 <Card 
                                     className={cn(
-                                        "w-full cursor-pointer transition-all duration-300 shadow-md bg-card/90 backdrop-blur-sm", 
+                                        "w-full cursor-pointer transition-all duration-300 bg-card/90 backdrop-blur-sm", 
                                         selectedPlaceId === place.id ? "border-primary/80 border-2" : "border-transparent"
                                     )}
                                     onClick={(e) => {
