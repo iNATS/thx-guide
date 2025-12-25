@@ -162,7 +162,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
 
   return (
-    <div className="relative w-full h-[calc(100vh)] md:h-[calc(100vh)] overflow-hidden">
+    <div className="relative w-full h-[calc(100vh_-_5rem)] md:h-[calc(100vh)] overflow-hidden">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
         <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
@@ -172,7 +172,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
         
         <div className={cn(
             "absolute bottom-0 left-0 right-0 z-20 transform transition-transform duration-500 ease-in-out",
-            isDrawerOpen ? 'translate-y-0' : 'translate-y-[calc(100%-8rem)]'
+            isDrawerOpen ? 'translate-y-0' : 'translate-y-[calc(100%-9rem)]'
         )}>
            <div className="p-4 bg-gradient-to-t from-background via-background/90 to-background/0 cursor-pointer" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
              <div className="w-12 h-1.5 bg-muted rounded-full mx-auto mb-2"></div>
