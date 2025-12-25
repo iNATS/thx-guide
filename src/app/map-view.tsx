@@ -142,9 +142,9 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
   return (
     <div className="relative w-full h-[calc(100vh-8rem)]">
-        <div ref={mapRef} style={{ height: '100%', width: '100%' }} />
+        <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        <Card className="absolute bottom-4 left-4 right-4 md:left-auto md:w-96 max-h-[45vh] flex flex-col shadow-2xl animate-fade-in-up">
+        <Card className="absolute bottom-4 left-4 right-4 md:left-auto md:w-96 max-h-[45vh] flex flex-col shadow-2xl animate-fade-in-up z-10">
             <CardContent className="p-3 flex flex-col flex-grow">
                 <div className="flex gap-2 mb-3 overflow-x-auto pb-2 scrollbar-hide">
                     {filterButtons.map((filter) => {
@@ -196,12 +196,10 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
             </CardContent>
         </Card>
 
-        <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg">
+        <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
             <List className="mr-2 h-4 w-4" />
             List View
         </Button>
     </div>
   );
 }
-
-    
