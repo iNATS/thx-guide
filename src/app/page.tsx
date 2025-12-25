@@ -24,6 +24,7 @@ import {
   MapIcon,
   List,
   Star,
+  MessageSquare,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -429,10 +430,8 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
                 
-                <div className="p-6 flex-grow overflow-y-auto">
-                    <div className="flex justify-between items-start mb-2">
-                        <h2 className="text-3xl font-bold font-headline">{selectedRoute.title}</h2>
-                    </div>
+                <div className="flex-grow overflow-y-auto p-6">
+                    <h2 className="text-3xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
 
                     <div className="flex items-center gap-6 text-base text-muted-foreground mb-4">
                         <div className="flex items-center gap-2">
@@ -448,10 +447,10 @@ export default function Home() {
                     <p className="text-muted-foreground prose prose-lg">{selectedRoute.description}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
-                   <Link href="/discover">
-                     <Navigation className="mr-2 h-5 w-5" />
-                     Book This Tour
-                    </Link>
+                   <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
+                     <MessageSquare className="mr-2 h-5 w-5" />
+                     Book on WhatsApp
+                    </a>
                  </Button>
 
                 <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
@@ -465,3 +464,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
