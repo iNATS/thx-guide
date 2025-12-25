@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -31,7 +31,7 @@ import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 
-const MapView = dynamic(() => import('@/app/map'), {
+const MapView = dynamic(() => import('@/app/map/page'), {
   ssr: false,
 });
 
@@ -132,26 +132,13 @@ const initialPopularRoutes = [
   },
 ];
 
-const SHEET_STATES = {
-  COLLAPSED: '70vh', // Shows ~30%
-  INTERMEDIATE: '50vh', // Shows 50%
-  EXPANDED: '10vh', // Shows 90%
-};
-
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<Place[]>([]);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
-
-  // --- Bottom Sheet State and Refs ---
-  const sheetRef = useRef<HTMLDivElement>(null);
-  const [sheetState, setSheetState] = useState(SHEET_STATES.COLLAPSED);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartY = useRef(0);
-  const sheetStartTop = useRef(0);
-  // ------------------------------------
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const toggleFavorite = (routeId: string) => {
     setPopularRoutes(
@@ -184,73 +171,6 @@ export default function Home() {
     setAutocompleteSuggestions([]);
   };
 
-  // --- Bottom Sheet Logic ---
-  const handleSheetSnap = (newSheetState: string) => {
-    setSheetState(newSheetState);
-    if (sheetRef.current) {
-      sheetRef.current.style.transition = 'transform 300ms ease-out';
-      sheetRef.current.style.transform = `translateY(${newSheetState})`;
-    }
-  };
-
-  const handleDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    dragStartY.current = e.touches[0].clientY;
-    if (sheetRef.current) {
-      const computedStyle = window.getComputedStyle(sheetRef.current);
-      const transform = new DOMMatrix(computedStyle.transform);
-      sheetStartTop.current = transform.m42;
-      sheetRef.current.style.transition = 'none';
-    }
-  };
-
-  const handleDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    const currentY = e.touches[0].clientY;
-    const deltaY = currentY - dragStartY.current;
-    const newTop = sheetStartTop.current + deltaY;
-    
-    // Prevent dragging below the collapsed state
-    const collapsedTop = window.innerHeight * 0.7;
-    if (newTop < collapsedTop) {
-        if (sheetRef.current) {
-            sheetRef.current.style.transform = `translateY(${newTop}px)`;
-        }
-    }
-  };
-
-  const handleDragEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    setIsDragging(false);
-    if (sheetRef.current) {
-        const currentTransformY = new DOMMatrix(window.getComputedStyle(sheetRef.current).transform).m42;
-        const windowHeight = window.innerHeight;
-        
-        const expandedThreshold = windowHeight * 0.3; // 30% from top
-        const intermediateThreshold = windowHeight * 0.6; // 60% from top
-
-        if (currentTransformY < expandedThreshold) {
-            handleSheetSnap(SHEET_STATES.EXPANDED);
-        } else if (currentTransformY < intermediateThreshold) {
-            handleSheetSnap(SHEET_STATES.INTERMEDIATE);
-        } else {
-            handleSheetSnap(SHEET_STATES.COLLAPSED);
-        }
-    }
-  };
-  
-  const handleGrabberClick = () => {
-    if (sheetState === SHEET_STATES.EXPANDED) {
-      handleSheetSnap(SHEET_STATES.COLLAPSED);
-    } else if (sheetState === SHEET_STATES.INTERMEDIATE) {
-      handleSheetSnap(SHEET_STATES.EXPANDED);
-    } else {
-      handleSheetSnap(SHEET_STATES.INTERMEDIATE);
-    }
-  };
-
-  const isSheetExpanded = sheetState !== SHEET_STATES.COLLAPSED;
-  // -------------------------
-
   return (
     <div className="relative h-[100svh] w-full overflow-hidden bg-background">
       {/* Map Background */}
@@ -259,15 +179,15 @@ export default function Home() {
       </div>
 
       {/* Backdrop Overlay */}
-      {isSheetExpanded && (
+      {isSheetOpen && (
         <div 
-          className="absolute inset-0 z-20 bg-black/30 backdrop-blur-sm"
-          onClick={() => handleSheetSnap(SHEET_STATES.COLLAPSED)}
+          className="absolute inset-0 z-30 bg-black/30 backdrop-blur-sm"
+          onClick={() => setIsSheetOpen(false)}
         />
       )}
 
       {/* Search Bar */}
-      <div className='absolute top-8 left-4 right-4 z-30'>
+      <div className='absolute top-8 left-4 right-4 z-20'>
         <div className="relative max-w-4xl mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
@@ -287,7 +207,7 @@ export default function Home() {
             </Button>
           </div>
             {autocompleteSuggestions.length > 0 && (
-            <Card className="absolute top-full mt-2 w-full shadow-lg rounded-xl">
+            <Card className="absolute top-full mt-2 w-full shadow-lg rounded-xl z-20">
               <ul>
                 {autocompleteSuggestions.map((place) => (
                   <li key={place.id}>
@@ -307,25 +227,32 @@ export default function Home() {
 
       {/* Content Sheet */}
       <div
-        ref={sheetRef}
-        onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
-        className="absolute inset-x-0 bottom-0 z-40 bg-background rounded-t-3xl shadow-2xl flex flex-col"
-        style={{
-            top: 'auto', // Use transform instead of top for performance
-            transform: `translateY(${sheetState})`,
-            height: 'calc(100% - 5vh)',
-            transition: isDragging ? 'none' : 'transform 300ms ease-out',
-            touchAction: 'none' // Prevents browser's default touch actions like pull-to-refresh
-        }}
+        className={cn(
+          "absolute inset-x-0 bottom-0 z-40 bg-background rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-500 ease-in-out",
+          isSheetOpen ? "translate-y-0" : "translate-y-[calc(100%-30vh)]"
+        )}
+        style={{ height: '95vh' }}
+        onClick={() => !isSheetOpen && setIsSheetOpen(true)}
       >
           <div 
             className="w-full py-3 flex-shrink-0 cursor-grab"
-            onClick={handleGrabberClick}
           >
             <div className="w-12 h-1.5 bg-muted rounded-full mx-auto" />
           </div>
+          
+          {isSheetOpen && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 rounded-full bg-black/20 text-white hover:bg-black/30 h-9 w-9 z-50"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSheetOpen(false);
+              }}
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          )}
           
           <div className="overflow-y-auto pb-24 flex-grow">
             <header className="p-4 sm:p-6 lg:px-8">
