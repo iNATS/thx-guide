@@ -186,11 +186,11 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
             <Carousel opts={{ align: "start", loop: false }} className="w-full">
                 <CarouselContent className="-ml-4">
                     {filteredPlaces.map((place, index) => (
-                         <CarouselItem key={place.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
+                         <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/4 pl-4">
                             <Card 
                                 className={cn(
-                                    "w-full cursor-pointer transition-all duration-300", 
-                                    selectedPlaceId === place.id ? "border-primary shadow-2xl" : "border-transparent"
+                                    "w-full cursor-pointer transition-all duration-300 shadow-md bg-card/90 backdrop-blur-sm", 
+                                    selectedPlaceId === place.id ? "border-primary/80 border-2" : "border-transparent"
                                 )}
                                 onClick={() => {
                                     setSelectedPlaceId(place.id)
@@ -198,7 +198,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                                 }}
                             >
                                 <CardContent className="p-0">
-                                    <div className="relative rounded-2xl overflow-hidden aspect-video group">
+                                    <div className="relative rounded-t-lg overflow-hidden aspect-[4/3] group">
                                         <Image
                                             src={place.images[0].imageUrl}
                                             alt={place.title}
@@ -207,22 +207,22 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                                             className="group-hover:scale-105 transition-transform duration-300"
                                             data-ai-hint={place.images[0].imageHint}
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                                         <Button
                                             size="icon"
                                             variant="ghost"
-                                            className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
+                                            className="absolute top-2 right-2 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-8 w-8"
                                             onClick={(e) => { e.stopPropagation(); toggleFavorite(place.id); }}
                                         >
-                                            <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-white")} />
+                                            <Heart className={cn("w-4 h-4", favoritedPlaces.has(place.id) && "fill-white")} />
                                         </Button>
                                     </div>
                                     <div className="p-3">
-                                        <h3 className="font-bold text-lg">{place.title}</h3>
-                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                        <h3 className="font-bold text-md truncate">{place.title}</h3>
+                                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                                             {(() => {
                                                 const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
-                                                return <CategoryIcon className="w-4 h-4" />
+                                                return <CategoryIcon className="w-3 h-3" />
                                             })()}
                                             <span>{place.category}</span>
                                         </div>
