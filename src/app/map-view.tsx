@@ -162,7 +162,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
 
   return (
-    <div className="relative w-full h-[calc(100vh_-_5rem)] md:h-[calc(100vh_-_5rem)] overflow-hidden">
+    <div className="relative w-full h-[calc(100vh_-_5rem)] md:h-screen overflow-hidden">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
         <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
