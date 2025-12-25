@@ -23,6 +23,7 @@ import {
   Clock,
   MapIcon,
   List,
+  Star,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -140,14 +141,27 @@ export default function Home() {
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
+  const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
 
-  const toggleFavorite = (routeId: string) => {
+  const toggleFavoriteRoute = (routeId: string) => {
     setPopularRoutes(
       popularRoutes.map(route =>
         route.id === routeId ? { ...route, favorited: !route.favorited } : route
       )
     );
   };
+  
+  const toggleFavoritePlace = (placeId: string) => {
+    setFavoritedPlaces(prev => {
+        const newFavs = new Set(prev);
+        if (newFavs.has(placeId)) {
+            newFavs.delete(placeId);
+        } else {
+            newFavs.add(placeId);
+        }
+        return newFavs;
+    })
+  }
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') {
@@ -198,7 +212,7 @@ export default function Home() {
                                     className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      toggleFavorite(route.id);
+                                      toggleFavoriteRoute(route.id);
                                     }}
                                   >
                                     <Heart className={cn("w-5 h-5", route.favorited && "fill-white")}/>
@@ -253,27 +267,37 @@ export default function Home() {
                           );
                       })}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {filteredPlaces.map(place => (
-                      <div
-                          key={place.id}
-                          className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-lg"
-                          onClick={() => setSelectedPlace(place)}
-                      >
-                          <Image
-                          src={place.images[0].imageUrl}
-                          alt={place.title}
-                          fill
-                          style={{objectFit: 'cover'}}
-                          className="group-hover:scale-105 transition-transform duration-300"
-                          data-ai-hint={place.images[0].imageHint}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 className="text-lg font-bold">{place.title}</h3>
-                          <p className="text-sm opacity-90">{place.category}</p>
+                          <div key={place.id} className="group cursor-pointer" onClick={() => setSelectedPlace(place)}>
+                              <div className="relative rounded-3xl overflow-hidden aspect-video">
+                                  <Image
+                                      src={place.images[0].imageUrl}
+                                      alt={place.title}
+                                      fill
+                                      style={{objectFit: 'cover'}}
+                                      className="group-hover:scale-105 transition-transform duration-300"
+                                      data-ai-hint={place.images[0].imageHint}
+                                  />
+                                  <Button
+                                      size="icon"
+                                      variant="ghost"
+                                      className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
+                                      onClick={(e) => { e.stopPropagation(); toggleFavoritePlace(place.id); }}
+                                  >
+                                      <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-white")} />
+                                  </Button>
+                              </div>
+                              <div className="mt-3">
+                                  <div className="flex justify-between items-center">
+                                      <h3 className="font-bold text-lg">{place.title}</h3>
+                                      <div className="flex items-center gap-1.5 text-sm">
+                                          {/* You can add a rating if you add it to the data */}
+                                      </div>
+                                  </div>
+                                  <p className="text-muted-foreground text-sm">{place.category}</p>
+                              </div>
                           </div>
-                      </div>
                       ))}
                   </div>
               </div>
