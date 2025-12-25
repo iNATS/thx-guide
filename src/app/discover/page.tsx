@@ -80,7 +80,6 @@ export default function DiscoverPage() {
                  <section className="mb-8">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold font-headline">Experience of the Week</h2>
-                        <Link href="#" className="text-primary font-semibold text-sm">See all</Link>
                     </div>
                     <div className="relative rounded-3xl overflow-hidden aspect-[4/3.5] group cursor-pointer shadow-lg">
                         {experienceOfTheWeek.image && (
@@ -123,7 +122,6 @@ export default function DiscoverPage() {
                 <section>
                    <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold font-headline">Popular Stays</h2>
-                        <Link href="#" className="text-primary font-semibold text-sm">See all</Link>
                     </div>
                     <Carousel opts={{ align: "start" }} className="w-full">
                         <CarouselContent className="-ml-4">
