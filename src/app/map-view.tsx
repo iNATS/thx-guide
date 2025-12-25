@@ -242,3 +242,5 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     </div>
   );
 }
+
+    
