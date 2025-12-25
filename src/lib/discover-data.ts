@@ -9,30 +9,46 @@ export type DiscoverItem = {
     image: ImagePlaceholder;
     coords: [number, number];
     featured?: boolean;
+    rating?: number;
+    price?: number;
+    location?: string;
 };
 
 export const discoverData: DiscoverItem[] = [
     {
         id: 'hotel-gourara',
-        title: 'Hôtel Gourara',
+        title: 'Hotel Gourara',
         description: 'A classic hotel offering stunning views over the palmeraie and the sebkha.',
         category: 'Hotels',
-        image: PlaceHolderImages.find((img) => img.id === 'discover-hotel')!,
+        image: PlaceHolderImages.find((img) => img.id === 'hotel-gourara-pool')!,
         coords: [29.255, 0.235],
         featured: true,
+        rating: 4.8,
+        price: 120,
+        location: 'Historic Center • 0.5km away'
+    },
+    {
+        id: 'desert-rose-camp',
+        title: 'Desert Rose Camp',
+        description: 'An unforgettable night under the Saharan stars in a traditional bivouac.',
+        category: 'Camps',
+        image: PlaceHolderImages.find((img) => img.id === 'desert-rose-camp-night')!,
+        coords: [29.18, 0.30],
+        featured: false,
+        rating: 4.9,
+        price: 200,
+        location: 'Dunes Edge • 15km away'
     },
     {
         id: 'riad-dar-ahmed',
         title: 'Riad Dar Ahmed',
         description: 'A charming and authentic guesthouse in the heart of the old town.',
         category: 'Hotels',
-        image: {
-            "id": "discover-hotel-riad",
-            "description": "A beautiful riad hotel interior.",
-            "imageUrl": "https://picsum.photos/seed/hotelriad/600/400",
-            "imageHint": "riad hotel"
-        },
-        coords: [29.261, 0.232]
+        image: PlaceHolderImages.find((img) => img.id === 'discover-hotel-riad')!,
+        coords: [29.261, 0.232],
+        rating: 4.7,
+        price: 95,
+        location: 'Old Ksar • 0.1km away'
     },
     {
         id: 'restaurant-oasis-rouge',
@@ -42,19 +58,20 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-restaurant')!,
         coords: [29.258, 0.23],
         featured: true,
+        rating: 4.6,
+        price: 30,
+        location: 'City Center'
     },
      {
         id: 'restaurant-taghit',
         title: 'Restaurant Taghit',
         description: 'Enjoy delicious grilled meats and local specialties near the market.',
         category: 'Restaurants',
-        image: {
-            "id": "discover-restaurant-2",
-            "description": "A traditional Moroccan restaurant interior.",
-            "imageUrl": "https://picsum.photos/seed/resto2/600/400",
-            "imageHint": "restaurant grill"
-        },
-        coords: [29.259, 0.234]
+        image: PlaceHolderImages.find((img) => img.id === 'discover-restaurant-2')!,
+        coords: [29.259, 0.234],
+        rating: 4.4,
+        price: 20,
+        location: 'Near Market'
     },
     {
         id: 'rental-sahara-expeditions',
@@ -64,19 +81,20 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-rental')!,
         coords: [29.25, 0.233],
         featured: true,
+        rating: 4.9,
+        price: 150,
+        location: 'Agency Office'
     },
     {
         id: 'rental-timimoun-bikes',
         title: 'Timimoun Bike Rentals',
         description: 'Explore the oasis at your own pace by renting a bicycle.',
         category: 'Rentals',
-        image: {
-            id: 'discover-rental-bike',
-            description: 'Bicycles lined up for rent in a sunny location.',
-            imageUrl: 'https://picsum.photos/seed/bikerent/600/400',
-            imageHint: 'bicycle rental'
-        },
-        coords: [29.252, 0.234]
+        image: PlaceHolderImages.find((img) => img.id === 'discover-rental-bike')!,
+        coords: [29.252, 0.234],
+        rating: 4.5,
+        price: 10,
+        location: 'Near Palmeraie'
     },
     {
         id: 'shopping-ksar-artisans',
@@ -86,19 +104,20 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-souk')!,
         coords: [29.26, 0.231],
         featured: true,
+        rating: 4.7,
+        price: 50,
+        location: 'Old Ksar District'
     },
     {
         id: 'shopping-date-market',
         title: 'Date & Spice Market',
         description: 'Purchase the famous dates of Timimoun and a variety of Saharan spices.',
         category: 'Shopping',
-        image: {
-            id: 'discover-shopping-dates',
-            description: 'A market stall selling fresh dates and spices.',
-            imageUrl: 'https://picsum.photos/seed/datespice/600/400',
-            imageHint: 'date market'
-        },
-        coords: [29.259, 0.235]
+        image: PlaceHolderImages.find((img) => img.id === 'discover-shopping-dates')!,
+        coords: [29.259, 0.235],
+        rating: 4.6,
+        price: 5,
+        location: 'Central Market'
     },
     {
         id: 'camp-nuit-etoilee',
@@ -108,18 +127,21 @@ export const discoverData: DiscoverItem[] = [
         image: PlaceHolderImages.find((img) => img.id === 'discover-camp')!,
         coords: [29.18, 0.30],
         featured: true,
+        rating: 4.9,
+        price: 180,
+        location: 'Deep Desert'
     },
     {
         id: 'camp-oasis-retreat',
         title: 'Oasis Eco-Retreat',
         description: 'A sustainable and peaceful camp located within a secluded part of the palm grove.',
         category: 'Camps',
-        image: {
-            id: 'discover-camp-eco',
-            description: 'An eco-friendly desert camp with tents.',
-            imageUrl: 'https://picsum.photos/seed/ecocamp/600/400',
-            imageHint: 'eco camp'
-        },
-        coords: [29.28, 0.20]
+        image: PlaceHolderImages.find((img) => img.id === 'discover-camp-eco')!,
+        coords: [29.28, 0.20],
+        rating: 4.8,
+        price: 220,
+        location: 'Palmeraie Outskirts'
     },
 ];
+
+    

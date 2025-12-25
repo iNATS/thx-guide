@@ -1,10 +1,22 @@
 {
   "placeholderImages": [
     {
-      "id": "desert-landscape",
-      "description": "A sweeping view of the Sahara desert dunes near Timimoun at sunset.",
-      "imageUrl": "https://images.unsplash.com/photo-1617374128851-c84e37dc9f37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZXNlcnQlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY2NDEzMTE5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "desert landscape"
+      "id": "sunset-safari-adventure",
+      "description": "A beautiful sunset safari with camels on desert dunes.",
+      "imageUrl": "https://images.unsplash.com/photo-1602410141957-ee70b4739066?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzYWZhcmklMjBhZHZlbnR1cmV8ZW58MHx8fHwxNzY2Njc0MjI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "safari adventure"
+    },
+    {
+      "id": "hotel-gourara-pool",
+      "description": "Luxury hotel with a large swimming pool in a desert setting.",
+      "imageUrl": "https://images.unsplash.com/photo-1604348825621-22800b6ed16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxob3RlbCUyMHBvb2x8ZW58MHx8fHwxNzY2NjYyMTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hotel pool"
+    },
+    {
+      "id": "desert-rose-camp-night",
+      "description": "A cozy desert camp with a tent lit up at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1762970913723-21d3c7f5846c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGVzZXJ0JTIwY2FtcHxlbnwwfHx8fDE3NjY2NzQyMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desert camp"
     },
     {
       "id": "tour-guide-avatar",
@@ -111,7 +123,7 @@
     {
       "id": "oasis-picnic",
       "description": "A beautiful picnic setup in a lush green oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1763901326432-4b08b99e03e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8b2FzaXMlMjBwaWNuaWN8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1763901326432-4b08b99e03e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8b2FzaXMlMjBwaWNuaWN8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "oasis picnic"
     },
     {
@@ -193,10 +205,10 @@
       "imageHint": "oasis trees"
     },
     {
-      "id": "discover-hotel",
-      "description": "A beautiful hotel with a pool in a desert setting.",
-      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHBvb2x8ZW58MHx8fHwxNzY3MjAyOTM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "hotel pool"
+      "id": "discover-hotel-riad",
+      "description": "A beautiful riad hotel interior.",
+      "imageUrl": "https://images.unsplash.com/photo-1527760127628-23c37a0c9af9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyaWFkJTIwaG90ZWx8ZW58MHx8fHwxNzY2Njc0MjI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "riad hotel"
     },
     {
       "id": "discover-restaurant",
@@ -205,10 +217,22 @@
       "imageHint": "restaurant food"
     },
     {
+      "id": "discover-restaurant-2",
+      "description": "A traditional Moroccan restaurant interior.",
+      "imageUrl": "https://images.unsplash.com/photo-1565988845864-9e8e0ba7aa42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyZXN0YXVyYW50JTIwZ3JpbGx8ZW58MHx8fHwxNzY2Njc0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "restaurant grill"
+    },
+    {
       "id": "discover-rental",
       "description": "A 4x4 vehicle ready for a desert adventure.",
       "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "4x4 desert"
+    },
+    {
+      "id": "discover-rental-bike",
+      "description": "Bicycles lined up for rent in a sunny location.",
+      "imageUrl": "https://images.unsplash.com/photo-1585162697787-a38acb04351d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWN5Y2xlJTIwcmVudGFsfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bicycle rental"
     },
     {
       "id": "discover-souk",
@@ -217,10 +241,22 @@
       "imageHint": "souk market"
     },
     {
+      "id": "discover-shopping-dates",
+      "description": "A market stall selling fresh dates and spices.",
+      "imageUrl": "https://images.unsplash.com/photo-1765247841064-6618123cfaaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkYXRlJTIwbWFya2V0fGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "date market"
+    },
+    {
       "id": "discover-camp",
       "description": "A luxury desert camp at night under the stars.",
       "imageUrl": "https://images.unsplash.com/photo-1517824806704-9040b037703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBjYW1wfGVufDB8fHx8MTc2NzIwMzA1MXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "desert camp"
+    },
+    {
+      "id": "discover-camp-eco",
+      "description": "An eco-friendly desert camp with tents.",
+      "imageUrl": "https://images.unsplash.com/photo-1763879182653-63f9c4229f33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxlY28lMjBjYW1wfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "eco camp"
     }
   ]
 }
