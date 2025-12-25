@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Landmark, Navigation, Castle, Wind, MapPin, User, List, Heart, Clock } from 'lucide-react';
+import { Landmark, Navigation, Castle, Wind, MapPin, User, List, Heart, Clock, ChevronUp, ChevronDown } from 'lucide-react';
 import { Place } from './page';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,13 +20,13 @@ const filterButtons = [
   { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
 
-const createCustomIcon = (L: any, color: string = 'hsl(var(--primary))', isSelected: boolean = false) => {
+const createCustomIcon = (L: any, color: string = 'hsl(var(--foreground))', isSelected: boolean = false) => {
     const iconMarkup = renderToStaticMarkup(
         <div className="flex flex-col items-center transition-transform duration-300" style={{ transform: isSelected ? 'scale(1.2)' : 'scale(1)' }}>
            <div style={{ backgroundColor: 'white', padding: '8px', borderRadius: '9999px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', border: `2px solid ${color}` }}>
                <MapPin style={{ color }} size={20} />
            </div>
-           <div style={{ width: '8px', height: '8px', backgroundColor: color, borderRadius: '9999px', marginTop: '-4px', boxShadow: '0 2px 3px rgba(0,0,0,0.2)' }}></div>
+           {isSelected && <div style={{ width: '8px', height: '8px', backgroundColor: color, borderRadius: '9999px', marginTop: '-4px', boxShadow: '0 2px 3px rgba(0,0,0,0.2)' }}></div>}
         </div>
     );
     return L.divIcon({
@@ -67,6 +67,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
   const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') return places;
@@ -106,7 +107,6 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
       mapInstance.current = map;
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
       
-      // Get user location
       map.locate({setView: true, maxZoom: 13, watch: true});
 
       map.on('locationfound', function(e: any) {
@@ -120,6 +120,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
       map.on('click', () => {
         setSelectedPlaceId(null);
+        setIsDrawerOpen(false);
       })
     }
 
@@ -136,6 +137,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     if (!mapInstance.current) return;
     const L = (window as any).L;
 
+    // Clear previous markers
     Object.values(markersRef.current).forEach((marker: any) => marker.remove());
     markersRef.current = {};
 
@@ -150,6 +152,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
             L.DomEvent.stopPropagation(e);
             setSelectedPlaceId(place.id);
             mapInstance.current.setView(place.coords, 14);
+            setIsDrawerOpen(true);
         });
         
       markersRef.current[place.id] = marker;
@@ -159,12 +162,28 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
 
 
   return (
-    <div className="relative w-full h-[calc(100vh-5rem-4rem)] md:h-[calc(100vh-4rem)]">
+    <div className="relative w-full h-[calc(100vh-5rem)] md:h-[calc(100vh)] overflow-hidden">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute bottom-24 left-0 right-0 z-10 w-full">
-            <div className="w-full px-4 mb-4">
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
+        <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
+            <List className="mr-2 h-4 w-4" />
+            List View
+        </Button>
+        
+        <div className={cn(
+            "absolute bottom-0 left-0 right-0 z-20 transform transition-transform duration-500 ease-in-out",
+            isDrawerOpen ? 'translate-y-0' : 'translate-y-[calc(100%-6rem)]'
+        )}>
+           <div className="p-4 bg-gradient-to-t from-background via-background/90 to-background/0" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+             <div className="w-12 h-1.5 bg-muted rounded-full mx-auto mb-2"></div>
+             <Button variant="ghost" className="w-full text-foreground font-bold">
+                 {isDrawerOpen ? <ChevronDown className="mr-2"/> : <ChevronUp className="mr-2"/>}
+                {isDrawerOpen ? 'Hide Places' : 'Show Places'}
+             </Button>
+           </div>
+            
+            <div className="bg-background px-4 pb-24 pt-4">
+                <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide justify-center">
                     {filterButtons.map((filter) => {
                         const isActive = activeFilter === filter.category;
                         return (
@@ -173,7 +192,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                             variant={isActive ? 'default' : 'secondary'}
                             size="sm"
                             onClick={() => setActiveFilter(filter.category)}
-                            className={cn('rounded-full flex-shrink-0 bg-background/80 shadow-lg backdrop-blur-sm', isActive && 'bg-primary text-primary-foreground')}
+                            className={cn('rounded-full flex-shrink-0 shadow-sm', isActive && 'bg-primary text-primary-foreground')}
                             >
                             <filter.icon className="mr-2 h-4 w-4" />
                             {filter.label}
@@ -181,64 +200,59 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                         );
                     })}
                 </div>
-            </div>
             
-            <Carousel opts={{ align: "start", loop: false }} className="w-full">
-                <CarouselContent className="-ml-4">
-                    {filteredPlaces.map((place, index) => (
-                         <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/5 pl-4">
-                            <Card 
-                                className={cn(
-                                    "w-full cursor-pointer transition-all duration-300 shadow-md bg-card/90 backdrop-blur-sm", 
-                                    selectedPlaceId === place.id ? "border-primary/80 border-2" : "border-transparent"
-                                )}
-                                onClick={() => {
-                                    setSelectedPlaceId(place.id)
-                                    mapInstance.current.setView(place.coords, 14);
-                                }}
-                            >
-                                <CardContent className="p-0">
-                                    <div className="relative rounded-t-lg overflow-hidden aspect-[4/3] group">
-                                        <Image
-                                            src={place.images[0].imageUrl}
-                                            alt={place.title}
-                                            fill
-                                            style={{objectFit: 'cover'}}
-                                            className="group-hover:scale-105 transition-transform duration-300"
-                                            data-ai-hint={place.images[0].imageHint}
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                                        <Button
-                                            size="icon"
-                                            variant="ghost"
-                                            className="absolute top-2 right-2 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-8 w-8"
-                                            onClick={(e) => { e.stopPropagation(); toggleFavorite(place.id); }}
-                                        >
-                                            <Heart className={cn("w-4 h-4", favoritedPlaces.has(place.id) && "fill-white")} />
-                                        </Button>
-                                    </div>
-                                    <div className="p-3">
-                                        <h3 className="font-bold text-md truncate">{place.title}</h3>
-                                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                                            {(() => {
-                                                const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
-                                                return <CategoryIcon className="w-3 h-3" />
-                                            })()}
-                                            <span>{place.category}</span>
+                <Carousel opts={{ align: "start", loop: false }} className="w-full">
+                    <CarouselContent className="-ml-4">
+                        {filteredPlaces.map((place, index) => (
+                            <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/4 lg:basis-1/5 pl-4">
+                                <Card 
+                                    className={cn(
+                                        "w-full cursor-pointer transition-all duration-300 shadow-md bg-card/90 backdrop-blur-sm", 
+                                        selectedPlaceId === place.id ? "border-primary/80 border-2" : "border-transparent"
+                                    )}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedPlaceId(place.id);
+                                        mapInstance.current.setView(place.coords, 14);
+                                    }}
+                                >
+                                    <CardContent className="p-0">
+                                        <div className="relative rounded-t-lg overflow-hidden aspect-video group">
+                                            <Image
+                                                src={place.images[0].imageUrl}
+                                                alt={place.title}
+                                                fill
+                                                style={{objectFit: 'cover'}}
+                                                className="group-hover:scale-105 transition-transform duration-300"
+                                                data-ai-hint={place.images[0].imageHint}
+                                            />
+                                            <Button
+                                                size="icon"
+                                                variant="ghost"
+                                                className="absolute top-2 right-2 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-8 w-8"
+                                                onClick={(e) => { e.stopPropagation(); toggleFavorite(place.id); }}
+                                            >
+                                                <Heart className={cn("w-4 h-4", favoritedPlaces.has(place.id) && "fill-white")} />
+                                            </Button>
                                         </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
+                                        <div className="p-3">
+                                            <h3 className="font-bold text-sm truncate">{place.title}</h3>
+                                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                                                {(() => {
+                                                    const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
+                                                    return <CategoryIcon className="w-3 h-3" />
+                                                })()}
+                                                <span>{place.category}</span>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
+            </div>
         </div>
-
-        <Button variant="outline" onClick={onToggleView} className="absolute top-4 right-4 bg-background/80 shadow-lg z-10">
-            <List className="mr-2 h-4 w-4" />
-            List View
-        </Button>
     </div>
   );
 }

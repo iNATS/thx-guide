@@ -176,6 +176,7 @@ export default function Home() {
         view === 'list' ? 'pb-24' : ''
       )}>
       <main className="flex-grow">
+        {view === 'list' && (
           <header className="p-4 sm:p-6 lg:px-8">
             <div>
               <p className="text-muted-foreground">Salam 👋</p>
@@ -184,6 +185,7 @@ export default function Home() {
               </h1>
             </div>
           </header>
+        )}
 
           {view === 'list' ? (
              <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
