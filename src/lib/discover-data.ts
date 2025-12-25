@@ -69,7 +69,7 @@ export const discoverData: DiscoverItem[] = [
         title: 'Restaurant Taghit',
         description: 'Enjoy delicious grilled meats and local specialties near the market.',
         category: 'Restaurants',
-        image": {
+        image: {
             "id": "discover-restaurant-2",
             "description": "A traditional Moroccan restaurant interior.",
             "imageUrl": "https://picsum.photos/seed/resto2/600/400",
