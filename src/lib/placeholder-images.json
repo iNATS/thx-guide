@@ -27,7 +27,7 @@
     {
       "id": "timimoun-map",
       "description": "An illustrated map of the Timimoun region.",
-      "imageUrl": "https://images.unsplash.com/photo-1578924825042-31d14cf13c35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYXAlMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1578924825042-31d14cf13c35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYXAlMjBpbGx1c3RyYXRpb258ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "map illustration"
     },
     {
@@ -39,7 +39,7 @@
     {
       "id": "oasis-palm-grove",
       "description": "A lush palm grove in a Timimoun oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1421284621639-884f4129b61d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwYWxtJTIwdHJlZXN8ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1421284621639-884f4129b61d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwYWxtJTIwdHJlZXN8ZW58MHx8fHwxNzY2MzY2NzU2fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "palm trees"
     },
     {
@@ -51,73 +51,73 @@
     {
       "id": "berber-crafts",
       "description": "Handmade Berber crafts and textiles.",
-      "imageUrl": "https://images.unsplash.com/photo-1760647832573-969bf71d12b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMGNyYWZ0c3xlbnwwfHx8fDE3NjYzNTUxNDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1760647832573-969bf71d12b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMGNyYWZ0c3xlbnwwfHx8fDE3NjYzNTUxNDF8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "local crafts"
     },
     {
       "id": "sboue-festival-vibrant",
       "description": "Vibrant and colorful crowd at a cultural festival.",
-      "imageUrl": "https://images.unsplash.com/photo-1603430203284-6f152f7c8e48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmZXN0aXZhbCUyMGNlbGVicmF0aW9ufGVufDB8fHx8MTc2NjM5MTU5Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1603430203284-6f152f7c8e48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmZXN0aXZhbCUyMGNlbGVicmF0aW9ufGVufDB8fHx8MTc2NjM5MTU5Nnww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "festival celebration"
     },
     {
       "id": "dune-adventure-4x4",
       "description": "A 4x4 vehicle driving over sand dunes in the desert.",
-      "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "4x4 desert"
     },
     {
       "id": "camel-trek-sunset",
       "description": "Silhouettes of camels and people trekking in the desert during sunset.",
-      "imageUrl": "https://images.unsplash.com/photo-1565985481353-3d8e2c30051f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHN1bnNldHxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1565985481353-3d8e2c30051f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHN1bnNldHxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "camel sunset"
     },
     {
       "id": "pottery-making-hands",
       "description": "Close-up of hands shaping clay on a pottery wheel.",
-      "imageUrl": "https://images.unsplash.com/photo-1676125105332-608345abe20e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3Jrc2hvcCUyMHBvdHRlcnl8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1676125105332-608345abe20e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3Jrc2hvcCUyMHBvdHRlcnl8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "workshop pottery"
     },
     {
       "id": "souk-spices-market",
       "description": "Colorful spices arranged in bowls at a bustling souk.",
-      "imageUrl": "https://images.unsplash.com/photo-1669406542628-56141edd534b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1669406542628-56141edd534b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "souk tour"
     },
     {
       "id": "traditional-music-night",
       "description": "Musicians playing traditional instruments under starry night.",
-      "imageUrl": "https://images.unsplash.com/photo-1698627124505-103cb28e56ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0cmFkaXRpb25hbCUyMG11c2ljfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1698627124505-103cb28e56ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0cmFkaXRpb25hbCUyMG11c2ljfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "traditional music"
     },
     {
       "id": "ksar-guided-tour",
       "description": "A guide explaining history in an ancient ksar.",
-      "imageUrl": "https://images.unsplash.com/photo-1582036743525-de5e24c460f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxoaXN0b3J5JTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1582036743525-de5e24c460f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxoaXN0b3J5JTIwdG91cnxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "history tour"
     },
     {
       "id": "saharan-cooking-class",
       "description": "Hands preparing a traditional Tagine dish.",
-      "imageUrl": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29va2luZyUyMGNsYXNzfGVufDB8fHx8MTc2NjQwNzI4NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29va2luZyUyMGNsYXNzfGVufDB8fHx8MTc2NjQwNzI4NXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "cooking class"
     },
     {
       "id": "stargazing-desert",
       "description": "A clear night sky full of stars over the Sahara desert.",
-      "imageUrl": "https://images.unsplash.com/photo-1600184436223-01227d1a5a58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1600184436223-01227d1a5a58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkZXNlcnQlMjBzdGFyZ2F6aW5nfGVufDB8fHx8MTc2NjQwNzI4NHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "desert stargazing"
     },
     {
       "id": "sandboarding-dunes",
       "description": "A person sandboarding down a large desert dune.",
-      "imageUrl": "https://images.unsplash.com/photo-1647934544556-5010fb46e03c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzYW5kYm9hcmRpbmclMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1647934544556-5010fb46e03c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzYW5kYm9hcmRpbmclMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "sandboarding desert"
     },
     {
       "id": "date-harvest-festival",
       "description": "Close-up of fresh dates on a palm tree during harvest.",
-      "imageUrl": "https://images.unsplash.com/photo-1758546517190-2de09f5cd805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGF0ZSUyMGhhcnZlc3R8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1758546517190-2de09f5cd805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGF0ZSUyMGhhcnZlc3R8ZW58MHx8fHwxNzY2NDA3Mjg1fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "date harvest"
     },
     {
@@ -129,49 +129,49 @@
     {
       "id": "leather-workshop",
       "description": "Artisan working with leather and tools in a workshop.",
-      "imageUrl": "https://images.unsplash.com/photo-1607969891751-1374d59ab4fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsZWF0aGVyJTIwd29ya3Nob3B8ZW58MHx8fHwxNzY2MzcyODI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1607969891751-1374d59ab4fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsZWF0aGVyJTIwd29ya3Nob3B8ZW58MHx8fHwxNzY2MzcyODI4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "leather workshop"
     },
     {
       "id": "tuareg-tea-ceremony",
       "description": "Traditional Tuareg tea being poured.",
-      "imageUrl": "https://images.unsplash.com/photo-1728037134136-f8f610b4bcc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0dWFyZWclMjB0ZWF8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1728037134136-f8f610b4bcc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0dWFyZWclMjB0ZWF8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "tuareg tea"
     },
     {
       "id": "foggara-tour",
       "description": "Entrance to an ancient foggara underground irrigation channel.",
-      "imageUrl": "https://images.unsplash.com/photo-1759212445830-848ce08cc0c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmNpZW50JTIwaXJyaWdhdGlvbnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1759212445830-848ce08cc0c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbmNpZW50JTIwaXJyaWdhdGlvbnxlbnwwfHx8fDE3NjY0MDcyODR8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "ancient irrigation"
     },
     {
       "id": "camel-race",
       "description": "Camels racing across the desert plains.",
-      "imageUrl": "https://images.unsplash.com/photo-1754323924996-38de8e7f6471?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHJhY2V8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1754323924996-38de8e7f6471?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW1lbCUyMHJhY2V8ZW58MHx8fHwxNzY2NDA3Mjg0fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "camel race"
     },
     {
       "id": "saharan-storytelling",
       "description": "A group gathered around a fire listening to a storyteller.",
-      "imageUrl": "https://images.unsplash.com/photo-1593898798217-e7e9a38ecb0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdG9yeXRlbGxpbmclMjBmaXJlc2lkZXxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593898798217-e7e9a38ecb0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdG9yeXRlbGxpbmclMjBmaXJlc2lkZXxlbnwwfHx8fDE3NjY0MDcyODV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "storytelling fireside"
     },
     {
       "id": "top-place-ksar-1",
       "description": "The imposing and beautiful Ksar of Timimoun, showing its red mud-brick architecture.",
-      "imageUrl": "https://images.unsplash.com/photo-1673350560211-41abb1a20451?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY0MTUzODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1650412333465-df362335f1f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY2OTcxODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "algerian architecture"
     },
     {
       "id": "top-place-ksar-2",
       "description": "A different angle of the Timimoun ksar, with a view over the oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1766084799223-2277e074361a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzYWhhcmFuJTIwdmlsbGFnZXxlbnwwfHx8fDE3NjY0MTU1MjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1581080565335-47b4b5e7abf1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzYWhhcmFuJTIwdmlsbGFnZXxlbnwwfHx8fDE3NjY2OTcxNzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "saharan village"
     },
     {
       "id": "top-place-grand-erg-1",
       "description": "The vast, rolling dunes of the Grand Erg Occidental.",
-      "imageUrl": "https://images.unsplash.com/photo-1706804198725-fa51050a1047?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzYWhhcmElMjBkdW5lc3xlbnwwfHx8fDE3NjY0MTUzODh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1706804198725-fa51050a1047?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzYWhhcmElMjBkdW5lc3xlbnwwfHx8fDE3NjY0MTUzODh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "sahara dunes"
     },
     {
@@ -183,7 +183,7 @@
     {
       "id": "top-place-sebka-1",
       "description": "The cracked earth of the Sebkha, a large salt flat.",
-      "imageUrl": "https://images.unsplash.com/photo-1714428561194-319ced5ae16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3NjY0MTUzODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1714428561194-319ced5ae16d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzYWx0JTIwZmxhdHxlbnwwfHx8fDE3NjY0MTUzODl8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "salt flat"
     },
     {
@@ -195,67 +195,67 @@
     {
       "id": "top-place-palm-grove-1",
       "description": "A dense and lush palm grove in the Timimoun oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1667115492610-df72ac281e3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzY2NDE1Mzg5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1667115492610-df72ac281e3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzY2NDE1Mzg5fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "palm grove"
     },
     {
       "id": "top-place-palm-grove-2",
       "description": "Sunlight filtering through the leaves of palm trees in the oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1542931289-87322a101d51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzE3NjQ2ODUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542931289-87322a101d51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzE3NjQ2ODUxfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "oasis trees"
     },
     {
       "id": "discover-hotel-riad",
       "description": "A beautiful riad hotel interior.",
-      "imageUrl": "https://images.unsplash.com/photo-1527760127628-23c37a0c9af9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyaWFkJTIwaG90ZWx8ZW58MHx8fHwxNzY2Njc0MjI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1527760127628-23c37a0c9af9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyaWFkJTIwaG90ZWx8ZW58MHx8fHwxNzY2Njc0MjI3fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "riad hotel"
     },
     {
       "id": "discover-restaurant",
       "description": "A traditional Moroccan restaurant interior.",
-      "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXN0YXVyYW50JTIwZm9vZHxlbnwwfHx8fDE3NjcyMDI5Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXN0YXVyYW50JTIwZm9vZHxlbnwwfHx8fDE3NjcyMDI5Mzh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "restaurant food"
     },
     {
       "id": "discover-restaurant-2",
       "description": "A traditional Moroccan restaurant interior.",
-      "imageUrl": "https://images.unsplash.com/photo-1565988845864-9e8e0ba7aa42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyZXN0YXVyYW50JTIwZ3JpbGx8ZW58MHx8fHwxNzY2Njc0MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1565988845864-9e8e0ba7aa42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyZXN0YXVyYW50JTIwZ3JpbGx8ZW58MHx8fHwxNzY2Njc0MjI4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "restaurant grill"
     },
     {
       "id": "discover-rental",
       "description": "A 4x4 vehicle ready for a desert adventure.",
-      "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "4x4 desert"
     },
     {
       "id": "discover-rental-bike",
       "description": "Bicycles lined up for rent in a sunny location.",
-      "imageUrl": "https://images.unsplash.com/photo-1585162697787-a38acb04351d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWN5Y2xlJTIwcmVudGFsfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1585162697787-a38acb04351d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWN5Y2xlJTIwcmVudGFsfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "bicycle rental"
     },
     {
       "id": "discover-souk",
       "description": "A vibrant souk with various goods for sale.",
-      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "souk market"
     },
     {
       "id": "discover-shopping-dates",
       "description": "A market stall selling fresh dates and spices.",
-      "imageUrl": "https://images.unsplash.com/photo-1765247841064-6618123cfaaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkYXRlJTIwbWFya2V0fGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1765247841064-6618123cfaaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkYXRlJTIwbWFya2V0fGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "date market"
     },
     {
       "id": "discover-camp",
       "description": "A luxury desert camp at night under the stars.",
-      "imageUrl": "https://images.unsplash.com/photo-1517824806704-9040b037703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBjYW1wfGVufDB8fHx8MTc2NzIwMzA1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1517824806704-9040b037703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBjYW1wfGVufDB8fHx8MTc2NzIwMzA1MXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "desert camp"
     },
     {
       "id": "discover-camp-eco",
       "description": "An eco-friendly desert camp with tents.",
-      "imageUrl": "https://images.unsplash.com/photo-1763879182653-63f9c4229f33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxlY28lMjBjYW1wfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1763879182653-63f9c4229f33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxlY28lMjBjYW1wfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "eco camp"
     }
   ]
