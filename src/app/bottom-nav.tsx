@@ -21,9 +21,9 @@ const HeadsetIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/events', label: 'Events', icon: CalendarDays },
-  { href: '/scan', label: 'Scan', icon: QrCode },
   { href: '/discover', label: 'Discover', icon: BinocularsIcon },
+  { href: '/scan', label: 'Scan', icon: QrCode },
+  { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/contact', label: 'Guide', icon: HeadsetIcon },
 ];
 
