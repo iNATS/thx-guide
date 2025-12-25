@@ -186,7 +186,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
             <Carousel opts={{ align: "start", loop: false }} className="w-full">
                 <CarouselContent className="-ml-4">
                     {filteredPlaces.map((place, index) => (
-                         <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/4 pl-4">
+                         <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/5 pl-4">
                             <Card 
                                 className={cn(
                                     "w-full cursor-pointer transition-all duration-300 shadow-md bg-card/90 backdrop-blur-sm", 
