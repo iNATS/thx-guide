@@ -174,7 +174,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background pb-24">
       <main className="flex-grow">
           <header className="p-4 sm:p-6 lg:px-8">
-            <div className="flex items-center gap-2">
+            <div>
               <p className="text-muted-foreground">Salam 👋</p>
               <h1 className="text-3xl font-bold font-headline text-foreground">
                 Welcome to the <span className="text-primary">Red Oasis</span>
@@ -269,7 +269,7 @@ export default function Home() {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {filteredPlaces.map(place => (
-                          <div key={place.id} className="group cursor-pointer" onClick={() => setSelectedPlace(place)}>
+                           <div key={place.id} className="group cursor-pointer" onClick={() => setSelectedPlace(place)}>
                               <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
                                   <Image
                                       src={place.images[0].imageUrl}
