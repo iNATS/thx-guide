@@ -55,7 +55,7 @@ export default function DiscoverPage() {
                         />
                     </div>
                 </div>
-                 <div className="flex gap-2 mt-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide border-b">
+                 <div className="flex gap-2 overflow-x-auto pb-4 px-4 scrollbar-hide">
                     {filterButtons.map((filter) => {
                         const isActive = activeFilter === filter.category;
                         return (
