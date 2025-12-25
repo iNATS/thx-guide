@@ -107,7 +107,19 @@ export const topPlaces: Place[] = [
   },
 ];
 
-const initialPopularRoutes = [
+type PopularRoute = {
+  id: string;
+  title: string;
+  duration: string;
+  category: string;
+  categoryIcon: React.ElementType;
+  image: ImagePlaceholder;
+  favorited: boolean;
+  description: string;
+};
+
+
+const initialPopularRoutes: PopularRoute[] = [
   {
     id: 'route-1',
     title: '4x4 Desert Adventure',
@@ -116,6 +128,7 @@ const initialPopularRoutes = [
     categoryIcon: Wind,
     image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
     favorited: false,
+    description: 'Embark on a thrilling full-day journey into the heart of the Grand Erg Occidental. Our expert drivers will navigate the stunning ochre dunes in a modern 4x4 vehicle, taking you to breathtaking viewpoints, hidden oases, and ancient rock formations. The trip includes a traditional lunch cooked over an open fire and concludes with a magical sunset over the endless sea of sand. This is the ultimate Saharan experience for adventure seekers.'
   },
   {
     id: 'route-2',
@@ -125,6 +138,7 @@ const initialPopularRoutes = [
     categoryIcon: Castle,
     image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
     favorited: true,
+    description: 'Step back in time with a guided walking tour through the ancient Ksar of Timimoun. Explore the labyrinthine alleys of this red mud-brick citadel, learn about its history as a crucial stop on trans-Saharan trade routes, and discover the unique architecture designed to withstand the desert climate. Our knowledgeable local guide will share stories and secrets of this historic heart of the oasis.'
   },
   {
     id: 'route-3',
@@ -134,6 +148,7 @@ const initialPopularRoutes = [
     categoryIcon: Landmark,
     image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
     favorited: false,
+    description: "Discover the genius of ancient engineering on this half-day tour of Timimoun's lifeblood: the palm grove and its foggara irrigation system. Walk through the cool, shady paths of the palmeraie, see how local farmers cultivate their gardens, and venture into a part of the centuries-old underground water channels that have sustained the oasis for generations. It's a fascinating look at the harmony between humans and nature in the Sahara."
   },
   {
     id: 'route-4',
@@ -143,12 +158,14 @@ const initialPopularRoutes = [
     categoryIcon: Wind,
     image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
     favorited: true,
+    description: 'Experience the timeless magic of the desert with a peaceful camel trek. As the afternoon sun begins to soften, you will ride into the dunes surrounding Timimoun, led by an experienced guide. The trek culminates at a scenic spot where you can watch the sun dip below the horizon, painting the sand in hues of red and gold. A traditional mint tea ceremony completes this iconic Saharan adventure.'
   },
 ];
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<PopularRoute | null>(null);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
@@ -208,7 +225,7 @@ export default function Home() {
                       <CarouselContent className="-ml-4">
                           {popularRoutes.map((route) => (
                           <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
-                              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg" onClick={() => setSelectedRoute(route)}>
                                   {route.image && (
                                       <Image
                                           src={route.image.imageUrl}
@@ -273,7 +290,7 @@ export default function Home() {
                               variant={isActive ? 'default' : 'secondary'}
                               onClick={() => setActiveFilter(filter.category)}
                               className={`rounded-full flex-shrink-0 ${
-                                  isActive ? 'bg-primary' : 'bg-card'
+                                  isActive ? 'bg-primary' : 'bg-card text-card-foreground'
                               }`}
                               >
                               <filter.icon className="mr-2 h-4 w-4" />
@@ -396,8 +413,52 @@ export default function Home() {
             )}
         </DialogContent>
       </Dialog>
+      
+      <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
+        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
+            {selectedRoute && (
+                <>
+                <div className="relative w-full h-1/2 sm:h-3/5">
+                    <Image
+                        src={selectedRoute.image.imageUrl}
+                        alt={selectedRoute.title}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={selectedRoute.image.imageHint}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                </div>
+                
+                <div className="p-6 flex-grow overflow-y-auto -mt-20 relative z-10 text-white">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
+                        <Clock className="w-4 h-4"/>
+                        <span className="text-xs font-semibold">{selectedRoute.duration}</span>
+                    </div>
+                     <div className="flex justify-between items-start mb-2">
+                        <h2 className="text-3xl font-bold font-headline">{selectedRoute.title}</h2>
+                    </div>
+                     <div className="flex items-center gap-2 text-base opacity-90 mb-4">
+                        <selectedRoute.categoryIcon className="w-5 h-5" />
+                        <span>{selectedRoute.category}</span>
+                    </div>
+
+                    <p className="text-white/90 prose prose-lg">{selectedRoute.description}</p>
+                </div>
+                 <Button asChild className="m-6 sm:m-8">
+                   <Link href="/discover">
+                     <Navigation className="mr-2 h-5 w-5" />
+                     Book This Tour
+                    </Link>
+                 </Button>
+
+                <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                    <X className="w-5 h-5" />
+                    <span className="sr-only">Close</span>
+                </DialogClose>
+                </>
+            )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
-
-    
