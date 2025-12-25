@@ -191,6 +191,36 @@
       "description": "Sunlight filtering through the leaves of palm trees in the oasis.",
       "imageUrl": "https://images.unsplash.com/photo-1542931289-87322a101d51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwYWxtJTIwZ3JvdmV8ZW58MHx8fHwxNzE3NjQ2ODUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "oasis trees"
+    },
+    {
+      "id": "discover-hotel",
+      "description": "A beautiful hotel with a pool in a desert setting.",
+      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHBvb2x8ZW58MHx8fHwxNzY3MjAyOTM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hotel pool"
+    },
+    {
+      "id": "discover-restaurant",
+      "description": "A traditional Moroccan restaurant interior.",
+      "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXN0YXVyYW50JTIwZm9vZHxlbnwwfHx8fDE3NjcyMDI5Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "restaurant food"
+    },
+    {
+      "id": "discover-rental",
+      "description": "A 4x4 vehicle ready for a desert adventure.",
+      "imageUrl": "https://images.unsplash.com/photo-1547399899-14115e6a7773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHw0eDQlMjBkZXNlcnR8ZW58MHx8fHwxNzY2NDA3MTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "4x4 desert"
+    },
+    {
+      "id": "discover-souk",
+      "description": "A vibrant souk with various goods for sale.",
+      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "souk market"
+    },
+    {
+      "id": "discover-camp",
+      "description": "A luxury desert camp at night under the stars.",
+      "imageUrl": "https://images.unsplash.com/photo-1517824806704-9040b037703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNlcnQlMjBjYW1wfGVufDB8fHx8MTc2NzIwMzA1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desert camp"
     }
   ]
 }
