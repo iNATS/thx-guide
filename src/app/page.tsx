@@ -448,8 +448,7 @@ export default function Home() {
                 </div>
                  <Button asChild className="m-6 sm:m-8">
                    <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
-                     <MessageSquare className="mr-2 h-5 w-5" />
-                     Book on WhatsApp
+                     Book Now
                     </a>
                  </Button>
 
