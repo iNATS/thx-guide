@@ -42,20 +42,11 @@ export default function DiscoverPage() {
 
     return (
         <div className="bg-background min-h-screen pb-24">
-             <header className="sticky top-0 bg-background/80 backdrop-blur-sm z-40 border-b">
-                <div className="p-4 sm:p-6 space-y-4">
+             <header className="sticky top-0 bg-background/80 backdrop-blur-sm z-40 border-b pt-4">
+                <div className="px-4 sm:px-6">
                     <h1 className="text-2xl font-bold font-headline">Discover Timimoun</h1>
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input 
-                            placeholder="Search for hotels, restaurants, etc."
-                            className="pl-10"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
                 </div>
-                 <div className="flex gap-2 overflow-x-auto pb-4 px-4 scrollbar-hide">
+                 <div className="flex gap-2 overflow-x-auto pt-4 pb-4 px-4 scrollbar-hide">
                     {filterButtons.map((filter) => {
                         const isActive = activeFilter === filter.category;
                         return (
@@ -73,6 +64,18 @@ export default function DiscoverPage() {
                 </div>
             </header>
             
+            <div className="sticky top-[125px] z-30 px-4 sm:px-6 pb-4 -mt-3">
+                <div className="relative shadow-lg rounded-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input 
+                        placeholder="Search for hotels, restaurants, etc."
+                        className="pl-12 rounded-full h-12 text-base"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+            </div>
+
             <main className="p-4 sm:p-6">
                 <div className="grid grid-cols-1 gap-6">
                     {filteredData.length > 0 ? filteredData.map((item) => {
