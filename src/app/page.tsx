@@ -360,7 +360,21 @@ export default function Home() {
                 </Carousel>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
-                    <h2 className="text-3xl font-bold font-headline mb-2">{selectedPlace.title}</h2>
+                    <div className="flex justify-between items-start mb-2">
+                      <h2 className="text-3xl font-bold font-headline">{selectedPlace.title}</h2>
+                       <div className="flex items-center gap-1.5 text-lg shrink-0 pl-2">
+                           <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
+                           <span className="font-bold">{selectedPlace.rating}</span>
+                       </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-base text-muted-foreground mb-4">
+                        {(() => {
+                          const CategoryIcon = filterButtons.find(f => f.category === selectedPlace.category)?.icon || Landmark;
+                          return <CategoryIcon className="w-5 h-5 text-primary" />
+                        })()}
+                        <span>{selectedPlace.category}</span>
+                    </div>
+
                     <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
