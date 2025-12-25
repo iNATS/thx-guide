@@ -45,9 +45,11 @@ export type Place = {
   id: string;
   title: string;
   info: string;
+  shortInfo: string;
   category: string;
   images: ImagePlaceholder[];
   coords: [number, number];
+  rating: number;
 };
 
 export const topPlaces: Place[] = [
@@ -55,45 +57,53 @@ export const topPlaces: Place[] = [
     id: 'ksar-timimoun',
     title: 'Ksar of Timimoun',
     info: 'The ancient fortified village, or ksar, is the historical heart of Timimoun. Built from red mud-brick, its labyrinthine alleys, covered passages, and beautiful architecture offer a stunning example of traditional Saharan urban planning. It provides a glimpse into the region\'s history as a stop on trans-Saharan trade routes.',
+    shortInfo: 'Ancient fortified village in the heart of Timimoun.',
     category: 'Culture',
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-ksar-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-ksar-2')!,
     ],
-    coords: [29.261, 0.232]
+    coords: [29.261, 0.232],
+    rating: 4.9,
   },
   {
     id: 'grand-erg',
     title: 'Grand Erg Occidental',
     info: 'The "Great Western Sand Sea" is a vast expanse of sand dunes stretching for hundreds of kilometers. The dunes near Timimoun are famous for their vibrant ochre color, which gives the oasis its nickname. A 4x4 or camel excursion into the erg is an unforgettable experience, especially at sunrise or sunset.',
+    shortInfo: 'Vast expanse of iconic ochre-colored sand dunes.',
     category: 'Nature',
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-2')!,
     ],
-    coords: [29.18, 0.30]
+    coords: [29.18, 0.30],
+    rating: 4.8,
   },
   {
     id: 'sebka',
     title: 'The Sebkha',
     info: 'This vast, dry salt lake creates a surreal, lunar-like landscape. The shimmering crust of salt and minerals extends to the horizon, creating mirages under the desert sun. It\'s a place of stark beauty and geological wonder, offering unique photographic opportunities.',
+    shortInfo: 'A surreal, vast, dry salt lake with unique views.',
     category: 'Nature',
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-sebka-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-sebka-2')!,
     ],
-    coords: [29.28, 0.18]
+    coords: [29.28, 0.18],
+    rating: 4.7,
   },
   {
     id: 'palm-grove',
     title: 'The Palm Grove (Palmerai)',
     info: 'The lush palm grove is the lifeblood of the oasis, an intricate network of gardens and date palms sustained by the ancient foggara irrigation system. A walk or bike ride through its shady paths is a peaceful escape from the desert heat and a look into the agricultural soul of the community.',
+    shortInfo: 'The lush, life-sustaining palm grove of the oasis.',
     category: 'Culture',
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-2')!,
     ],
-    coords: [29.27, 0.24]
+    coords: [29.27, 0.24],
+    rating: 4.8,
   },
 ];
 
@@ -272,8 +282,10 @@ export default function Home() {
                           );
                       })}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      {filteredPlaces.map(place => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
+                      {filteredPlaces.map(place => {
+                         const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
+                         return (
                            <div key={place.id} className="group cursor-pointer" onClick={() => setSelectedPlace(place)}>
                               <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
                                   <Image
@@ -294,13 +306,20 @@ export default function Home() {
                                   </Button>
                               </div>
                               <div className="mt-3">
-                                  <div className="flex justify-between items-center">
+                                  <div className="flex justify-between items-start">
                                       <h3 className="font-bold text-lg">{place.title}</h3>
+                                      <div className="flex items-center gap-1.5 text-sm shrink-0 pl-2">
+                                          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                                          <span className="font-bold">{place.rating}</span>
+                                      </div>
                                   </div>
-                                  <p className="text-muted-foreground text-sm">{place.category}</p>
+                                  <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                    <CategoryIcon className="w-4 h-4" />
+                                    <span>{place.shortInfo}</span>
+                                  </div>
                               </div>
                           </div>
-                      ))}
+                      )})}
                   </div>
               </div>
             </div>
