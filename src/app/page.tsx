@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -327,7 +328,7 @@ export default function Home() {
                             src={image.imageUrl}
                             alt={`${selectedPlace.title} - image ${index + 1}`}
                             fill
-                            style={{objectFit: 'cover'}}
+                            className="object-cover"
                             data-ai-hint={image.imageHint}
                             />
                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
@@ -365,5 +366,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
