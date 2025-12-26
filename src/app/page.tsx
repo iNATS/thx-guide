@@ -62,6 +62,8 @@ export const topPlaces: Place[] = [
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-ksar-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-ksar-2')!,
+      PlaceHolderImages.find((img) => img.id === 'ksar-ruins')!,
+      PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
     ],
     coords: [29.261, 0.232],
     rating: 4.9,
@@ -75,8 +77,10 @@ export const topPlaces: Place[] = [
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-2')!,
+      PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
+      PlaceHolderImages.find((img) => img.id === 'sandboarding-dunes')!,
     ],
-    coords: [29.18, 0.30],
+    coords: [29.18, 0.3],
     rating: 4.8,
   },
   {
@@ -88,6 +92,7 @@ export const topPlaces: Place[] = [
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-sebka-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-sebka-2')!,
+      PlaceHolderImages.find((img) => img.id === 'stargazing-desert')!,
     ],
     coords: [29.28, 0.18],
     rating: 4.7,
@@ -101,6 +106,8 @@ export const topPlaces: Place[] = [
     images: [
       PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-1')!,
       PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-2')!,
+      PlaceHolderImages.find((img) => img.id === 'oasis-palm-grove')!,
+      PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
     ],
     coords: [29.27, 0.24],
     rating: 4.8,
