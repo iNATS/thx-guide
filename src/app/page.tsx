@@ -308,7 +308,7 @@ export default function Home() {
                       {filteredPlaces.map(place => {
                          const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
                          return (
-                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border" onClick={() => setSelectedPlace(place)}>
+                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => setSelectedPlace(place)}>
                              <CardContent className="p-0">
                               <div className="relative aspect-[4/3]">
                                   <Image
@@ -353,6 +353,7 @@ export default function Home() {
                 onToggleView={() => setView('list')} 
                 initialFilter={activeFilter}
                 onFilterChange={setActiveFilter}
+                onPlaceSelect={setSelectedPlace}
             />
           )}
 

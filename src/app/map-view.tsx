@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useMemo } from 'react';
+import type { CarouselApi } from "@/components/ui/carousel"
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Landmark, Navigation, Castle, Wind, MapPin, User, List, Heart, Clock, ChevronUp, ChevronDown } from 'lucide-react';
 import { Place } from './page';
@@ -20,11 +21,11 @@ const filterButtons = [
   { label: 'Adventure', category: 'Adventure', icon: Wind },
 ];
 
-const createCustomIcon = (L: any, color: string = 'hsl(var(--foreground))', isSelected: boolean = false) => {
+const createCustomIcon = (L: any, color: string = 'hsl(var(--foreground))', isSelected: boolean = false, Icon: React.ElementType = MapPin) => {
     const iconMarkup = renderToStaticMarkup(
-        <div className="flex flex-col items-center transition-transform duration-300" style={{ transform: isSelected ? 'scale(1.2)' : 'scale(1)' }}>
+        <div className="flex flex-col items-center transition-transform duration-300" style={{ transform: isSelected ? 'scale(1.3)' : 'scale(1)' }}>
            <div style={{ backgroundColor: 'white', padding: '8px', borderRadius: '9999px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', border: `2px solid ${color}` }}>
-               <MapPin style={{ color }} size={20} />
+               <Icon style={{ color }} size={20} />
            </div>
            {isSelected && <div style={{ width: '8px', height: '8px', backgroundColor: color, borderRadius: '9999px', marginTop: '-4px', boxShadow: '0 2px 3px rgba(0,0,0,0.2)' }}></div>}
         </div>
@@ -57,9 +58,10 @@ type MapViewProps = {
     onToggleView: () => void;
     initialFilter: string;
     onFilterChange: (category: string) => void;
+    onPlaceSelect: (place: Place) => void;
 };
 
-export default function MapView({ places, onToggleView, initialFilter, onFilterChange }: MapViewProps) {
+export default function MapView({ places, onToggleView, initialFilter, onFilterChange, onPlaceSelect }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any>({});
@@ -68,6 +70,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>()
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') return places;
@@ -89,6 +92,15 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
   useEffect(() => {
     onFilterChange(activeFilter);
   }, [activeFilter, onFilterChange]);
+
+  const handlePlaceSelect = (place: Place, index: number) => {
+    setSelectedPlaceId(place.id);
+    mapInstance.current.setView(place.coords, 14);
+    if (carouselApi) {
+        carouselApi.scrollTo(index);
+    }
+    setIsDrawerOpen(true);
+  }
 
 
   useEffect(() => {
@@ -141,24 +153,37 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     Object.values(markersRef.current).forEach((marker: any) => marker.remove());
     markersRef.current = {};
 
-    filteredPlaces.forEach(place => {
+    filteredPlaces.forEach((place, index) => {
       const isSelected = place.id === selectedPlaceId;
       const color = isSelected ? 'hsl(var(--primary))' : 'hsl(var(--foreground))';
-      const icon = createCustomIcon(L, color, isSelected);
+      const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || MapPin;
+      const icon = createCustomIcon(L, color, isSelected, CategoryIcon);
 
       const marker = L.marker(place.coords, { icon })
         .addTo(mapInstance.current)
         .on('click', (e: any) => {
             L.DomEvent.stopPropagation(e);
-            setSelectedPlaceId(place.id);
-            mapInstance.current.setView(place.coords, 14);
-            setIsDrawerOpen(true);
+            handlePlaceSelect(place, index);
         });
         
       markersRef.current[place.id] = marker;
     });
 
-  }, [filteredPlaces, selectedPlaceId]);
+  }, [filteredPlaces, selectedPlaceId, carouselApi]);
+  
+  useEffect(() => {
+    if (!carouselApi) return;
+    
+    carouselApi.on("select", () => {
+        const selectedIndex = carouselApi.selectedScrollSnap();
+        const selectedPlace = filteredPlaces[selectedIndex];
+        if (selectedPlace && selectedPlace.id !== selectedPlaceId) {
+             setSelectedPlaceId(selectedPlace.id);
+             mapInstance.current.setView(selectedPlace.coords, 14);
+        }
+    });
+
+  }, [carouselApi, filteredPlaces, selectedPlaceId])
 
 
   return (
@@ -201,19 +226,18 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                     })}
                 </div>
             
-                <Carousel opts={{ align: "start", loop: false }} className="w-full">
+                <Carousel setApi={setCarouselApi} opts={{ align: "start", loop: false }} className="w-full">
                     <CarouselContent className="-ml-4">
                         {filteredPlaces.map((place, index) => (
                             <CarouselItem key={place.id} className="basis-[70%] sm:basis-1/3 md:basis-1/5 lg:basis-1/5 pl-4">
                                 <Card 
                                     className={cn(
                                         "w-full cursor-pointer transition-all duration-300 bg-card/90 backdrop-blur-sm", 
-                                        selectedPlaceId === place.id ? "border-primary/80 border-2" : "border-transparent"
+                                        selectedPlaceId === place.id ? "border-primary/80 border-2" : "border"
                                     )}
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setSelectedPlaceId(place.id);
-                                        mapInstance.current.setView(place.coords, 14);
+                                        onPlaceSelect(place);
                                     }}
                                 >
                                     <CardContent className="p-0">
@@ -232,7 +256,7 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
                                                 className="absolute top-2 right-2 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-8 w-8"
                                                 onClick={(e) => { e.stopPropagation(); toggleFavorite(place.id); }}
                                             >
-                                                <Heart className={cn("w-4 h-4", favoritedPlaces.has(place.id) && "fill-white")} />
+                                                <Heart className={cn("w-4 h-4", favoritedPlaces.has(place.id) && "fill-primary text-primary")} />
                                             </Button>
                                         </div>
                                         <div className="p-3">
@@ -256,3 +280,5 @@ export default function MapView({ places, onToggleView, initialFilter, onFilterC
     </div>
   );
 }
+
+    
