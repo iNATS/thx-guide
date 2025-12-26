@@ -18,16 +18,14 @@ import {
   Navigation,
   Wind,
   X,
-  Map,
-  Heart,
-  Clock,
   MapIcon,
   List,
+  Heart,
+  Clock,
   Star,
   Footprints,
 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Card, CardContent } from '@/components/ui/card';
@@ -173,7 +171,10 @@ const haversineDistance = (coords1: [number, number], coords2: [number, number])
   const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
             Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  return R * c;
+  const distance = R * c;
+
+  // Apply a circuity factor to approximate driving distance
+  return distance * 1.3;
 };
 
 export default function Home() {
@@ -512,4 +513,3 @@ export default function Home() {
     </div>
   );
 }
-
