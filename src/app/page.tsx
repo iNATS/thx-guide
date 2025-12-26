@@ -304,8 +304,9 @@ export default function Home() {
                       {filteredPlaces.map(place => {
                          const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
                          return (
-                           <div key={place.id} className="group cursor-pointer" onClick={() => setSelectedPlace(place)}>
-                              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border" onClick={() => setSelectedPlace(place)}>
+                             <CardContent className="p-0">
+                              <div className="relative aspect-[4/3]">
                                   <Image
                                       src={place.images[0].imageUrl}
                                       alt={place.title}
@@ -323,7 +324,7 @@ export default function Home() {
                                       <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-primary text-primary")} />
                                   </Button>
                               </div>
-                              <div className="mt-3">
+                              <div className="p-4">
                                   <div className="flex justify-between items-start">
                                       <h3 className="font-bold text-lg">{place.title}</h3>
                                       <div className="flex items-center gap-1.5 text-sm shrink-0 pl-2">
@@ -336,7 +337,8 @@ export default function Home() {
                                     <span>{place.shortInfo}</span>
                                   </div>
                               </div>
-                          </div>
+                              </CardContent>
+                          </Card>
                       )})}
                   </div>
               </div>
@@ -356,26 +358,28 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
             {selectedPlace && (
                 <>
-                <Carousel className="relative w-full h-1/2 sm:h-3/5" opts={{ loop: true }}>
-                    <CarouselContent>
-                    {selectedPlace.images.map((image, index) => (
-                        <CarouselItem key={index}>
-                        <div className="relative w-full h-full">
-                            <Image
-                            src={image.imageUrl}
-                            alt={`${selectedPlace.title} - image ${index + 1}`}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={image.imageHint}
-                            />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
-                        </div>
-                        </CarouselItem>
-                    ))}
-                    </CarouselContent>
-                    <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
-                    <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
-                </Carousel>
+                <div className="relative w-full h-1/2 sm:h-3/5">
+                  <Carousel className="w-full h-full" opts={{ loop: true }}>
+                      <CarouselContent>
+                      {selectedPlace.images.map((image, index) => (
+                          <CarouselItem key={index}>
+                          <div className="relative w-full h-full">
+                              <Image
+                              src={image.imageUrl}
+                              alt={`${selectedPlace.title} - image ${index + 1}`}
+                              fill
+                              className="object-cover"
+                              data-ai-hint={image.imageHint}
+                              />
+                               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+                          </div>
+                          </CarouselItem>
+                      ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
+                      <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
+                  </Carousel>
+                </div>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
                     <div className="flex justify-between items-start mb-2">
@@ -447,7 +451,7 @@ export default function Home() {
                     <p className="text-muted-foreground prose prose-lg">{selectedRoute.description}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
-                   <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
+                   <a href="httpsa://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
                      Book Now
                     </a>
                  </Button>
@@ -463,5 +467,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
