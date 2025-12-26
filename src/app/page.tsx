@@ -24,6 +24,7 @@ import {
   Clock,
   Star,
   Footprints,
+  MessageSquare,
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -161,21 +162,6 @@ const initialPopularRoutes: PopularRoute[] = [
   },
 ];
 
-const haversineDistance = (coords1: [number, number], coords2: [number, number]): number => {
-  const R = 6371; // Radius of Earth in kilometers
-  const dLat = (coords2[0] - coords1[0]) * Math.PI / 180;
-  const dLon = (coords2[1] - coords1[1]) * Math.PI / 180;
-  const lat1 = coords1[0] * Math.PI / 180;
-  const lat2 = coords2[0] * Math.PI / 180;
-
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  const distance = R * c;
-
-  // Apply a circuity factor to approximate driving distance
-  return distance * 1.3;
-};
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -184,18 +170,6 @@ export default function Home() {
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
-      }
-    );
-  }, []);
 
   const toggleFavoriteRoute = (routeId: string) => {
     setPopularRoutes(
@@ -224,12 +198,6 @@ export default function Home() {
     return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
   
-  const distance = useMemo(() => {
-    if (userLocation && selectedPlace) {
-      return haversineDistance(userLocation, selectedPlace.coords).toFixed(1);
-    }
-    return null;
-  }, [userLocation, selectedPlace]);
 
   return (
     <div className={cn(
@@ -435,12 +403,6 @@ export default function Home() {
                             })()}
                             <span>{selectedPlace.category}</span>
                         </div>
-                         {distance && (
-                            <div className="flex items-center gap-2">
-                                <Footprints className="w-5 h-5 text-primary"/>
-                                <span>{distance} km away</span>
-                            </div>
-                        )}
                     </div>
 
                     <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
@@ -480,27 +442,30 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
                 
-                <div className="flex-grow overflow-y-auto p-6">
-                    <h2 className="text-3xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
+                <div className="p-6 flex-grow overflow-y-auto -mt-20 relative z-10 text-white">
+                     <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
+                        <Clock className="w-4 h-4"/>
+                        <span className="text-xs font-semibold">{selectedRoute.duration}</span>
+                     </div>
+                    <h2 className="text-4xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
 
-                    <div className="flex items-center gap-6 text-base text-muted-foreground mb-4">
-                        <div className="flex items-center gap-2">
-                           <Clock className="w-5 h-5 text-primary"/>
-                           <span>{selectedRoute.duration}</span>
-                        </div>
-                         <div className="flex items-center gap-2">
-                           <selectedRoute.categoryIcon className="w-5 h-5 text-primary" />
-                           <span>{selectedRoute.category}</span>
-                        </div>
+                    <div className="flex items-center gap-2 text-lg text-white/90 mb-4">
+                       <selectedRoute.categoryIcon className="w-5 h-5" />
+                       <span>{selectedRoute.category}</span>
                     </div>
 
-                    <p className="text-muted-foreground prose prose-lg">{selectedRoute.description}</p>
+                    <div className="prose prose-invert prose-lg text-white/90 mt-6">
+                        <p>{selectedRoute.description}</p>
+                    </div>
                 </div>
-                 <Button asChild className="m-6 sm:m-8">
-                   <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
-                     Book Now
-                    </a>
-                 </Button>
+
+                 <div className="p-6 bg-background">
+                     <Button asChild className="w-full" size="lg">
+                       <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
+                         Book Now
+                        </a>
+                     </Button>
+                 </div>
 
                 <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
                     <X className="w-5 h-5" />
@@ -513,3 +478,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
