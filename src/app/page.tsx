@@ -226,56 +226,60 @@ export default function Home() {
                       <CarouselContent className="-ml-4">
                           {popularRoutes.map((route) => (
                           <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
-                              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg" onClick={() => setSelectedRoute(route)}>
-                                  {route.image && (
-                                      <Image
-                                          src={route.image.imageUrl}
-                                          alt={route.title}
-                                          fill
-                                          style={{objectFit: 'cover'}}
-                                          className="group-hover:scale-105 transition-transform duration-300"
-                                          data-ai-hint={route.image.imageHint}
-                                      />
-                                  )}
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                                  
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      toggleFavoriteRoute(route.id);
-                                    }}
-                                  >
-                                    <Heart className={cn("w-5 h-5", route.favorited && "fill-primary text-primary")}/>
-                                  </Button>
-                                  
-                                  <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
-                                        <Clock className="w-4 h-4"/>
-                                        <span className="text-xs font-semibold">{route.duration}</span>
-                                      </div>
-                                      <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
-                                      <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                                        
-                                        <div className="flex items-center gap-1.5">
-                                          <route.categoryIcon className="w-4 h-4"/>
-                                          <span>{route.category}</span>
-                                        </div>
+                              <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border" onClick={() => setSelectedRoute(route)}>
+                                <CardContent className="p-0">
+                                  <div className="relative rounded-t-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                                      {route.image && (
+                                          <Image
+                                              src={route.image.imageUrl}
+                                              alt={route.title}
+                                              fill
+                                              style={{objectFit: 'cover'}}
+                                              className="group-hover:scale-105 transition-transform duration-300"
+                                              data-ai-hint={route.image.imageHint}
+                                          />
+                                      )}
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                                      
+                                      <Button
+                                        size="icon"
+                                        variant="ghost"
+                                        className="absolute top-4 right-4 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleFavoriteRoute(route.id);
+                                        }}
+                                      >
+                                        <Heart className={cn("w-5 h-5", route.favorited && "fill-primary text-primary")}/>
+                                      </Button>
+                                      
+                                      <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
+                                            <Clock className="w-4 h-4"/>
+                                            <span className="text-xs font-semibold">{route.duration}</span>
+                                          </div>
+                                          <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
+                                          <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
+                                            
+                                            <div className="flex items-center gap-1.5">
+                                              <route.categoryIcon className="w-4 h-4"/>
+                                              <span>{route.category}</span>
+                                            </div>
+                                          </div>
                                       </div>
                                   </div>
-                              </div>
+                                </CardContent>
+                              </Card>
                           </CarouselItem>
                           ))}
                       </CarouselContent>
                   </Carousel>
               </div>
               
-              {/* Top Places Section */}
+              {/* Explore Section */}
               <div className="mb-6">
                   <div className="flex justify-between items-center mb-4">
-                      <h2 className="text-xl font-bold font-headline">Top Places</h2>
+                      <h2 className="text-xl font-bold font-headline">Explore</h2>
                       <Button variant="outline" onClick={() => setView('map')}>
                           <MapIcon className="mr-2 h-4 w-4" />
                           Map View
@@ -451,7 +455,7 @@ export default function Home() {
                     <p className="text-muted-foreground prose prose-lg">{selectedRoute.description}</p>
                 </div>
                  <Button asChild className="m-6 sm:m-8">
-                   <a href="httpsa://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
+                   <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
                      Book Now
                     </a>
                  </Button>
@@ -467,3 +471,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
