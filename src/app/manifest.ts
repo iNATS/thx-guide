@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Your personal AI guide to the Red Oasis of Timimoun, Algeria.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#E2725B',
-    theme_color: '#E2725B',
+    background_color: '#F9F8F5',
+    theme_color: '#F9F8F5',
     icons: [
       {
         src: '/icon-192x192.png',
