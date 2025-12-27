@@ -206,6 +206,7 @@ export default function Home() {
   const [view, setView] = useState<'list' | 'map'>('list');
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [isRouteZoomModalOpen, setIsRouteZoomModalOpen] = useState(false);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -215,21 +216,29 @@ export default function Home() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>()
   const [currentSlide, setCurrentSlide] = useState(0)
 
+  const filteredPlaces = useMemo(() => {
+    if (activeFilter === 'All') return topPlaces;
+    return topPlaces.filter(place => place.category === activeFilter);
+  }, [activeFilter]);
+
   useEffect(() => {
     if (!carouselApi) return
 
-    setCurrentSlide(carouselApi.selectedScrollSnap())
-    
     const onSelect = (api: CarouselApi) => {
         setCurrentSlide(api.selectedScrollSnap())
     }
     
     carouselApi.on('select', onSelect)
 
+    // Set initial slide - needed when reopening a modal
+    if (selectedRoute) {
+        setCurrentSlide(carouselApi.selectedScrollSnap())
+    }
+
     return () => {
         carouselApi.off('select', onSelect)
     }
-  }, [carouselApi])
+  }, [carouselApi, selectedRoute])
 
   const nextImage = useCallback(() => {
     if (selectedPlace) {
@@ -242,6 +251,18 @@ export default function Home() {
       setSelectedImageIndex((prevIndex) => (prevIndex - 1 + selectedPlace.images.length) % selectedPlace.images.length);
     }
   }, [selectedPlace]);
+
+  const nextRouteImage = useCallback(() => {
+    if (selectedRoute) {
+        carouselApi?.scrollNext();
+    }
+  }, [selectedRoute, carouselApi]);
+
+  const prevRouteImage = useCallback(() => {
+    if (selectedRoute) {
+        carouselApi?.scrollPrev();
+    }
+  }, [selectedRoute, carouselApi]);
   
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
@@ -256,7 +277,7 @@ export default function Home() {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeİstance;
+    const isRightSwipe = distance < -minSwipeDistance;
 
     if (isLeftSwipe) {
       nextImage();
@@ -289,13 +310,6 @@ export default function Home() {
     })
   }
 
-  const filteredPlaces = useMemo(() => {
-    if (activeFilter === 'All') {
-      return topPlaces;
-    }
-    return topPlaces.filter(place => place.category === activeFilter);
-  }, [activeFilter]);
-  
   const handleSelectPlace = (place: Place | null) => {
     setSelectedPlace(place);
     if (place) {
@@ -377,16 +391,19 @@ export default function Home() {
                                       </Button>
                                       
                                       <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
-                                            <Clock className="w-4 h-4"/>
-                                            <span className="text-xs font-semibold">{route.duration}</span>
-                                          </div>
                                           <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
                                           <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                                            
                                             <div className="flex items-center gap-1.5">
                                               <route.categoryIcon className="w-4 h-4"/>
                                               <span>{route.category}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <Clock className="w-4 h-4"/>
+                                                <span>{route.duration}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                                                <span className="font-bold">{route.rating}</span>
                                             </div>
                                           </div>
                                       </div>
@@ -491,7 +508,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -600,52 +617,60 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className="relative pt-4">
-                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
-                      <X className="w-4 h-4" />
-                      <span className="sr-only">Close</span>
-                  </DialogClose>
-                  <div className='px-4'>
-                    <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                        <CarouselContent className="-ml-4">
-                            {selectedRoute.images.map((image, index) => (
-                                <CarouselItem key={index} className="pl-4">
-                                    <Card className="overflow-hidden rounded-2xl shadow-none border-0">
-                                      <CardContent className="p-0">
-                                          <div className="relative w-full aspect-[4/3] sm:aspect-video">
-                                              <Image
-                                                  src={image.imageUrl}
-                                                  alt={`${selectedRoute.title} image ${index + 1}`}
-                                                  fill
-                                                  className="object-cover"
-                                                  data-ai-hint={image.imageHint}
-                                              />
-                                          </div>
-                                      </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    <div className="flex justify-center gap-2 mt-4">
-                      {selectedRoute.images.map((_, index) => (
-                          <button
-                              key={index}
-                              onClick={() => carouselApi?.scrollTo(index)}
-                              className={cn(
-                                  "h-2 rounded-full transition-all",
-                                  currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
-                              )}
-                          />
-                      ))}
+                <div className="p-4 pt-8">
+                    <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
+                        <X className="w-4 h-4" />
+                        <span className="sr-only">Close</span>
+                    </DialogClose>
+                    <div className='relative px-4'>
+                        <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
+                            <CarouselContent className="-ml-4">
+                                {selectedRoute.images.map((image, index) => (
+                                    <CarouselItem key={index} className="pl-4">
+                                        <Card className="overflow-hidden rounded-2xl shadow-none border-0">
+                                        <CardContent className="p-0">
+                                            <div className="relative w-full aspect-[4/3] sm:aspect-video">
+                                                <Image
+                                                    src={image.imageUrl}
+                                                    alt={`${selectedRoute.title} image ${index + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                    data-ai-hint={image.imageHint}
+                                                />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => setIsRouteZoomModalOpen(true)}
+                                                    className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                                                >
+                                                    <ZoomIn className="w-5 h-5" />
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                        </Card>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                        <div className="flex justify-center gap-2 absolute -bottom-6 left-0 right-0">
+                        {selectedRoute.images.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => carouselApi?.scrollTo(index)}
+                                className={cn(
+                                    "h-2 rounded-full transition-all",
+                                    currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
+                                )}
+                            />
+                        ))}
+                        </div>
                     </div>
-                  </div>
                 </div>
                 
-                <div className="p-6 pt-4 flex-grow overflow-y-auto">
+                <div className="p-6 pt-8 flex-grow overflow-y-auto">
                     <div className='flex justify-between items-start mb-2'>
                         <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
-                        <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                         <div className="flex items-center gap-1.5 shrink-0 pl-2">
                             <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
                             <span className="font-bold text-foreground">{selectedRoute.rating}</span>
                         </div>
@@ -680,6 +705,43 @@ export default function Home() {
             )}
         </DialogContent>
       </Dialog>
+      
+      {selectedRoute && (
+        <Dialog open={isRouteZoomModalOpen} onOpenChange={setIsRouteZoomModalOpen}>
+            <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                <div className="relative w-full h-full">
+                    <Image
+                        src={selectedRoute.images[currentSlide].imageUrl}
+                        alt={`${selectedRoute.title} - image ${currentSlide + 1}`}
+                        fill
+                        className="object-contain"
+                        data-ai-hint={selectedRoute.images[currentSlide].imageHint}
+                    />
+                </div>
+                 <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={prevRouteImage}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                    >
+                    <ChevronLeft className="w-5 h-5" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={nextRouteImage}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                    >
+                    <ChevronRight className="w-5 h-5" />
+                </Button>
+                <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                    <X className="w-5 h-5" />
+                    <span className="sr-only">Close</span>
+                </DialogClose>
+            </DialogContent>
+        </Dialog>
+      )}
+
     </div>
   );
 }
