@@ -159,7 +159,7 @@
     {
       "id": "top-place-ksar-1",
       "description": "The imposing and beautiful Ksar of Timimoun, showing its red mud-brick architecture.",
-      "imageUrl": "https://images.unsplash.com/photo-1650412333465-df362335f1f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY2OTcxODB8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1650412333465-df362335f1f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY2OTcxODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "algerian architecture"
     },
     {
@@ -219,7 +219,7 @@
     {
       "id": "discover-restaurant-2",
       "description": "A traditional Moroccan restaurant interior.",
-      "imageUrl": "https://images.unsplash.com/photo-1565988845864-9e8e0ba7aa42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyZXN0YXVyYW50JTIwZ3JpbGx8ZW58MHx8fHwxNzY2Njc0MjI4fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1702741168115-cd3d9a682972?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyZXN0YXVyYW50JTIwZ3JpbGx8ZW58MHx8fHwxNzY2ODY2MjI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "restaurant grill"
     },
     {
@@ -279,25 +279,25 @@
     {
       "id": "menu-pizza-margherita",
       "description": "A classic margherita pizza with fresh basil.",
-      "imageUrl": "https://images.unsplash.com/photo-1595854331613-2b63a0f62b4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYXJnaGVyaXRhJTIwcGl6emF8ZW58MHx8fHwxNzY3MzkwMjE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtYXJnaGVyaXRhJTIwcGl6emF8ZW58MHx8fHwxNzY2ODA1MjgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "margherita pizza"
     },
     {
       "id": "menu-pizza-pepperoni",
       "description": "A pepperoni pizza with melted cheese.",
-      "imageUrl": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXBwZXJvbmklMjBwaXp6YXxlbnwwfHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXBwZXJvbmklMjBwaXp6YXxlbnwwfHx8fDE3NjczOTAyMTV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "pepperoni pizza"
     },
     {
       "id": "menu-coffee",
       "description": "A cup of espresso with a rich crema.",
-      "imageUrl": "https://images.unsplash.com/photo-1597813249822-4467c69a7140?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxlc3ByZXNzb3xlbnwwfHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1705952285570-113e76f63fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZXNwcmVzc28lMjBjb2ZmZWV8ZW58MHx8fHwxNzY2ODUxMjE4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "espresso coffee"
     },
     {
       "id": "menu-tea",
       "description": "A glass of traditional mint tea.",
-      "imageUrl": "https://images.unsplash.com/photo-1594916327429-37367c0a9f5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaW50JTIwdGVhfGVufDB8fHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1594916327429-37367c0a9f5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaW50JTIwdGVhfGVufDB8fHx8fDE3NjczOTAyMTV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "mint tea"
     }
   ]
