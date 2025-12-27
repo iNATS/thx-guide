@@ -429,7 +429,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
