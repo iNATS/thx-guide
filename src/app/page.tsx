@@ -429,7 +429,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -449,7 +449,7 @@ export default function Home() {
                           variant="ghost"
                           size="icon"
                           onClick={prevImage}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
                         >
                           <ChevronLeft className="w-5 h-5" />
                         </Button>
@@ -457,7 +457,7 @@ export default function Home() {
                           variant="ghost"
                           size="icon"
                           onClick={nextImage}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
                         >
                           <ChevronRight className="w-5 h-5" />
                         </Button>
@@ -466,7 +466,7 @@ export default function Home() {
                           variant="ghost"
                           size="icon"
                           onClick={() => setIsZoomModalOpen(true)}
-                          className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                          className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
                         >
                           <ZoomIn className="w-5 h-5" />
                         </Button>
