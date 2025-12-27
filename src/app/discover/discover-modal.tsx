@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -594,15 +594,41 @@ Please let me know about availability and next steps. Thank you!`;
                            
                             <div>
                                 <h4 className='font-semibold mb-3'>Select Dates</h4>
-                                <Calendar
-                                    initialFocus
-                                    mode="range"
-                                    defaultMonth={bookingDetails.dateRange?.from}
-                                    selected={bookingDetails.dateRange}
-                                    onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
-                                    numberOfMonths={1}
-                                    className="rounded-md border p-0"
-                                />
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full justify-start text-left font-normal h-12",
+                                                !bookingDetails.dateRange && "text-muted-foreground"
+                                            )}
+                                            >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {bookingDetails.dateRange?.from ? (
+                                                bookingDetails.dateRange.to ? (
+                                                <>
+                                                    {format(bookingDetails.dateRange.from, "LLL dd, y")} -{" "}
+                                                    {format(bookingDetails.dateRange.to, "LLL dd, y")}
+                                                </>
+                                                ) : (
+                                                format(bookingDetails.dateRange.from, "LLL dd, y")
+                                                )
+                                            ) : (
+                                                <span>Pick a date</span>
+                                            )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="center">
+                                        <Calendar
+                                            initialFocus
+                                            mode="range"
+                                            defaultMonth={bookingDetails.dateRange?.from}
+                                            selected={bookingDetails.dateRange}
+                                            onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
+                                            numberOfMonths={1}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
                             </div>
 
                             <div>
@@ -694,5 +720,6 @@ Please let me know about availability and next steps. Thank you!`;
 }
 
     
+
 
 
