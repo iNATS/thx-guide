@@ -27,6 +27,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ZoomIn,
+  Share2,
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -122,9 +123,10 @@ type PopularRoute = {
   duration: string;
   category: string;
   categoryIcon: React.ElementType;
-  image: ImagePlaceholder;
+  images: ImagePlaceholder[];
   favorited: boolean;
   description: string;
+  rating: number;
 };
 
 
@@ -135,9 +137,15 @@ const initialPopularRoutes: PopularRoute[] = [
     duration: 'Full Day',
     category: 'Adventure',
     categoryIcon: Wind,
-    image: PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
+    images: [
+        PlaceHolderImages.find((img) => img.id === 'dune-adventure-4x4')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-1')!,
+        PlaceHolderImages.find((img) => img.id === 'sandboarding-dunes')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-grand-erg-2')!,
+    ],
     favorited: false,
-    description: 'Embark on a thrilling full-day journey into the heart of the Grand Erg Occidental. Our expert drivers will navigate the stunning ochre dunes in a modern 4x4 vehicle, taking you to breathtaking viewpoints, hidden oases, and ancient rock formations. The trip includes a traditional lunch cooked over an open fire and concludes with a magical sunset over the endless sea of sand. This is the ultimate Saharan experience for adventure seekers.'
+    description: 'Embark on a thrilling full-day journey into the heart of the Grand Erg Occidental. Our expert drivers will navigate the stunning ochre dunes in a modern 4x4 vehicle, taking you to breathtaking viewpoints, hidden oases, and ancient rock formations. The trip includes a traditional lunch cooked over an open fire and concludes with a magical sunset over the endless sea of sand. This is the ultimate Saharan experience for adventure seekers.',
+    rating: 4.9,
   },
   {
     id: 'route-2',
@@ -145,9 +153,15 @@ const initialPopularRoutes: PopularRoute[] = [
     duration: '2-3 Hours',
     category: 'Culture',
     categoryIcon: Castle,
-    image: PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
+    images: [
+        PlaceHolderImages.find((img) => img.id === 'ksar-guided-tour')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-ksar-1')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-ksar-2')!,
+        PlaceHolderImages.find((img) => img.id === 'ksar-ruins')!,
+    ],
     favorited: true,
-    description: 'Step back in time with a guided walking tour through the ancient Ksar of Timimoun. Explore the labyrinthine alleys of this red mud-brick citadel, learn about its history as a crucial stop on trans-Saharan trade routes, and discover the unique architecture designed to withstand the desert climate. Our knowledgeable local guide will share stories and secrets of this historic heart of the oasis.'
+    description: 'Step back in time with a guided walking tour through the ancient Ksar of Timimoun. Explore the labyrinthine alleys of this red mud-brick citadel, learn about its history as a crucial stop on trans-Saharan trade routes, and discover the unique architecture designed to withstand the desert climate. Our knowledgeable local guide will share stories and secrets of this historic heart of the oasis.',
+    rating: 4.8,
   },
   {
     id: 'route-3',
@@ -155,9 +169,15 @@ const initialPopularRoutes: PopularRoute[] = [
     duration: 'Half Day',
     category: 'Nature',
     categoryIcon: Landmark,
-    image: PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
+    images: [
+        PlaceHolderImages.find((img) => img.id === 'foggara-tour')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-1')!,
+        PlaceHolderImages.find((img) => img.id === 'top-place-palm-grove-2')!,
+        PlaceHolderImages.find((img) => img.id === 'oasis-palm-grove')!,
+    ],
     favorited: false,
-    description: "Discover the genius of ancient engineering on this half-day tour of Timimoun's lifeblood: the palm grove and its foggara irrigation system. Walk through the cool, shady paths of the palmeraie, see how local farmers cultivate their gardens, and venture into a part of the centuries-old underground water channels that have sustained the oasis for generations. It's a fascinating look at the harmony between humans and nature in the Sahara."
+    description: "Discover the genius of ancient engineering on this half-day tour of Timimoun's lifeblood: the palm grove and its foggara irrigation system. Walk through the cool, shady paths of the palmeraie, see how local farmers cultivate their gardens, and venture into a part of the centuries-old underground water channels that have sustained the oasis for generations. It's a fascinating look at the harmony between humans and nature in the Sahara.",
+    rating: 4.7,
   },
   {
     id: 'route-4',
@@ -165,9 +185,15 @@ const initialPopularRoutes: PopularRoute[] = [
     duration: '2 Hours',
     category: 'Adventure',
     categoryIcon: Wind,
-    image: PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
+    images: [
+        PlaceHolderImages.find((img) => img.id === 'camel-trek-sunset')!,
+        PlaceHolderImages.find((img) => img.id === 'saharan-storytelling')!,
+        PlaceHolderImages.find((img) => img.id === 'stargazing-desert')!,
+        PlaceHolderImages.find((img) => img.id === 'sunset-safari-adventure')!,
+    ],
     favorited: true,
-    description: 'Experience the timeless magic of the desert with a peaceful camel trek. As the afternoon sun begins to soften, you will ride into the dunes surrounding Timimoun, led by an experienced guide. The trek culminates at a scenic spot where you can watch the sun dip below the horizon, painting the sand in hues of red and gold. A traditional mint tea ceremony completes this iconic Saharan adventure.'
+    description: 'Experience the timeless magic of the desert with a peaceful camel trek. As the afternoon sun begins to soften, you will ride into the dunes surrounding Timimoun, led by an experienced guide. The trek culminates at a scenic spot where you can watch the sun dip below the horizon, painting the sand in hues of red and gold. A traditional mint tea ceremony completes this iconic Saharan adventure.',
+    rating: 4.8,
   },
 ];
 
@@ -259,6 +285,24 @@ export default function Home() {
     }
   };
 
+  const handleShare = async (route: PopularRoute) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: route.title,
+          text: route.description,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      // Fallback for browsers that don't support navigator.share
+      alert('Sharing is not supported on this browser.');
+    }
+  };
+
+
   return (
     <div className={cn(
         "flex flex-col min-h-screen bg-background",
@@ -290,14 +334,14 @@ export default function Home() {
                               <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => setSelectedRoute(route)}>
                                 <CardContent className="p-0">
                                   <div className="relative rounded-t-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
-                                      {route.image && (
+                                      {route.images[0] && (
                                           <Image
-                                              src={route.image.imageUrl}
+                                              src={route.images[0].imageUrl}
                                               alt={route.title}
                                               fill
                                               style={{objectFit: 'cover'}}
                                               className="group-hover:scale-105 transition-transform duration-300"
-                                              data-ai-hint={route.image.imageHint}
+                                              data-ai-hint={route.images[0].imageHint}
                                           />
                                       )}
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -421,7 +465,7 @@ export default function Home() {
       </div>
 
       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-lg w-full h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-lg">
+        <DialogContent className="p-0 border-0 max-w-lg bg-background text-foreground flex flex-col sm:rounded-lg w-[calc(100%_-_2rem)] h-full sm:h-auto sm:max-h-[90vh]">
             {selectedPlace && (
                 <>
                 <div className="flex-shrink-0 group relative"
@@ -443,7 +487,6 @@ export default function Home() {
                           data-ai-hint={image.imageHint}
                           />
                       ))}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       
                         <Button
                           variant="ghost"
@@ -539,46 +582,67 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
             {selectedRoute && (
                 <>
-                <div className="relative w-full h-1/2 sm:h-2/5 sm:rounded-t-lg overflow-hidden">
-                    <Image
-                        src={selectedRoute.image.imageUrl}
-                        alt={selectedRoute.title}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={selectedRoute.image.imageHint}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
+                  <div className="flex-shrink-0 relative">
+                      <Carousel opts={{ loop: true }} className="w-full">
+                          <CarouselContent>
+                              {selectedRoute.images.map((image, index) => (
+                                  <CarouselItem key={index}>
+                                      <div className="relative w-full aspect-video sm:aspect-[16/9] overflow-hidden">
+                                          <Image
+                                              src={image.imageUrl}
+                                              alt={`${selectedRoute.title} image ${index + 1}`}
+                                              fill
+                                              className="object-cover"
+                                              data-ai-hint={image.imageHint}
+                                          />
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                      </div>
+                                  </CarouselItem>
+                              ))}
+                          </CarouselContent>
+                          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 hover:bg-black/60 border-none" />
+                          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 hover:bg-black/60 border-none" />
+                      </Carousel>
+                      <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                          <X className="w-5 h-5" />
+                          <span className="sr-only">Close</span>
+                      </DialogClose>
+                  </div>
                 
-                <div className="p-6 flex-grow overflow-y-auto -mt-20 relative z-10 text-white">
-                     <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full mb-3">
-                        <Clock className="w-4 h-4"/>
-                        <span className="text-xs font-semibold">{selectedRoute.duration}</span>
-                     </div>
-                    <h2 className="text-4xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
-
-                    <div className="flex items-center gap-2 text-lg text-white/90 mb-4">
-                       <selectedRoute.categoryIcon className="w-5 h-5" />
-                       <span>{selectedRoute.category}</span>
+                <div className="p-6 flex-grow overflow-y-auto">
+                    <div className="flex justify-between items-start mb-2">
+                        <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
+                        <div className="flex items-center gap-1.5 text-base shrink-0 pl-2">
+                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                            <span className="font-bold">{selectedRoute.rating}</span>
+                        </div>
                     </div>
 
-                    <div className="prose prose-invert prose-lg text-white/90 mt-6">
-                        <p>{selectedRoute.description}</p>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                        <div className="flex items-center gap-2">
+                            <selectedRoute.categoryIcon className="w-4 h-4 text-primary" />
+                            <span>{selectedRoute.category}</span>
+                        </div>
+                         <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-primary"/>
+                            <span>{selectedRoute.duration}</span>
+                        </div>
                     </div>
+
+                    <p className="text-foreground/80">{selectedRoute.description}</p>
                 </div>
 
-                 <div className="p-6 bg-background">
-                     <Button asChild className="w-full" size="lg">
-                       <a href="https://wa.me/213555123456" target="_blank" rel="noopener noreferrer">
+                 <div className="p-6 bg-background border-t mt-auto grid grid-cols-2 gap-4">
+                     <Button variant="outline" onClick={() => handleShare(selectedRoute)}>
+                         <Share2 className="mr-2"/>
+                         Share
+                     </Button>
+                     <Button asChild>
+                       <a href="https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route." target="_blank" rel="noopener noreferrer">
                          Book Now
                         </a>
                      </Button>
                  </div>
-
-                <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
-                    <X className="w-5 h-5" />
-                    <span className="sr-only">Close</span>
-                </DialogClose>
                 </>
             )}
         </DialogContent>
@@ -586,3 +650,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
