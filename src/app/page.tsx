@@ -207,87 +207,39 @@ export default function Home() {
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
   const [isRouteZoomModalOpen, setIsRouteZoomModalOpen] = useState(false);
-  const [isImageZoomed, setIsImageZoomed] = useState(false);
-  
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const minSwipeDistance = 50;
 
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>()
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [placeCarouselApi, setPlaceCarouselApi] = useState<CarouselApi>();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentPlaceSlide, setCurrentPlaceSlide] = useState(0);
+
 
   const filteredPlaces = useMemo(() => {
     if (activeFilter === 'All') return topPlaces;
     return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
+  
+  useEffect(() => {
+    if (!carouselApi) return;
+    const onSelect = (api: CarouselApi) => setCurrentSlide(api.selectedScrollSnap());
+    carouselApi.on('select', onSelect);
+    if (selectedRoute) setCurrentSlide(carouselApi.selectedScrollSnap());
+    return () => carouselApi.off('select', onSelect);
+  }, [carouselApi, selectedRoute]);
 
   useEffect(() => {
-    if (!carouselApi) return
+    if (!placeCarouselApi) return;
+    const onSelect = (api: CarouselApi) => setCurrentPlaceSlide(api.selectedScrollSnap());
+    placeCarouselApi.on('select', onSelect);
+    if (selectedPlace) setCurrentPlaceSlide(placeCarouselApi.selectedScrollSnap());
+    return () => placeCarouselApi.off('select', onSelect);
+  }, [placeCarouselApi, selectedPlace]);
 
-    const onSelect = (api: CarouselApi) => {
-        setCurrentSlide(api.selectedScrollSnap())
-    }
-    
-    carouselApi.on('select', onSelect)
+  const nextRouteImage = useCallback(() => carouselApi?.scrollNext(), [carouselApi]);
+  const prevRouteImage = useCallback(() => carouselApi?.scrollPrev(), [carouselApi]);
 
-    // Set initial slide - needed when reopening a modal
-    if (selectedRoute) {
-        setCurrentSlide(carouselApi.selectedScrollSnap())
-    }
-
-    return () => {
-        carouselApi.off('select', onSelect)
-    }
-  }, [carouselApi, selectedRoute])
-
-  const nextImage = useCallback(() => {
-    if (selectedPlace) {
-      setSelectedImageIndex((prevIndex) => (prevIndex + 1) % selectedPlace.images.length);
-    }
-  }, [selectedPlace]);
-
-  const prevImage = useCallback(() => {
-    if (selectedPlace) {
-      setSelectedImageIndex((prevIndex) => (prevIndex - 1 + selectedPlace.images.length) % selectedPlace.images.length);
-    }
-  }, [selectedPlace]);
-
-  const nextRouteImage = useCallback(() => {
-    if (selectedRoute) {
-        carouselApi?.scrollNext();
-    }
-  }, [selectedRoute, carouselApi]);
-
-  const prevRouteImage = useCallback(() => {
-    if (selectedRoute) {
-        carouselApi?.scrollPrev();
-    }
-  }, [selectedRoute, carouselApi]);
-  
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      nextImage();
-    } else if (isRightSwipe) {
-      prevImage();
-    }
-
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
+  const nextPlaceImage = useCallback(() => placeCarouselApi?.scrollNext(), [placeCarouselApi]);
+  const prevPlaceImage = useCallback(() => placeCarouselApi?.scrollPrev(), [placeCarouselApi]);
 
 
   const toggleFavoriteRoute = (routeId: string) => {
@@ -317,12 +269,12 @@ export default function Home() {
     }
   };
 
-  const handleShare = async (route: PopularRoute) => {
+  const handleShare = async (title: string, description: string) => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: route.title,
-          text: route.description,
+          title: title,
+          text: description,
           url: window.location.href,
         });
       } catch (error) {
@@ -496,111 +448,133 @@ export default function Home() {
       </div>
 
       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-lg bg-transparent shadow-none text-foreground flex flex-col w-full h-full sm:h-auto sm:max-h-[90vh]">
-            {selectedPlace && (
-                <>
-                <div className="flex-shrink-0 group relative"
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
-                >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
+        <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
+          {selectedPlace && (
+            <>
+              <div className="relative flex-shrink-0 pt-6 px-4">
+                 <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
+                    <X className="w-4 h-4" />
+                    <span className="sr-only">Close</span>
+                  </DialogClose>
+                <div className="relative">
+                  <Carousel setApi={setPlaceCarouselApi} opts={{ loop: true }} className="w-full">
+                    <CarouselContent>
                       {selectedPlace.images.map((image, index) => (
-                          <Image
-                          key={image.id}
-                          src={image.imageUrl}
-                          alt={`${selectedPlace.title} - image ${index + 1}`}
-                          fill
-                          className={cn(
-                            "object-cover transition-opacity duration-300",
-                            index === selectedImageIndex ? "opacity-100" : "opacity-0"
-                          )}
-                          data-ai-hint={image.imageHint}
-                          />
+                        <CarouselItem key={image.id}>
+                          <Card className="overflow-hidden rounded-2xl shadow-none border-0">
+                            <CardContent className="p-0">
+                              <div className="relative w-full aspect-video">
+                                <Image
+                                  src={image.imageUrl}
+                                  alt={`${selectedPlace.title} image ${index + 1}`}
+                                  fill
+                                  className="object-cover rounded-2xl"
+                                  data-ai-hint={image.imageHint}
+                                />
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </CarouselItem>
                       ))}
-                      
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={prevImage}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={nextImage}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </Button>
-
-                         <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setIsZoomModalOpen(true)}
-                          className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
-                        >
-                          <ZoomIn className="w-5 h-5" />
-                        </Button>
-
-                        <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
-                          <X className="w-5 h-5" />
-                          <span className="sr-only">Close</span>
-                        </DialogClose>
-                    </div>
+                    </CarouselContent>
+                  </Carousel>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsZoomModalOpen(true)}
+                    className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                  >
+                    <ZoomIn className="w-5 h-5" />
+                  </Button>
                 </div>
-                
-                <div className="p-6 pt-4 bg-background rounded-b-lg flex-grow overflow-y-auto">
-                    <div className="flex justify-between items-start mb-2">
-                      <h2 className="text-3xl font-bold font-headline">{selectedPlace.title}</h2>
-                       <div className="flex items-center gap-1.5 text-lg shrink-0 pl-2">
-                           <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
-                           <span className="font-bold">{selectedPlace.rating}</span>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-4 text-base text-muted-foreground mb-4">
-                        <div className="flex items-center gap-2">
-                            {(() => {
-                            const CategoryIcon = filterButtons.find(f => f.category === selectedPlace.category)?.icon || Landmark;
-                            return <CategoryIcon className="w-5 h-5 text-primary" />
-                            })()}
-                            <span>{selectedPlace.category}</span>
-                        </div>
-                    </div>
+                <div className="flex justify-center gap-2 mt-4">
+                  {selectedPlace.images.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => placeCarouselApi?.scrollTo(index)}
+                      className={cn(
+                        "h-2 rounded-full transition-all",
+                        currentPlaceSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
+                      )}
+                    />
+                  ))}
+                </div>
+              </div>
 
-                    <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
+              <div className="relative flex-grow overflow-y-auto">
+                <div className="p-6 pt-4">
+                  <div className='flex justify-between items-start mb-2'>
+                    <h2 className="text-2xl font-bold font-headline">{selectedPlace.title}</h2>
+                    <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                      <span className="font-bold text-foreground">{selectedPlace.rating}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center gap-2">
+                      {(
+                        () => {
+                          const CategoryIcon = filterButtons.find(f => f.category === selectedPlace.category)?.icon || Landmark;
+                          return <CategoryIcon className="w-4 h-4 text-primary" />;
+                        }
+                      )()}
+                      <span>{selectedPlace.category}</span>
+                    </div>
+                  </div>
+                  <p className="text-foreground/80 leading-relaxed">{selectedPlace.info}</p>
                 </div>
-                 <div className="p-6 pt-0 mt-auto bg-background rounded-b-lg">
-                    <Button asChild className="w-full">
-                    <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Navigation className="mr-2 h-5 w-5" />
-                        Get Directions
-                        </a>
-                    </Button>
-                </div>
-                </>
-            )}
+                 <div className="sticky bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+              </div>
+
+              <div className="p-4 bg-background mt-auto grid grid-cols-2 gap-2">
+                <Button variant="outline" size="lg" onClick={() => handleShare(selectedPlace.title, selectedPlace.shortInfo)} className="col-span-1">
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share
+                </Button>
+                <Button asChild size="lg" className="col-span-1">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Navigation className="mr-2 h-4 w-4" />
+                    Directions
+                  </a>
+                </Button>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
-
-      {selectedPlace && (
+      
+      {selectedPlace && isZoomModalOpen && (
         <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
             <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
-                <div className="relative w-full h-full" onClick={() => setIsImageZoomed(!isImageZoomed)}>
+                <div className="relative w-full h-full">
                     <Image
-                        src={selectedPlace.images[selectedImageIndex].imageUrl}
-                        alt={`${selectedPlace.title} - image ${selectedImageIndex + 1}`}
+                        src={selectedPlace.images[currentPlaceSlide].imageUrl}
+                        alt={`${selectedPlace.title} - image ${currentPlaceSlide + 1}`}
                         fill
-                        className={cn("object-contain transition-transform duration-300", isImageZoomed && "scale-150 cursor-zoom-out", !isImageZoomed && "cursor-zoom-in")}
-                        data-ai-hint={selectedPlace.images[selectedImageIndex].imageHint}
+                        className="object-contain"
+                        data-ai-hint={selectedPlace.images[currentPlaceSlide].imageHint}
                     />
                 </div>
+                 <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={prevPlaceImage}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                    >
+                    <ChevronLeft className="w-5 h-5" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={nextPlaceImage}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                    >
+                    <ChevronRight className="w-5 h-5" />
+                </Button>
                 <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
                     <X className="w-5 h-5" />
                     <span className="sr-only">Close</span>
@@ -613,7 +587,7 @@ export default function Home() {
         <DialogContent className="p-0 sm:p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className='relative pt-6 px-4'>
+                <div className='relative flex-shrink-0 pt-6 px-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
@@ -689,7 +663,7 @@ export default function Home() {
                 </div>
 
                  <div className="p-4 bg-background mt-auto grid grid-cols-3 gap-2">
-                     <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)} className="col-span-1">
+                     <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute.title, selectedRoute.description)} className="col-span-1">
                          <Share2 className="mr-2 h-4 w-4"/>
                          Share
                      </Button>
