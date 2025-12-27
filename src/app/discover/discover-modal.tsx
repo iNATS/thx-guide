@@ -231,9 +231,15 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
 
                         <div className="p-4 bg-background mt-auto grid grid-cols-1 gap-2">
                             {selectedItem.category === 'Hotels' && (
-                                <Button size="lg" disabled={totalAvailableRooms === 0}>
-                                    <CalendarCheck2 className="mr-2 h-4 w-4" />
-                                    {totalAvailableRooms > 0 ? 'Book Now' : 'No Rooms Available'}
+                                <Button asChild size="lg" disabled={totalAvailableRooms === 0}>
+                                    <a 
+                                        href={`https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(`I'm interested in booking a room at ${selectedItem.title}.`)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <CalendarCheck2 className="mr-2 h-4 w-4" />
+                                        {totalAvailableRooms > 0 ? 'Book Now' : 'No Rooms Available'}
+                                    </a>
                                 </Button>
                             )}
                             {selectedItem.category === 'Restaurants' && (
