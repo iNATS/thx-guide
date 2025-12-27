@@ -33,7 +33,7 @@
     {
       "id": "ksar-ruins",
       "description": "Ancient ksar ruins in the Timimoun area.",
-      "imageUrl": "https://images.unsplash.com/photo-1603566541830-972ff1b4b2cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhbmNpZW50JTIwcnVpbnN8ZW58MHx8fHwxNzY2MzI3NDkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1603566541830-972ff1b4b2cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhbmNpZW50JTIwcnVpbnN8ZW58MHx8fHwxNzY2MzI3NDkxfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "ancient ruins"
     },
     {
@@ -45,7 +45,7 @@
     {
       "id": "local-market",
       "description": "A bustling local market scene in Timimoun.",
-      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3VrJTIwbWFya2V0fGVufDB8fHx8MTc2NzE1MzQyOHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "souk market"
     },
     {
@@ -159,13 +159,13 @@
     {
       "id": "top-place-ksar-1",
       "description": "The imposing and beautiful Ksar of Timimoun, showing its red mud-brick architecture.",
-      "imageUrl": "https://images.unsplash.com/photo-1650412333465-df362335f1f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY2OTcxODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1650412333465-df362335f1f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbGdlcmlhbiUyMGFyY2hpdGVjdHVyZXxlbnwwfHx8fDE3NjY2OTcxODB8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "algerian architecture"
     },
     {
       "id": "top-place-ksar-2",
       "description": "A different angle of the Timimoun ksar, with a view over the oasis.",
-      "imageUrl": "https://images.unsplash.com/photo-1581080565335-47b4b5e7abf1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzYWhhcmFuJTIwdmlsbGFnZXxlbnwwfHx8fDE3NjY2OTcxNzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1581080565335-47b4b5e7abf1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzYWhhcmFuJTIwdmlsbGFnZXxlbnwwfHx8fDE3NjY2OTcxNzl8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "saharan village"
     },
     {
@@ -177,7 +177,7 @@
     {
       "id": "top-place-grand-erg-2",
       "description": "Sunset over the Grand Erg Occidental, casting long shadows on the sand.",
-      "imageUrl": "https://images.unsplash.com/photo-1473116763249-2faaef8699d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzYWhhcmElMjBkdW5lcyUyMHN1bnNldHxlbnwwfHx8fDE3MTc2NDY0MTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1473116763249-2faaef8699d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzYWhhcmElMjBkdW5lcyUyMHN1bnNldHxlbnwwfHx8fDE3MTc2NDY0MTR8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "desert sunset"
     },
     {
@@ -257,6 +257,24 @@
       "description": "An eco-friendly desert camp with tents.",
       "imageUrl": "https://images.unsplash.com/photo-1763879182653-63f9c4229f33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxlY28lMjBjYW1wfGVufDB8fHx8MTc2NjY3NDIyN3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "eco camp"
+    },
+    {
+      "id": "menu-tagine",
+      "description": "A delicious lamb tagine in a traditional pot.",
+      "imageUrl": "https://images.unsplash.com/photo-1590393278949-06334a1796d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsYW1iJTIwdGFnaW5lfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lamb tagine"
+    },
+    {
+      "id": "menu-couscous",
+      "description": "A large platter of couscous with vegetables and meat.",
+      "imageUrl": "https://images.unsplash.com/photo-1589301773063-550803c734b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3VzY291c3xlbnwwfHx8fDE3NjczMDI2MTl8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "couscous platter"
+    },
+    {
+      "id": "menu-grill",
+      "description": "A plate of mixed grilled meats.",
+      "imageUrl": "https://images.unsplash.com/photo-1623423719018-8f8369018b48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtaXhlZCUyMGdyaWxsfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mixed grill"
     }
   ]
 }

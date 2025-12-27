@@ -1,0 +1,287 @@
+
+'use client';
+
+import { useState, useMemo, useEffect, useCallback } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import Image from 'next/image';
+import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, MinusCircle, PlusCircle, ShoppingCart } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import type { DiscoverItem, MenuItem } from '@/lib/discover-data';
+
+type DiscoverModalProps = {
+    selectedItem: DiscoverItem | null;
+    setSelectedItem: Dispatch<SetStateAction<DiscoverItem | null>>;
+};
+
+type Order = {
+    [itemId: string]: number;
+}
+
+export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+    const [order, setOrder] = useState<Order>({});
+    const { toast } = useToast();
+
+    useEffect(() => {
+      // Reset order when a new item is selected
+      setOrder({});
+    }, [selectedItem]);
+
+    const handleClose = () => {
+        setSelectedItem(null);
+    };
+
+    useEffect(() => {
+        if (!carouselApi) return;
+        const onSelect = (api: CarouselApi) => setCurrentSlide(api.selectedScrollSnap());
+        carouselApi.on('select', onSelect);
+        return () => carouselApi.off('select', onSelect);
+    }, [carouselApi]);
+
+    const totalAvailableRooms = useMemo(() => {
+        if (selectedItem?.category !== 'Hotels' || !selectedItem.rooms) return 0;
+        return selectedItem.rooms.reduce((acc, room) => acc + room.availability, 0);
+    }, [selectedItem]);
+
+    const updateOrder = (itemId: string, quantity: number) => {
+        const newOrder = { ...order };
+        if (quantity <= 0) {
+            delete newOrder[itemId];
+        } else {
+            newOrder[itemId] = quantity;
+        }
+        setOrder(newOrder);
+    };
+
+    const totalOrderPrice = useMemo(() => {
+        if (!selectedItem || selectedItem.category !== 'Restaurants' || !selectedItem.menu) return 0;
+        return Object.entries(order).reduce((total, [itemId, quantity]) => {
+            const menuItem = selectedItem.menu?.find(item => item.id === itemId);
+            return total + (menuItem ? menuItem.price * quantity : 0);
+        }, 0);
+    }, [order, selectedItem]);
+
+    const handlePlaceOrder = () => {
+        if (!selectedItem || !selectedItem.phone || totalOrderPrice === 0) return;
+
+        toast({ title: "Getting your location..." });
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                const userLocationLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                let orderDetails = `Hello ${selectedItem.title}, I would like to place an order:\n\n`;
+                Object.entries(order).forEach(([itemId, quantity]) => {
+                    const menuItem = selectedItem.menu?.find(item => item.id === itemId);
+                    if (menuItem) {
+                        orderDetails += `*${menuItem.name}* (x${quantity}) - ${menuItem.price * quantity} DZD\n`;
+                    }
+                });
+                orderDetails += `\n*Total: ${totalOrderPrice} DZD*\n\nMy location for delivery:\n${userLocationLink}\n\nThank you!`;
+                
+                const whatsappUrl = `https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(orderDetails)}`;
+                window.open(whatsappUrl, '_blank');
+                toast({ title: "Redirecting to WhatsApp", description: "Your order is ready to be sent." });
+            },
+            (error) => {
+                console.error("Geolocation error:", error);
+                toast({ variant: "destructive", title: "Location Error", description: "Could not get your location. Please enable location services and try again." });
+            }
+        );
+    };
+
+    const imagesToShow = selectedItem?.images || (selectedItem?.image ? [selectedItem.image] : []);
+
+    return (
+      <>
+        <Dialog open={!!selectedItem} onOpenChange={(isOpen) => !isOpen && handleClose()}>
+            <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
+                {selectedItem && (
+                    <>
+                        <div className="relative flex-shrink-0 pt-6 px-4">
+                            <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
+                                <X className="w-4 h-4" />
+                                <span className="sr-only">Close</span>
+                            </DialogClose>
+                            <div className="relative">
+                                <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
+                                    <CarouselContent>
+                                        {imagesToShow.map((image, index) => (
+                                            <CarouselItem key={image.id || index}>
+                                                <Card className="overflow-hidden rounded-2xl shadow-none border-0">
+                                                    <CardContent className="p-0">
+                                                        <div className="relative w-full aspect-video">
+                                                            <Image
+                                                                src={image.imageUrl}
+                                                                alt={`${selectedItem.title} image ${index + 1}`}
+                                                                fill
+                                                                className="object-cover rounded-2xl"
+                                                                data-ai-hint={image.imageHint}
+                                                            />
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                            </CarouselItem>
+                                        ))}
+                                    </CarouselContent>
+                                </Carousel>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => setIsZoomModalOpen(true)}
+                                    className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                                >
+                                    <ZoomIn className="w-5 h-5" />
+                                </Button>
+                            </div>
+                            {imagesToShow.length > 1 && (
+                                <div className="flex justify-center gap-2 mt-4">
+                                    {imagesToShow.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => carouselApi?.scrollTo(index)}
+                                            className={cn(
+                                                "h-2 rounded-full transition-all",
+                                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="relative flex-grow overflow-y-auto">
+                            <div className="p-6 pt-4">
+                                <div className='flex justify-between items-start mb-2'>
+                                    <h2 className="text-2xl font-bold font-headline">{selectedItem.title}</h2>
+                                    {selectedItem.rating && (
+                                        <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                                            <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                                            <span className="font-bold text-foreground">{selectedItem.rating}</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                                    <div className="flex items-center gap-2">
+                                        {selectedItem.category === 'Hotels' && <Bed className="w-4 h-4 text-primary" />}
+                                        {selectedItem.category === 'Restaurants' && <Utensils className="w-4 h-4 text-primary" />}
+                                        <span>{selectedItem.location}</span>
+                                    </div>
+                                </div>
+                                <p className="text-foreground/80 leading-relaxed mb-6">{selectedItem.description}</p>
+                                
+                                <Separator className="my-6" />
+
+                                {/* Category-specific content */}
+                                {selectedItem.category === 'Hotels' && selectedItem.rooms && (
+                                    <div>
+                                        <h3 className="font-bold text-lg mb-4 font-headline">Available Rooms</h3>
+                                        <div className="space-y-3">
+                                            {selectedItem.rooms.map(room => (
+                                                <div key={room.name} className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
+                                                    <p>{room.name}</p>
+                                                    <p className={cn("font-bold text-sm", room.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                                        {room.availability > 0 ? `${room.availability} left` : 'Full'}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {selectedItem.category === 'Restaurants' && selectedItem.menu && (
+                                    <div>
+                                        <h3 className="font-bold text-lg mb-4 font-headline">Menu</h3>
+                                        <div className="space-y-4">
+                                            {selectedItem.menu.map(item => (
+                                                <div key={item.id} className="flex gap-4 items-center">
+                                                    <Image src={item.image.imageUrl} alt={item.name} width={80} height={80} className="rounded-lg object-cover aspect-square" />
+                                                    <div className="flex-grow">
+                                                        <p className="font-bold">{item.name}</p>
+                                                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                                                        <p className="text-sm font-bold mt-1 text-primary">{item.price} DZD</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => updateOrder(item.id, (order[item.id] || 0) - 1)}>
+                                                            <MinusCircle className="w-5 h-5 text-muted-foreground" />
+                                                         </Button>
+                                                         <span className="font-bold w-4 text-center">{order[item.id] || 0}</span>
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => updateOrder(item.id, (order[item.id] || 0) + 1)}>
+                                                             <PlusCircle className="w-5 h-5 text-primary"/>
+                                                         </Button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                            </div>
+                             <div className="sticky bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+                        </div>
+
+                        <div className="p-4 bg-background mt-auto grid grid-cols-1 gap-2">
+                            {selectedItem.category === 'Hotels' && (
+                                <Button size="lg" disabled={totalAvailableRooms === 0}>
+                                    <CalendarCheck2 className="mr-2 h-4 w-4" />
+                                    {totalAvailableRooms > 0 ? 'Book Now' : 'No Rooms Available'}
+                                </Button>
+                            )}
+                            {selectedItem.category === 'Restaurants' && (
+                                <div className="space-y-2">
+                                    <div className="flex justify-between items-center text-lg font-bold p-3 bg-muted/50 rounded-lg">
+                                        <span>Total</span>
+                                        <span>{totalOrderPrice} DZD</span>
+                                    </div>
+                                    <Button size="lg" className="w-full" disabled={totalOrderPrice === 0} onClick={handlePlaceOrder}>
+                                        <ShoppingCart className="mr-2 h-4 w-4" />
+                                        Place Order via WhatsApp
+                                    </Button>
+                                </div>
+                            )}
+                            { (selectedItem.category !== 'Hotels' && selectedItem.category !== 'Restaurants') && (
+                                <Button asChild size="lg">
+                                  <a href={`https://wa.me/${selectedItem.phone}?text=I'm%20interested%20in%20'${encodeURIComponent(selectedItem.title)}'`} target="_blank" rel="noopener noreferrer">
+                                     <MessageSquare className="mr-2 h-4 w-4"/>
+                                     Enquire Now
+                                    </a>
+                                </Button>
+                            )}
+                        </div>
+                    </>
+                )}
+            </DialogContent>
+        </Dialog>
+        
+        {selectedItem && isZoomModalOpen && (
+            <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
+                <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                    <div className="relative w-full h-full">
+                        <Image
+                            src={imagesToShow[currentSlide].imageUrl}
+                            alt={`${selectedItem.title} - image ${currentSlide + 1}`}
+                            fill
+                            className="object-contain"
+                            data-ai-hint={imagesToShow[currentSlide].imageHint}
+                        />
+                    </div>
+                    <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                        <X className="w-5 h-5" />
+                        <span className="sr-only">Close</span>
+                    </DialogClose>
+                </DialogContent>
+            </Dialog>
+      )}
+      </>
+    );
+}
+

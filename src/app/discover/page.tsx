@@ -5,13 +5,13 @@ import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Bed, Utensils, Car, ShoppingBag, Tent, Search, Star, User, Heart } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { discoverData, type DiscoverItem } from '@/lib/discover-data';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { DiscoverModal } from './discover-modal';
+
 
 const filterButtons = [
     { label: 'Hotels', category: 'Hotels', icon: Bed },
@@ -24,6 +24,7 @@ const filterButtons = [
 export default function DiscoverPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('Hotels');
+    const [selectedItem, setSelectedItem] = useState<DiscoverItem | null>(null);
 
     const filteredItems = useMemo(() => {
         return discoverData.filter(item => 
@@ -88,7 +89,7 @@ export default function DiscoverPage() {
                             <CarouselContent className="-ml-4">
                                 {experiencesOfTheWeek.map((experience) => (
                                 <CarouselItem key={experience.id} className="basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 pl-4">
-                                    <div className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-video md:aspect-[16/10] group cursor-pointer shadow-lg">
+                                    <div className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-video md:aspect-[16/10] group cursor-pointer shadow-lg" onClick={() => setSelectedItem(experience)}>
                                         {experience.image && (
                                             <Image
                                                 src={experience.image.imageUrl}
@@ -116,7 +117,7 @@ export default function DiscoverPage() {
                                                 <p className="text-sm max-w-xs mt-1 opacity-90">{experience.description}</p>
                                             </div>
                                             <div className="mt-4">
-                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base">Book Now</Button>
+                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base" onClick={(e) => {e.stopPropagation(); setSelectedItem(experience)}}>Book Now</Button>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +139,7 @@ export default function DiscoverPage() {
                      {popularStays.length > 0 ? (
                         <div className="grid grid-cols-1 gap-6">
                             {popularStays.map((item) => (
-                                 <div key={item.id} className="group cursor-pointer">
+                                 <div key={item.id} className="group cursor-pointer" onClick={() => setSelectedItem(item)}>
                                     <div className="relative rounded-3xl overflow-hidden aspect-video">
                                         {item.image && (
                                             <Image
@@ -178,6 +179,11 @@ export default function DiscoverPage() {
                      )}
                 </section>
             </main>
+            
+            <DiscoverModal 
+                selectedItem={selectedItem} 
+                setSelectedItem={setSelectedItem} 
+            />
         </div>
     );
 }
