@@ -600,16 +600,16 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className="relative">
-                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-black/30 text-white p-1.5 hover:bg-black/50 transition-colors">
+                <div className="relative p-4">
+                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1.5 hover:bg-background/80 transition-colors">
                       <X className="w-4 h-4" />
                       <span className="sr-only">Close</span>
                   </DialogClose>
                   <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                      <CarouselContent>
+                      <CarouselContent className="-ml-4">
                           {selectedRoute.images.map((image, index) => (
-                              <CarouselItem key={index}>
-                                  <Card className="overflow-hidden rounded-t-2xl shadow-none border-0">
+                              <CarouselItem key={index} className="pl-4">
+                                  <Card className="overflow-hidden rounded-2xl shadow-none border-0">
                                     <CardContent className="p-0">
                                         <div className="relative w-full aspect-[4/3] sm:aspect-video">
                                             <Image
@@ -626,21 +626,21 @@ export default function Home() {
                           ))}
                       </CarouselContent>
                   </Carousel>
-                  <div className="flex justify-center gap-2 absolute bottom-4 left-0 right-0">
+                  <div className="flex justify-center gap-2 mt-4">
                     {selectedRoute.images.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => carouselApi?.scrollTo(index)}
                             className={cn(
                                 "h-2 rounded-full transition-all",
-                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-white/50"
+                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
                             )}
                         />
                     ))}
                   </div>
                 </div>
                 
-                <div className="p-6 flex-grow overflow-y-auto">
+                <div className="p-6 pt-0 flex-grow overflow-y-auto">
                     <div className='flex justify-between items-start mb-2'>
                         <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
                         <div className="flex items-center gap-1.5 shrink-0 pl-2">
@@ -662,7 +662,7 @@ export default function Home() {
                     <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
                 </div>
 
-                 <div className="p-4 bg-background border-t mt-auto grid grid-cols-3 gap-2">
+                 <div className="p-4 bg-background mt-auto grid grid-cols-3 gap-2">
                      <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)} className="col-span-1">
                          <Share2 className="mr-2 h-4 w-4"/>
                          Share
