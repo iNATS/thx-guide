@@ -9,12 +9,17 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import type { DiscoverItem, MenuItem, MenuOption, Room } from '@/lib/discover-data';
+import type { DateRange } from 'react-day-picker';
+import * as LucideIcons from 'lucide-react';
 
 
 type DiscoverModalProps = {
@@ -36,6 +41,7 @@ type BookingDetails = {
     adults: number;
     children: number;
     room: Room | null;
+    dateRange: DateRange | undefined;
 }
 
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
@@ -58,6 +64,10 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         adults: 1,
         children: 0,
         room: null,
+        dateRange: {
+            from: new Date(),
+            to: new Date(new Date().setDate(new Date().getDate() + 1)),
+        }
     });
 
 
@@ -216,11 +226,10 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     const handleRoomSelect = (room: Room) => {
         if (room.availability > 0) {
             setSelectedRoom(room);
-            setBookingDetails({
-                adults: 1,
-                children: 0,
+            setBookingDetails(prev => ({
+                ...prev,
                 room: room
-            });
+            }));
             setIsBookingSheetOpen(true);
         }
     }
@@ -235,13 +244,22 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         });
     }
 
+    const handleDateRangeChange = (range: DateRange | undefined) => {
+        setBookingDetails(prev => ({ ...prev, dateRange: range }));
+    };
+
     const handleSendBookingToWhatsapp = () => {
         if (!selectedItem || !selectedItem.phone || !bookingDetails.room) return;
-        const { room, adults, children } = bookingDetails;
+        const { room, adults, children, dateRange } = bookingDetails;
         
+        const checkIn = dateRange?.from ? format(dateRange.from, "PPP") : 'Not selected';
+        const checkOut = dateRange?.to ? format(dateRange.to, "PPP") : 'Not selected';
+
         const message = `Hello ${selectedItem.title}, I would like to book the *${room.name}*.
 
 Details:
+- Check-in: ${checkIn}
+- Check-out: ${checkOut}
 - Guests: ${adults} Adult(s), ${children} Child(ren)
 
 Please let me know about availability and next steps. Thank you!`;
@@ -253,6 +271,12 @@ Please let me know about availability and next steps. Thank you!`;
     }
 
     const imagesToShow = selectedItem?.images || (selectedItem?.image ? [selectedItem.image] : []);
+
+    const DynamicIcon = ({ name }: { name: string }) => {
+        const IconComponent = (LucideIcons as any)[name];
+        if (!IconComponent) return null;
+        return <IconComponent className="w-5 h-5 text-primary" />;
+    };
 
     return (
       <>
@@ -334,6 +358,25 @@ Please let me know about availability and next steps. Thank you!`;
                                 </div>
                                 <p className="text-foreground/80 leading-relaxed mb-6">{selectedItem.description}</p>
                                 
+                                {selectedItem.features && selectedItem.features.length > 0 && (
+                                    <>
+                                        <Separator className="my-6" />
+                                        <div>
+                                            <h3 className="font-bold text-lg mb-4 font-headline">Features</h3>
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                                {selectedItem.features.map(feature => (
+                                                    <div key={feature.name} className="flex items-center gap-3">
+                                                        <div className="bg-primary/10 p-2 rounded-lg">
+                                                            <DynamicIcon name={feature.icon} />
+                                                        </div>
+                                                        <span className="text-sm font-medium text-foreground">{feature.name}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
                                 <Separator className="my-6" />
 
                                 {/* Category-specific content */}
@@ -540,7 +583,7 @@ Please let me know about availability and next steps. Thank you!`;
             <Sheet open={isBookingSheetOpen} onOpenChange={setIsBookingSheetOpen}>
                 <SheetContent side="bottom" className="w-full rounded-t-2xl p-0 h-[90vh] flex flex-col">
                      <SheetHeader className="p-6 pb-0">
-                        <SheetTitle>{selectedRoom.name}</SheetTitle>
+                        <DialogTitle>{selectedRoom.name}</DialogTitle>
                     </SheetHeader>
                     <div className='flex-grow overflow-y-auto'>
                         <Carousel setApi={setRoomCarouselApi} opts={{ loop: true }} className="w-full mb-4">
@@ -611,8 +654,8 @@ Please let me know about availability and next steps. Thank you!`;
                     </div>
 
                     <SheetFooter className="p-6 bg-background border-t">
-                        <Button size="lg" className="w-full" disabled={bookingDetails.adults === 0} onClick={() => { setIsBookingSheetOpen(false); setIsBookingConfirmationOpen(true);}}>
-                            Proceed to Book
+                        <Button size="lg" className="w-full" disabled={bookingDetails.adults === 0} onClick={() => { setIsBookingConfirmationOpen(true);}}>
+                            Confirm Booking
                         </Button>
                     </SheetFooter>
                 </SheetContent>
@@ -624,7 +667,7 @@ Please let me know about availability and next steps. Thank you!`;
              <Sheet open={isBookingConfirmationOpen} onOpenChange={setIsBookingConfirmationOpen}>
                 <SheetContent side="bottom" className="w-full rounded-t-2xl p-6">
                     <SheetHeader className="text-left">
-                        <SheetTitle>Confirm Your Booking</SheetTitle>
+                        <DialogTitle>Confirm Your Booking</DialogTitle>
                         <SheetDescription>
                            Review your booking details for the <span className='font-bold'>{selectedRoom.name}</span> at <span className='font-bold'>{selectedItem.title}</span>.
                         </SheetDescription>
@@ -635,7 +678,7 @@ Please let me know about availability and next steps. Thank you!`;
                         </div>
                     </div>
                      <SheetFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
-                         <Button variant="outline" onClick={() => { setIsBookingConfirmationOpen(false); setIsBookingSheetOpen(true); }}>Edit Booking</Button>
+                         <Button variant="outline" onClick={() => { setIsBookingConfirmationOpen(false); }}>Edit Booking</Button>
                         <Button onClick={handleSendBookingToWhatsapp}>Confirm & Send</Button>
                     </SheetFooter>
                 </SheetContent>
@@ -665,15 +708,3 @@ Please let me know about availability and next steps. Thank you!`;
       </>
     );
 }
-
-    
-
-
-
-
-
-    
-
-    
-
-    

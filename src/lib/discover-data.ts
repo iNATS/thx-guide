@@ -22,6 +22,11 @@ export type MenuItem = {
     deliveryTime: number; // in minutes
 }
 
+export type HotelFeature = {
+    name: string;
+    icon: string; // lucide-react icon name
+}
+
 export type DiscoverItem = {
     id: string;
     title: string;
@@ -37,6 +42,7 @@ export type DiscoverItem = {
     rooms?: Room[];
     menu?: MenuItem[];
     phone?: string;
+    features?: HotelFeature[];
 };
 
 export const discoverData: DiscoverItem[] = [
@@ -60,7 +66,15 @@ export const discoverData: DiscoverItem[] = [
             { name: 'Suite with Oasis View', availability: 1, price: 25000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-suite')!, PlaceHolderImages.find(img => img.id === 'hotel-room-suite-2')!] },
             { name: 'Family Room', availability: 0, price: 18000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-family')!] },
         ],
-        phone: '+213660218221'
+        phone: '+213660218221',
+        features: [
+            { name: 'Free Wi-Fi', icon: 'Wifi' },
+            { name: 'Parking', icon: 'ParkingSquare' },
+            { name: 'Pool', icon: 'Waves' },
+            { name: 'Restaurant', icon: 'Utensils' },
+            { name: 'Air Conditioning', icon: 'AirVent' },
+            { name: 'No-Smoking', icon: 'CigaretteOff' },
+        ]
     },
     {
         id: 'desert-rose-camp',
@@ -94,7 +108,13 @@ export const discoverData: DiscoverItem[] = [
             { name: 'Standard Room', availability: 2, price: 9000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-standard')!] },
             { name: 'Terrace Room', availability: 0, price: 13000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')!] },
         ],
-        phone: '+213660218221'
+        phone: '+213660218221',
+        features: [
+            { name: 'Free Wi-Fi', icon: 'Wifi' },
+            { name: 'Parking', icon: 'ParkingSquare' },
+            { name: 'Breakfast', icon: 'Coffee' },
+            { name: 'Air Conditioning', icon: 'AirVent' },
+        ]
     },
     {
         id: 'restaurant-oasis-rouge',
