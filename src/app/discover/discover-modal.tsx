@@ -9,12 +9,17 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Child } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import type { DiscoverItem, MenuItem, MenuOption, Room } from '@/lib/discover-data';
+import { DateRange } from 'react-day-picker';
+import { addDays, format } from 'date-fns';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
 
 type DiscoverModalProps = {
     selectedItem: DiscoverItem | null;
@@ -31,15 +36,35 @@ type Order = {
     [compositeKey: string]: OrderItem;
 };
 
+type BookingDetails = {
+    adults: number;
+    children: number;
+    dateRange?: DateRange;
+    room: Room | null;
+}
+
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+    const [roomCarouselApi, setRoomCarouselApi] = useState<CarouselApi>();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [currentRoomSlide, setCurrentRoomSlide] = useState(0);
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
     const [order, setOrder] = useState<Order>({});
     const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
     const { toast } = useToast();
      // State to hold the selected option for each menu item before adding to order
     const [selectedOptions, setSelectedOptions] = useState<{ [itemId: string]: MenuOption }>({});
+    
+    // Hotel booking states
+    const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+    const [isBookingSheetOpen, setIsBookingSheetOpen] = useState(false);
+    const [isBookingConfirmationOpen, setIsBookingConfirmationOpen] = useState(false);
+    const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
+        adults: 1,
+        children: 0,
+        dateRange: { from: new Date(), to: addDays(new Date(), 1) },
+        room: null,
+    });
 
 
     useEffect(() => {
@@ -67,11 +92,13 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         carouselApi.on('select', onSelect);
         return () => carouselApi.off('select', onSelect);
     }, [carouselApi]);
-
-    const totalAvailableRooms = useMemo(() => {
-        if (selectedItem?.category !== 'Hotels' || !selectedItem.rooms) return 0;
-        return selectedItem.rooms.reduce((acc, room) => acc + room.availability, 0);
-    }, [selectedItem]);
+    
+    useEffect(() => {
+        if (!roomCarouselApi) return;
+        const onSelect = (api: CarouselApi) => setCurrentRoomSlide(api.selectedScrollSnap());
+        roomCarouselApi.on('select', onSelect);
+        return () => roomCarouselApi.off('select', onSelect);
+    }, [roomCarouselApi]);
     
     const handleShare = async () => {
         if (!selectedItem) return;
@@ -192,6 +219,51 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         setIsConfirmingOrder(false);
     };
 
+    const handleRoomSelect = (room: Room) => {
+        if (room.availability > 0) {
+            setSelectedRoom(room);
+            setBookingDetails({
+                adults: 1,
+                children: 0,
+                dateRange: { from: new Date(), to: addDays(new Date(), 1) },
+                room: room
+            });
+            setIsBookingSheetOpen(true);
+        }
+    }
+    
+    const handlePersonCountChange = (type: 'adults' | 'children', change: number) => {
+        setBookingDetails(prev => {
+            const newCount = prev[type] + change;
+            return {
+                ...prev,
+                [type]: Math.max(type === 'adults' ? 1 : 0, newCount)
+            }
+        });
+    }
+
+    const handleSendBookingToWhatsapp = () => {
+        if (!selectedItem || !selectedItem.phone || !bookingDetails.room) return;
+        const { room, adults, children, dateRange } = bookingDetails;
+        
+        const checkIn = dateRange?.from ? format(dateRange.from, 'PPP') : 'N/A';
+        const checkOut = dateRange?.to ? format(dateRange.to, 'PPP') : 'N/A';
+
+        const message = `Hello ${selectedItem.title}, I would like to book the *${room.name}*.
+
+Details:
+- Check-in: ${checkIn}
+- Check-out: ${checkOut}
+- Guests: ${adults} Adult(s), ${children} Child(ren)
+
+Please let me know about availability and next steps. Thank you!`;
+
+        const whatsappUrl = `https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        toast({ title: "Redirecting to WhatsApp", description: "Your booking request is ready." });
+        setIsBookingConfirmationOpen(false);
+    }
+
     const imagesToShow = selectedItem?.images || (selectedItem?.image ? [selectedItem.image] : []);
 
     return (
@@ -281,25 +353,21 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                         <h3 className="font-bold text-lg mb-4 font-headline">Available Rooms</h3>
                                         <div className="space-y-4">
                                             {selectedItem.rooms.map(room => (
-                                                <Card key={room.name} className="overflow-hidden">
-                                                    <CardContent className="p-0">
-                                                        <div className="relative aspect-video w-full">
-                                                            <Image src={room.image.imageUrl} alt={room.name} fill className="object-cover" />
+                                                <Card key={room.name} className="overflow-hidden bg-card shadow-none border-border/80 cursor-pointer hover:border-primary/50 transition-colors" onClick={() => handleRoomSelect(room)}>
+                                                    <div className="flex">
+                                                        <div className="relative aspect-square w-24 flex-shrink-0">
+                                                            <Image src={room.images[0].imageUrl} alt={room.name} fill className="object-cover" />
                                                         </div>
-                                                        <div className="p-4 space-y-2">
-                                                            <p className="font-bold">{room.name}</p>
-                                                            <div className='flex justify-between items-center'>
-                                                                <p className={cn("font-bold text-sm", room.availability > 0 ? "text-green-600" : "text-destructive")}>
-                                                                    {room.availability > 0 ? `${room.availability} available` : 'Fully Booked'}
-                                                                </p>
-                                                                <Button asChild size="sm" disabled={room.availability === 0}>
-                                                                    <a href={`https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(`I'm interested in booking the '${room.name}' at ${selectedItem.title}.`)}`} target="_blank" rel="noopener noreferrer">
-                                                                        Book this Room
-                                                                    </a>
-                                                                </Button>
-                                                            </div>
+                                                        <div className="p-4 flex flex-col justify-between flex-grow">
+                                                           <div>
+                                                                <p className="font-bold">{room.name}</p>
+                                                                <p className="text-sm font-bold text-primary">{room.price.toLocaleString()} DZD / night</p>
+                                                           </div>
+                                                           <p className={cn("font-semibold text-sm mt-2", room.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                                                {room.availability > 0 ? `${room.availability} available` : 'Fully Booked'}
+                                                            </p>
                                                         </div>
-                                                    </CardContent>
+                                                    </div>
                                                 </Card>
                                             ))}
                                         </div>
@@ -440,6 +508,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
             </DialogContent>
         </Dialog>
 
+        {/* Restaurant Order Confirmation Sheet */}
         {selectedItem && selectedItem.category === 'Restaurants' && (
             <Sheet open={isConfirmingOrder} onOpenChange={setIsConfirmingOrder}>
                 <SheetContent side="bottom" className="w-full rounded-t-2xl p-6">
@@ -477,6 +546,150 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
             </Sheet>
         )}
         
+        {/* Hotel Room Booking Sheet */}
+        {selectedItem && selectedItem.category === 'Hotels' && selectedRoom && (
+            <Sheet open={isBookingSheetOpen} onOpenChange={setIsBookingSheetOpen}>
+                <SheetContent side="bottom" className="w-full rounded-t-2xl p-0 h-[90vh] flex flex-col">
+                     <SheetHeader className="p-6 pb-0">
+                        <SheetTitle>{selectedRoom.name}</SheetTitle>
+                    </SheetHeader>
+                    <div className='flex-grow overflow-y-auto'>
+                        <Carousel setApi={setRoomCarouselApi} opts={{ loop: true }} className="w-full mb-4">
+                            <CarouselContent>
+                                {selectedRoom.images.map((image, index) => (
+                                    <CarouselItem key={image.id || index}>
+                                        <div className="relative w-full aspect-video">
+                                            <Image src={image.imageUrl} alt={`${selectedRoom.name} image ${index + 1}`} fill className="object-cover" data-ai-hint={image.imageHint} />
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                             {selectedRoom.images.length > 1 && (
+                                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                                    {selectedRoom.images.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => roomCarouselApi?.scrollTo(index)}
+                                            className={cn("h-2 rounded-full transition-all", currentRoomSlide === index ? "w-6 bg-white" : "w-2 bg-white/50")}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </Carousel>
+
+                         <div className="p-6 space-y-6">
+                            <div className='grid grid-cols-2 gap-4 text-center'>
+                                <div className='bg-muted/50 rounded-lg p-3'>
+                                    <p className='text-sm text-muted-foreground'>Price / night</p>
+                                    <p className='font-bold text-primary'>{selectedRoom.price.toLocaleString()} DZD</p>
+                                </div>
+                                <div className='bg-muted/50 rounded-lg p-3'>
+                                    <p className='text-sm text-muted-foreground'>Availability</p>
+                                    <p className={cn("font-bold", selectedRoom.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                        {selectedRoom.availability > 0 ? `${selectedRoom.availability} available` : 'Fully Booked'}
+                                    </p>
+                                </div>
+                            </div>
+                           
+                            <div>
+                                <h4 className='font-semibold mb-3'>Select Dates</h4>
+                                 <Popover>
+                                    <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn("w-full justify-start text-left font-normal", !bookingDetails.dateRange && "text-muted-foreground")}>
+                                        <CalendarCheck2 className="mr-2 h-4 w-4" />
+                                        {bookingDetails.dateRange?.from ? (
+                                        bookingDetails.dateRange.to ? (
+                                            <>
+                                            {format(bookingDetails.dateRange.from, "LLL dd, y")} -{" "}
+                                            {format(bookingDetails.dateRange.to, "LLL dd, y")}
+                                            </>
+                                        ) : (
+                                            format(bookingDetails.dateRange.from, "LLL dd, y")
+                                        )
+                                        ) : (
+                                        <span>Pick a date</span>
+                                        )}
+                                    </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="center">
+                                    <Calendar
+                                        initialFocus
+                                        mode="range"
+                                        defaultMonth={bookingDetails.dateRange?.from}
+                                        selected={bookingDetails.dateRange}
+                                        onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
+                                        numberOfMonths={1}
+                                    />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+
+                            <div>
+                                <h4 className='font-semibold mb-2'>Select Guests</h4>
+                                <div className='space-y-3'>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='flex items-center gap-2'>
+                                            <User className='w-5 h-5 text-muted-foreground'/>
+                                            <span className='font-medium'>Adults</span>
+                                        </div>
+                                        <div className='flex items-center gap-2'>
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePersonCountChange('adults', -1)}><Minus className="w-4 h-4"/></Button>
+                                            <span className='font-bold w-4 text-center'>{bookingDetails.adults}</span>
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePersonCountChange('adults', 1)}><Plus className="w-4 h-4"/></Button>
+                                        </div>
+                                    </div>
+                                     <div className='flex justify-between items-center'>
+                                        <div className='flex items-center gap-2'>
+                                            <Child className='w-5 h-5 text-muted-foreground'/>
+                                            <span className='font-medium'>Children</span>
+                                        </div>
+                                        <div className='flex items-center gap-2'>
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePersonCountChange('children', -1)}><Minus className="w-4 h-4"/></Button>
+                                            <span className='font-bold w-4 text-center'>{bookingDetails.children}</span>
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePersonCountChange('children', 1)}><Plus className="w-4 h-4"/></Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <SheetFooter className="p-6 bg-background border-t">
+                        <Button size="lg" className="w-full" disabled={bookingDetails.adults === 0} onClick={() => { setIsBookingSheetOpen(false); setIsBookingConfirmationOpen(true);}}>
+                            Proceed to Book
+                        </Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+        )}
+        
+         {/* Hotel Booking Confirmation Sheet */}
+        {selectedItem && selectedItem.category === 'Hotels' && selectedRoom && (
+             <Sheet open={isBookingConfirmationOpen} onOpenChange={setIsBookingConfirmationOpen}>
+                <SheetContent side="bottom" className="w-full rounded-t-2xl p-6">
+                    <SheetHeader className="text-left">
+                        <SheetTitle>Confirm Your Booking</SheetTitle>
+                        <SheetDescription>
+                           Review your booking details for the <span className='font-bold'>{selectedRoom.name}</span> at <span className='font-bold'>{selectedItem.title}</span>.
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className="my-4">
+                        <div className="space-y-2 text-sm">
+                            <div className='flex justify-between'><span className='text-muted-foreground'>Check-in:</span> <span className='font-medium'>{bookingDetails.dateRange?.from ? format(bookingDetails.dateRange.from, 'PPP') : 'N/A'}</span></div>
+                            <div className='flex justify-between'><span className='text-muted-foreground'>Check-out:</span> <span className='font-medium'>{bookingDetails.dateRange?.to ? format(bookingDetails.dateRange.to, 'PPP') : 'N/A'}</span></div>
+                            <div className='flex justify-between'><span className='text-muted-foreground'>Guests:</span> <span className='font-medium'>{bookingDetails.adults} Adult(s), {bookingDetails.children} Child(ren)</span></div>
+                        </div>
+                    </div>
+                     <SheetFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
+                         <Button variant="outline" onClick={() => { setIsBookingConfirmationOpen(false); setIsBookingSheetOpen(true); }}>Edit Booking</Button>
+                        <Button onClick={handleSendBookingToWhatsapp}>Confirm & Send</Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+        )}
+
         {selectedItem && isZoomModalOpen && (
             <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
                 <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
@@ -499,7 +712,3 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
       </>
     );
 }
-
-    
-
-    

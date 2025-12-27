@@ -4,7 +4,8 @@ import { PlaceHolderImages, type ImagePlaceholder } from './placeholder-images';
 export type Room = {
     name: string;
     availability: number;
-    image: ImagePlaceholder;
+    price: number;
+    images: ImagePlaceholder[];
 };
 
 export type MenuOption = {
@@ -55,9 +56,9 @@ export const discoverData: DiscoverItem[] = [
         rating: 4.8,
         location: 'Historic Center • 0.5km away',
         rooms: [
-            { name: 'Standard Double Room', availability: 3, image: PlaceHolderImages.find(img => img.id === 'hotel-room-standard')! },
-            { name: 'Suite with Oasis View', availability: 1, image: PlaceHolderImages.find(img => img.id === 'hotel-room-suite')! },
-            { name: 'Family Room', availability: 0, image: PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')! },
+            { name: 'Standard Double Room', availability: 3, price: 12000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-standard')!, PlaceHolderImages.find(img => img.id === 'hotel-room-standard-2')!] },
+            { name: 'Suite with Oasis View', availability: 1, price: 25000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-suite')!, PlaceHolderImages.find(img => img.id === 'hotel-room-suite-2')!] },
+            { name: 'Family Room', availability: 0, price: 18000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-family')!] },
         ],
         phone: '+213660218221'
     },
@@ -90,8 +91,8 @@ export const discoverData: DiscoverItem[] = [
         rating: 4.7,
         location: 'Old Ksar • 0.1km away',
         rooms: [
-            { name: 'Standard Room', availability: 2, image: PlaceHolderImages.find(img => img.id === 'hotel-room-standard')! },
-            { name: 'Terrace Room', availability: 0, image: PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')! },
+            { name: 'Standard Room', availability: 2, price: 9000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-standard')!] },
+            { name: 'Terrace Room', availability: 0, price: 13000, images: [PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')!] },
         ],
         phone: '+213660218221'
     },
