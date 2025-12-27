@@ -392,46 +392,39 @@ export default function Home() {
                           );
                       })}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
-                      {filteredPlaces.map(place => {
-                         const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
-                         return (
-                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => handleSelectPlace(place)}>
-                             <CardContent className="p-0">
-                              <div className="relative aspect-[4/3]">
-                                  <Image
-                                      src={place.images[0].imageUrl}
-                                      alt={place.title}
-                                      fill
-                                      style={{objectFit: 'cover'}}
-                                      className="group-hover:scale-105 transition-transform duration-300"
-                                      data-ai-hint={place.images[0].imageHint}
-                                  />
-                                  <Button
-                                      size="icon"
-                                      variant="ghost"
-                                      className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
-                                      onClick={(e) => { e.stopPropagation(); toggleFavoritePlace(place.id); }}
-                                  >
-                                      <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-primary text-primary")} />
-                                  </Button>
-                              </div>
-                              <div className="p-4">
-                                  <div className="flex justify-between items-start">
-                                      <h3 className="font-bold text-lg">{place.title}</h3>
-                                      <div className="flex items-center gap-1.5 text-sm shrink-0 pl-2">
-                                          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
-                                          <span className="font-bold">{place.rating}</span>
-                                      </div>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                                    <CategoryIcon className="w-4 h-4" />
-                                    <span>{place.shortInfo}</span>
-                                  </div>
-                              </div>
-                              </CardContent>
-                          </Card>
-                      )})}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {filteredPlaces.map(place => (
+                           <div key={place.id} className="group cursor-pointer" onClick={() => handleSelectPlace(place)}>
+                                <div className="relative rounded-3xl overflow-hidden aspect-video">
+                                    <Image
+                                        src={place.images[0].imageUrl}
+                                        alt={place.title}
+                                        fill
+                                        style={{objectFit: 'cover'}}
+                                        className="group-hover:scale-105 transition-transform duration-300"
+                                        data-ai-hint={place.images[0].imageHint}
+                                    />
+                                    <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    className="absolute top-3 right-3 rounded-full bg-black/30 text-white hover:bg-black/50 hover:text-white h-9 w-9"
+                                    onClick={(e) => { e.stopPropagation(); toggleFavoritePlace(place.id); }}
+                                    >
+                                    <Heart className={cn("w-5 h-5", favoritedPlaces.has(place.id) && "fill-primary text-primary")} />
+                                    </Button>
+                                </div>
+                                <div className="mt-3">
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="font-bold text-lg">{place.title}</h3>
+                                        <div className="flex items-center gap-1.5 text-sm">
+                                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                                            <span className="font-bold">{place.rating}</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-muted-foreground text-sm">{place.shortInfo}</p>
+                                </div>
+                            </div>
+                      ))}
                   </div>
               </div>
             </div>
@@ -718,3 +711,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
