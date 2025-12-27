@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
@@ -272,14 +272,14 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         </Dialog>
 
         {selectedItem && selectedItem.category === 'Restaurants' && (
-            <AlertDialog open={isConfirmingOrder} onOpenChange={setIsConfirmingOrder}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Confirm Your Order</AlertDialogTitle>
-                        <AlertDialogDescription>
+            <Sheet open={isConfirmingOrder} onOpenChange={setIsConfirmingOrder}>
+                <SheetContent side="bottom" className="w-full rounded-t-2xl p-6">
+                    <SheetHeader className="text-left">
+                        <SheetTitle>Confirm Your Order</SheetTitle>
+                        <SheetDescription>
                             Please review your order before sending it.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
+                        </SheetDescription>
+                    </SheetHeader>
                     <div className="max-h-60 overflow-y-auto my-4 pr-2">
                         <div className="space-y-2">
                         {Object.entries(order).map(([itemId, quantity]) => {
@@ -299,12 +299,14 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                             <span>{totalOrderPrice} DZD</span>
                         </div>
                     </div>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Edit Order</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleSendOrderToWhatsapp}>Confirm & Send</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                    <SheetFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
+                        <SheetClose asChild>
+                            <Button variant="outline">Edit Order</Button>
+                        </SheetClose>
+                        <Button onClick={handleSendOrderToWhatsapp}>Confirm & Send</Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
         )}
         
         {selectedItem && isZoomModalOpen && (
@@ -330,5 +332,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     );
 }
 
+
+    
 
     
