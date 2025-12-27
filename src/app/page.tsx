@@ -617,74 +617,79 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className='relative px-4 pt-8'>
+                <div className='relative pt-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
                     </DialogClose>
-                    <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                        <CarouselContent className="-ml-4">
-                            {selectedRoute.images.map((image, index) => (
-                                <CarouselItem key={index} className="pl-4">
-                                    <Card className="overflow-hidden rounded-2xl shadow-none border-0">
-                                    <CardContent className="p-0">
-                                        <div className="relative w-full aspect-[4/3] sm:aspect-video">
-                                            <Image
-                                                src={image.imageUrl}
-                                                alt={`${selectedRoute.title} image ${index + 1}`}
-                                                fill
-                                                className="object-cover rounded-2xl"
-                                                data-ai-hint={image.imageHint}
-                                            />
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => setIsRouteZoomModalOpen(true)}
-                                                className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
-                                            >
-                                                <ZoomIn className="w-5 h-5" />
-                                            </Button>
-                                        </div>
-                                    </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    <div className="flex justify-center gap-2 mt-4">
-                    {selectedRoute.images.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => carouselApi?.scrollTo(index)}
-                            className={cn(
-                                "h-2 rounded-full transition-all",
-                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
-                            )}
-                        />
-                    ))}
+                     <div className="px-4">
+                        <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
+                            <CarouselContent className="-ml-4">
+                                {selectedRoute.images.map((image, index) => (
+                                    <CarouselItem key={index} className="pl-4">
+                                        <Card className="overflow-hidden rounded-2xl shadow-none border-0">
+                                        <CardContent className="p-0">
+                                            <div className="relative w-full aspect-video">
+                                                <Image
+                                                    src={image.imageUrl}
+                                                    alt={`${selectedRoute.title} image ${index + 1}`}
+                                                    fill
+                                                    className="object-cover rounded-2xl"
+                                                    data-ai-hint={image.imageHint}
+                                                />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => setIsRouteZoomModalOpen(true)}
+                                                    className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                                                >
+                                                    <ZoomIn className="w-5 h-5" />
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                        </Card>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                        <div className="flex justify-center gap-2 mt-4">
+                        {selectedRoute.images.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => carouselApi?.scrollTo(index)}
+                                className={cn(
+                                    "h-2 rounded-full transition-all",
+                                    currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
+                                )}
+                            />
+                        ))}
+                        </div>
                     </div>
                 </div>
                 
-                <div className="p-6 pt-4 flex-grow overflow-y-auto">
-                    <div className='flex justify-between items-center mb-2'>
-                        <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
-                         <div className="flex items-center gap-1.5 shrink-0 pl-2">
-                            <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
-                            <span className="font-bold text-foreground">{selectedRoute.rating}</span>
+                 <div className="relative flex-grow overflow-y-auto">
+                    <div className="p-6 pt-4">
+                        <div className='flex justify-between items-start mb-2'>
+                            <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
+                            <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                                <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
+                                <span className="font-bold text-foreground">{selectedRoute.rating}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                      <div className="flex items-center gap-2">
-                          <selectedRoute.categoryIcon className="w-4 h-4 text-primary"/>
-                          <span>{selectedRoute.category}</span>
-                      </div>
-                       <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-primary"/>
-                          <span>{selectedRoute.duration}</span>
-                      </div>
-                    </div>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                        <div className="flex items-center gap-2">
+                            <selectedRoute.categoryIcon className="w-4 h-4 text-primary"/>
+                            <span>{selectedRoute.category}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-primary"/>
+                            <span>{selectedRoute.duration}</span>
+                        </div>
+                        </div>
 
-                    <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
+                        <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
+                    </div>
+                     <div className="sticky bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
                 </div>
 
                  <div className="p-4 bg-background mt-auto grid grid-cols-3 gap-2">
