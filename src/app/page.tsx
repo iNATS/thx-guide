@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
@@ -27,6 +26,7 @@ import {
   Footprints,
   ChevronLeft,
   ChevronRight,
+  ZoomIn,
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -180,7 +180,13 @@ export default function Home() {
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
   
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
   const nextImage = useCallback(() => {
     if (selectedPlace) {
       setSelectedImageIndex((prevIndex) => (prevIndex + 1) % selectedPlace.images.length);
@@ -192,6 +198,31 @@ export default function Home() {
       setSelectedImageIndex((prevIndex) => (prevIndex - 1 + selectedPlace.images.length) % selectedPlace.images.length);
     }
   }, [selectedPlace]);
+  
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextImage();
+    } else if (isRightSwipe) {
+      prevImage();
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
 
 
   const toggleFavoriteRoute = (routeId: string) => {
@@ -393,7 +424,11 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-lg w-full h-[90vh] sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col rounded-t-lg sm:rounded-lg">
             {selectedPlace && (
                 <>
-                <div className="flex-shrink-0 group">
+                <div className="flex-shrink-0 group relative"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
                     <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
@@ -425,6 +460,15 @@ export default function Home() {
                           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
                         >
                           <ChevronRight className="w-5 h-5" />
+                        </Button>
+
+                         <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setIsZoomModalOpen(true)}
+                          className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                        >
+                          <ZoomIn className="w-5 h-5" />
                         </Button>
                     </div>
                 </div>
@@ -470,6 +514,26 @@ export default function Home() {
             )}
         </DialogContent>
       </Dialog>
+
+      {selectedPlace && (
+        <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
+            <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                <div className="relative w-full h-full" onClick={() => setIsImageZoomed(!isImageZoomed)}>
+                    <Image
+                        src={selectedPlace.images[selectedImageIndex].imageUrl}
+                        alt={`${selectedPlace.title} - image ${selectedImageIndex + 1}`}
+                        fill
+                        className={cn("object-contain transition-transform duration-300", isImageZoomed && "scale-150 cursor-zoom-out", !isImageZoomed && "cursor-zoom-in")}
+                        data-ai-hint={selectedPlace.images[selectedImageIndex].imageHint}
+                    />
+                </div>
+                <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                    <X className="w-5 h-5" />
+                    <span className="sr-only">Close</span>
+                </DialogClose>
+            </DialogContent>
+        </Dialog>
+      )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
         <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
@@ -522,5 +586,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
