@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
@@ -28,6 +29,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
     const [order, setOrder] = useState<Order>({});
+    const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         }, 0);
     }, [order, selectedItem]);
 
-    const handlePlaceOrder = () => {
+    const handleSendOrderToWhatsapp = () => {
         if (!selectedItem || !selectedItem.phone || totalOrderPrice === 0) return;
 
         toast({ title: "Getting your location..." });
@@ -97,6 +99,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                 toast({ variant: "destructive", title: "Location Error", description: "Could not get your location. Please enable location services and try again." });
             }
         );
+        setIsConfirmingOrder(false);
     };
 
     const imagesToShow = selectedItem?.images || (selectedItem?.image ? [selectedItem.image] : []);
@@ -248,7 +251,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                         <span>Total</span>
                                         <span>{totalOrderPrice} DZD</span>
                                     </div>
-                                    <Button size="lg" className="w-full" disabled={totalOrderPrice === 0} onClick={handlePlaceOrder}>
+                                    <Button size="lg" className="w-full" disabled={totalOrderPrice === 0} onClick={() => setIsConfirmingOrder(true)}>
                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                         Place Order via WhatsApp
                                     </Button>
@@ -267,6 +270,42 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                 )}
             </DialogContent>
         </Dialog>
+
+        {selectedItem && selectedItem.category === 'Restaurants' && (
+            <AlertDialog open={isConfirmingOrder} onOpenChange={setIsConfirmingOrder}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Confirm Your Order</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Please review your order before sending it.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="max-h-60 overflow-y-auto my-4 pr-2">
+                        <div className="space-y-2">
+                        {Object.entries(order).map(([itemId, quantity]) => {
+                             const menuItem = selectedItem.menu?.find(item => item.id === itemId);
+                             if (!menuItem) return null;
+                             return (
+                                <div key={itemId} className="flex justify-between items-center text-sm">
+                                    <span className="font-medium">{menuItem.name} (x{quantity})</span>
+                                    <span className="text-muted-foreground">{menuItem.price * quantity} DZD</span>
+                                </div>
+                             )
+                        })}
+                        </div>
+                        <Separator className="my-4"/>
+                        <div className="flex justify-between items-center font-bold text-lg">
+                            <span>Total</span>
+                            <span>{totalOrderPrice} DZD</span>
+                        </div>
+                    </div>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Edit Order</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleSendOrderToWhatsapp}>Confirm & Send</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        )}
         
         {selectedItem && isZoomModalOpen && (
             <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
@@ -291,3 +330,5 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     );
 }
 
+
+    
