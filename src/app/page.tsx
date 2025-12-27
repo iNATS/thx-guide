@@ -605,13 +605,7 @@ export default function Home() {
                       </Carousel>
 
                       <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
-                        <div className="flex justify-between items-end">
-                            <h2 className="text-3xl font-bold font-headline">{selectedRoute.title}</h2>
-                            <div className="flex items-center gap-1.5 text-lg shrink-0 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full">
-                                <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
-                                <span className="font-bold">{selectedRoute.rating}</span>
-                            </div>
-                        </div>
+                        <h2 className="text-3xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
                         <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
                           <div className="flex items-center gap-2 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
                               <selectedRoute.categoryIcon className="w-4 h-4"/>
@@ -621,6 +615,10 @@ export default function Home() {
                               <Clock className="w-4 h-4"/>
                               <span>{selectedRoute.duration}</span>
                           </div>
+                           <div className="flex items-center gap-1.5 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
+                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                                <span className="font-bold">{selectedRoute.rating}</span>
+                            </div>
                         </div>
                       </div>
 
