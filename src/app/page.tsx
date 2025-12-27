@@ -363,7 +363,7 @@ export default function Home() {
                       <CarouselContent className="-ml-4">
                           {popularRoutes.map((route) => (
                           <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
-                              <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border-0 bg-card" onClick={() => {}}>
+                              <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border-0 bg-card" onClick={() => setSelectedRoute(route)}>
                                 <CardContent className="p-0">
                                   <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer">
                                       {route.images[0] && (
@@ -391,18 +391,16 @@ export default function Home() {
                                       </Button>
                                       
                                       <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                          <div className='flex items-center gap-2 mb-2'>
-                                            <div className="px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full flex items-center gap-1.5 text-sm font-medium">
-                                                <Clock className="w-4 h-4"/>
-                                                <span>{route.duration}</span>
-                                            </div>
-                                          </div>
                                           <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
-                                          <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                                            <div className="flex items-center gap-1.5">
-                                              <route.categoryIcon className="w-4 h-4"/>
-                                              <span>{route.category}</span>
-                                            </div>
+                                           <div className="flex items-center justify-between text-sm mt-2 opacity-90">
+                                              <div className="flex items-center gap-1.5">
+                                                  <route.categoryIcon className="w-4 h-4" />
+                                                  <span>{route.category}</span>
+                                              </div>
+                                              <div className="px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full flex items-center gap-1.5 text-sm font-medium">
+                                                  <Clock className="w-4 h-4" />
+                                                  <span>{route.duration}</span>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
@@ -615,7 +613,7 @@ export default function Home() {
         <DialogContent className="p-0 sm:p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                 <div className='relative pt-4 px-4'>
+                <div className='relative pt-6 px-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
