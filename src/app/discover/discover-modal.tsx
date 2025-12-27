@@ -12,7 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble, Phone } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -454,7 +454,15 @@ Please let me know about availability and next steps. Thank you!`;
                                         <Share2 className="mr-2 h-4 w-4" />
                                         Share
                                     </Button>
-                                    <Button asChild size="lg" className="col-span-2">
+                                    {selectedItem.phone && (
+                                        <Button asChild variant="outline" size="lg" className="col-span-1">
+                                            <a href={`tel:${selectedItem.phone}`}>
+                                                <Phone className="mr-2 h-4 w-4" />
+                                                Call
+                                            </a>
+                                        </Button>
+                                    )}
+                                    <Button asChild size="lg" className={cn(selectedItem.phone ? "col-span-1" : "col-span-2")}>
                                         <a
                                             href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
                                             target="_blank"
