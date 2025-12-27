@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Child } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -643,7 +643,7 @@ Please let me know about availability and next steps. Thank you!`;
                                     </div>
                                      <div className='flex justify-between items-center'>
                                         <div className='flex items-center gap-2'>
-                                            <Child className='w-5 h-5 text-muted-foreground'/>
+                                            <Baby className='w-5 h-5 text-muted-foreground'/>
                                             <span className='font-medium'>Children</span>
                                         </div>
                                         <div className='flex items-center gap-2'>
@@ -716,3 +716,4 @@ Please let me know about availability and next steps. Thank you!`;
 }
 
     
+
