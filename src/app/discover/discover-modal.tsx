@@ -4,7 +4,7 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
-import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogClose, DialogTitle } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -272,6 +272,7 @@ Please let me know about availability and next steps. Thank you!`;
             <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
                 {selectedItem && (
                     <>
+                        <DialogTitle className="sr-only">{selectedItem.title}</DialogTitle>
                         <div className="relative flex-shrink-0 pt-6 px-4">
                             <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                                 <X className="w-4 h-4" />
@@ -693,6 +694,7 @@ Please let me know about availability and next steps. Thank you!`;
         {selectedItem && isZoomModalOpen && (
             <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
                 <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                    <DialogTitle className="sr-only">{selectedItem.title}</DialogTitle>
                     <div className="relative w-full h-full">
                         <Image
                             src={imagesToShow[currentSlide].imageUrl}
@@ -712,3 +714,5 @@ Please let me know about availability and next steps. Thank you!`;
       </>
     );
 }
+
+    

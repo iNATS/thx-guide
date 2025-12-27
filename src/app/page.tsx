@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
@@ -8,7 +9,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from '@/components/ui/carousel';
-import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogClose, DialogTitle } from '@/components/ui/dialog';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import {
   Castle,
@@ -444,6 +445,7 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
           {selectedPlace && (
             <>
+              <DialogTitle className="sr-only">{selectedPlace.title}</DialogTitle>
               <div className="relative flex-shrink-0 pt-6 px-4">
                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                     <X className="w-4 h-4" />
@@ -552,6 +554,7 @@ export default function Home() {
       {selectedPlace && isZoomModalOpen && (
         <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
             <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                <DialogTitle className="sr-only">{selectedPlace.title}</DialogTitle>
                 <div className="relative w-full h-full">
                     <Image
                         src={selectedPlace.images[currentPlaceSlide].imageUrl}
@@ -589,6 +592,7 @@ export default function Home() {
         <DialogContent className="p-0 sm:p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
+                <DialogTitle className="sr-only">{selectedRoute.title}</DialogTitle>
                 <div className='relative flex-shrink-0 pt-6 px-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
@@ -684,6 +688,7 @@ export default function Home() {
       {selectedRoute && (
         <Dialog open={isRouteZoomModalOpen} onOpenChange={setIsRouteZoomModalOpen}>
             <DialogContent className="p-0 border-0 max-w-full w-full h-full bg-black/80 backdrop-blur-lg flex items-center justify-center">
+                <DialogTitle className="sr-only">{selectedRoute.title}</DialogTitle>
                 <div className="relative w-full h-full">
                     <Image
                         src={selectedRoute.images[currentSlide].imageUrl}
@@ -720,3 +725,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
