@@ -491,7 +491,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -597,11 +597,11 @@ export default function Home() {
       )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
-        <DialogContent className="p-0 sm:p-4 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
+        <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className="relative">
-                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
+                <div className="relative px-4 sm:px-0">
+                  <DialogClose className="absolute top-2 right-6 sm:right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                       <X className="w-4 h-4" />
                       <span className="sr-only">Close</span>
                   </DialogClose>
