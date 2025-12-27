@@ -12,7 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -41,7 +41,6 @@ type BookingDetails = {
     adults: number;
     children: number;
     room: Room | null;
-    dateRange: DateRange | undefined;
 }
 
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
@@ -64,10 +63,6 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         adults: 1,
         children: 0,
         room: null,
-        dateRange: {
-            from: new Date(),
-            to: new Date(new Date().setDate(new Date().getDate() + 1)),
-        }
     });
 
 
@@ -244,22 +239,13 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         });
     }
 
-    const handleDateRangeChange = (range: DateRange | undefined) => {
-        setBookingDetails(prev => ({ ...prev, dateRange: range }));
-    };
-
     const handleSendBookingToWhatsapp = () => {
         if (!selectedItem || !selectedItem.phone || !bookingDetails.room) return;
-        const { room, adults, children, dateRange } = bookingDetails;
+        const { room, adults, children } = bookingDetails;
+
+        const message = `Hello ${selectedItem.title}, I would like to inquire about booking the *${room.name}*.
         
-        const checkIn = dateRange?.from ? format(dateRange.from, "PPP") : 'Not selected';
-        const checkOut = dateRange?.to ? format(dateRange.to, "PPP") : 'Not selected';
-
-        const message = `Hello ${selectedItem.title}, I would like to book the *${room.name}*.
-
 Details:
-- Check-in: ${checkIn}
-- Check-out: ${checkOut}
 - Guests: ${adults} Adult(s), ${children} Child(ren)
 
 Please let me know about availability and next steps. Thank you!`;
@@ -610,16 +596,26 @@ Please let me know about availability and next steps. Thank you!`;
                         </Carousel>
 
                          <div className="p-6 space-y-6">
-                            <div className='grid grid-cols-2 gap-4 text-center'>
-                                <div className='bg-muted/50 rounded-lg p-3'>
-                                    <p className='text-sm text-muted-foreground'>Price / night</p>
-                                    <p className='font-bold text-primary'>{selectedRoom.price.toLocaleString()} DZD</p>
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                                    <div className="bg-primary/10 p-2 rounded-full">
+                                        <CircleDollarSign className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Price / night</p>
+                                        <p className="font-bold text-foreground">{selectedRoom.price.toLocaleString()} DZD</p>
+                                    </div>
                                 </div>
-                                <div className='bg-muted/50 rounded-lg p-3'>
-                                    <p className='text-sm text-muted-foreground'>Availability</p>
-                                    <p className={cn("font-bold", selectedRoom.availability > 0 ? "text-green-600" : "text-destructive")}>
-                                        {selectedRoom.availability > 0 ? `${selectedRoom.availability} available` : 'Fully Booked'}
-                                    </p>
+                                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                                    <div className="bg-primary/10 p-2 rounded-full">
+                                        <BedDouble className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Availability</p>
+                                        <p className={cn("font-bold", selectedRoom.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                            {selectedRoom.availability > 0 ? `${selectedRoom.availability} rooms available` : 'Fully Booked'}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                            
@@ -704,7 +700,7 @@ Please let me know about availability and next steps. Thank you!`;
                     </DialogClose>
                 </DialogContent>
             </Dialog>
-      )}
+        )}
       </>
     );
 }
