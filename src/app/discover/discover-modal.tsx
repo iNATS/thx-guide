@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -49,7 +49,9 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
       if (selectedItem?.menu) {
           const initialOptions: { [itemId: string]: MenuOption } = {};
           selectedItem.menu.forEach(item => {
-              initialOptions[item.id] = item.options[0];
+              if (item.options.length > 0) {
+                initialOptions[item.id] = item.options[0];
+              }
           });
           setSelectedOptions(initialOptions);
       }
@@ -70,6 +72,25 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         if (selectedItem?.category !== 'Hotels' || !selectedItem.rooms) return 0;
         return selectedItem.rooms.reduce((acc, room) => acc + room.availability, 0);
     }, [selectedItem]);
+    
+    const handleShare = async () => {
+        if (!selectedItem) return;
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: selectedItem.title,
+                    text: selectedItem.description,
+                    url: window.location.href,
+                });
+            } catch (error) {
+                console.error('Error sharing:', error);
+                toast({ variant: 'destructive', title: 'Error', description: 'Could not share this item.' });
+            }
+        } else {
+            toast({ title: 'Info', description: 'Sharing is not supported on this browser.' });
+        }
+    };
+
 
     const handleQuantityChange = (item: MenuItem, change: number) => {
         const selectedOption = selectedOptions[item.id] || item.options[0];
@@ -98,6 +119,24 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
 
         const newSelectedOption = menuItem.options.find(opt => opt.price === parseInt(optionPrice));
         if (!newSelectedOption) return;
+        
+        const oldSelectedOption = selectedOptions[itemId];
+        const oldCompositeKey = `${itemId}-${oldSelectedOption.size}`;
+        const newCompositeKey = `${itemId}-${newSelectedOption.size}`;
+
+        const newOrder = { ...order };
+        const currentQuantity = order[oldCompositeKey]?.quantity;
+
+        // If the item with the old option was in the order, move its quantity to the new option
+        if (currentQuantity > 0) {
+            delete newOrder[oldCompositeKey];
+            newOrder[newCompositeKey] = {
+                quantity: currentQuantity,
+                option: newSelectedOption,
+                item: menuItem,
+            };
+            setOrder(newOrder);
+        }
 
         setSelectedOptions(prev => ({
             ...prev,
@@ -106,12 +145,17 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     };
     
     const getQuantityForItem = (itemId: string) => {
+        // This function now needs to sum quantities across all options for a given item id.
         return Object.entries(order).reduce((total, [key, orderItem]) => {
             if (key.startsWith(`${itemId}-`)) {
                 return total + orderItem.quantity;
             }
             return total;
         }, 0);
+    }
+    
+    const getQuantityForCompositeKey = (compositeKey: string) => {
+        return order[compositeKey]?.quantity || 0;
     }
 
     const totalOrderPrice = useMemo(() => {
@@ -132,7 +176,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
 
                 let orderDetails = `Hello ${selectedItem.title}, I would like to place an order:\n\n`;
                 Object.values(order).forEach((orderItem) => {
-                    orderDetails += `*${orderItem.item.name}* (x${orderItem.quantity}) - Size: ${orderItem.option.size} - ${orderItem.option.price * orderItem.quantity} DZD\n`;
+                    orderDetails += `*${orderItem.item.name}* (${orderItem.option.size}) x${orderItem.quantity} - ${orderItem.option.price * orderItem.quantity} DZD\n`;
                 });
                 orderDetails += `\n*Total: ${totalOrderPrice} DZD*\n\nMy location for delivery:\n${userLocationLink}\n\nThank you!`;
                 
@@ -223,6 +267,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                     <div className="flex items-center gap-2">
                                         {selectedItem.category === 'Hotels' && <Bed className="w-4 h-4 text-primary" />}
                                         {selectedItem.category === 'Restaurants' && <Utensils className="w-4 h-4 text-primary" />}
+                                        {selectedItem.category === 'Shopping' && <ShoppingCart className="w-4 h-4 text-primary" />}
                                         <span>{selectedItem.location}</span>
                                     </div>
                                 </div>
@@ -251,7 +296,10 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                     <div>
                                         <h3 className="font-bold text-lg mb-4 font-headline">Menu</h3>
                                         <div className="space-y-4">
-                                            {selectedItem.menu.map(item => (
+                                            {selectedItem.menu.map(item => {
+                                                const selectedOption = selectedOptions[item.id] || item.options[0];
+                                                const compositeKey = `${item.id}-${selectedOption.size}`;
+                                                return (
                                                 <div key={item.id} className="flex gap-4 items-center">
                                                     <Image src={item.image.imageUrl} alt={item.name} width={80} height={80} className="rounded-lg object-cover aspect-square" />
                                                     <div className="flex-grow">
@@ -283,13 +331,13 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                                          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, -1)}>
                                                             <Minus className="w-5 h-5 text-muted-foreground" />
                                                          </Button>
-                                                         <span className="font-bold w-4 text-center">{getQuantityForItem(item.id)}</span>
+                                                         <span className="font-bold w-4 text-center">{getQuantityForCompositeKey(compositeKey)}</span>
                                                          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, 1)}>
                                                              <Plus className="w-5 h-5 text-primary"/>
                                                          </Button>
                                                     </div>
                                                 </div>
-                                            ))}
+                                            )})}
                                         </div>
                                     </div>
                                 )}
@@ -323,7 +371,25 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                     </Button>
                                 </div>
                             )}
-                            { (selectedItem.category !== 'Hotels' && selectedItem.category !== 'Restaurants') && (
+                            { selectedItem.category === 'Shopping' && (
+                                <div className="grid grid-cols-3 gap-2">
+                                    <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
+                                    <Share2 className="mr-2 h-4 w-4" />
+                                    Share
+                                    </Button>
+                                    <Button asChild size="lg" className="col-span-2">
+                                        <a
+                                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Navigation className="mr-2 h-4 w-4" />
+                                            Directions
+                                        </a>
+                                    </Button>
+                                </div>
+                            )}
+                            { (selectedItem.category !== 'Hotels' && selectedItem.category !== 'Restaurants' && selectedItem.category !== 'Shopping') && (
                                 <Button asChild size="lg">
                                   <a href={`https://wa.me/${selectedItem.phone}?text=I'm%20interested%20in%20'${encodeURIComponent(selectedItem.title)}'`} target="_blank" rel="noopener noreferrer">
                                      <MessageSquare className="mr-2 h-4 w-4"/>
@@ -396,3 +462,5 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
       </>
     );
 }
+
+    
