@@ -88,8 +88,8 @@ export default function DiscoverPage() {
                         <Carousel opts={{ align: "start" }} className="w-full">
                             <CarouselContent className="-ml-4">
                                 {experiencesOfTheWeek.map((experience) => (
-                                <CarouselItem key={experience.id} className="basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 pl-4">
-                                    <div className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-video md:aspect-[16/10] group cursor-pointer shadow-lg" onClick={() => setSelectedItem(experience)}>
+                                <CarouselItem key={experience.id} className="basis-4/5 sm:basis-1/2 lg:basis-1/3 pl-4">
+                                    <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg" onClick={() => setSelectedItem(experience)}>
                                         {experience.image && (
                                             <Image
                                                 src={experience.image.imageUrl}
