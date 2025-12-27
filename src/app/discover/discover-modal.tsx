@@ -9,20 +9,26 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, MinusCircle, PlusCircle, ShoppingCart } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import type { DiscoverItem, MenuItem } from '@/lib/discover-data';
+import type { DiscoverItem, MenuItem, MenuOption } from '@/lib/discover-data';
 
 type DiscoverModalProps = {
     selectedItem: DiscoverItem | null;
     setSelectedItem: Dispatch<SetStateAction<DiscoverItem | null>>;
 };
 
+type OrderItem = {
+    quantity: number;
+    option: MenuOption;
+};
+
 type Order = {
-    [itemId: string]: number;
-}
+    [itemId: string]: OrderItem;
+};
 
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -53,21 +59,39 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         return selectedItem.rooms.reduce((acc, room) => acc + room.availability, 0);
     }, [selectedItem]);
 
-    const updateOrder = (itemId: string, quantity: number) => {
+    const updateOrder = (itemId: string, item: MenuItem, newQuantity: number, selectedOption: MenuOption) => {
         const newOrder = { ...order };
-        if (quantity <= 0) {
+        if (newQuantity <= 0) {
             delete newOrder[itemId];
         } else {
-            newOrder[itemId] = quantity;
+            newOrder[itemId] = { quantity: newQuantity, option: selectedOption };
         }
         setOrder(newOrder);
     };
 
+    const handleQuantityChange = (itemId: string, item: MenuItem, change: number) => {
+        const currentOrderItem = order[itemId];
+        const currentQuantity = currentOrderItem?.quantity || 0;
+        const newQuantity = currentQuantity + change;
+
+        // If item is not in order and we are adding, use the first option as default
+        const selectedOption = currentOrderItem?.option || item.options[0];
+        
+        updateOrder(itemId, item, newQuantity, selectedOption);
+    };
+
+    const handleOptionChange = (itemId: string, item: MenuItem, optionPrice: string) => {
+        const selectedOption = item.options.find(opt => opt.price === parseInt(optionPrice));
+        if (!selectedOption) return;
+
+        const currentQuantity = order[itemId]?.quantity || 1; // Default to 1 if not in order yet
+        updateOrder(itemId, item, currentQuantity, selectedOption);
+    };
+
     const totalOrderPrice = useMemo(() => {
         if (!selectedItem || selectedItem.category !== 'Restaurants' || !selectedItem.menu) return 0;
-        return Object.entries(order).reduce((total, [itemId, quantity]) => {
-            const menuItem = selectedItem.menu?.find(item => item.id === itemId);
-            return total + (menuItem ? menuItem.price * quantity : 0);
+        return Object.values(order).reduce((total, orderItem) => {
+            return total + (orderItem.option.price * orderItem.quantity);
         }, 0);
     }, [order, selectedItem]);
 
@@ -82,10 +106,10 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                 const userLocationLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
                 let orderDetails = `Hello ${selectedItem.title}, I would like to place an order:\n\n`;
-                Object.entries(order).forEach(([itemId, quantity]) => {
+                Object.entries(order).forEach(([itemId, orderItem]) => {
                     const menuItem = selectedItem.menu?.find(item => item.id === itemId);
                     if (menuItem) {
-                        orderDetails += `*${menuItem.name}* (x${quantity}) - ${menuItem.price * quantity} DZD\n`;
+                        orderDetails += `*${menuItem.name}* (x${orderItem.quantity}) - Size: ${orderItem.option.size} - ${orderItem.option.price * orderItem.quantity} DZD\n`;
                     }
                 });
                 orderDetails += `\n*Total: ${totalOrderPrice} DZD*\n\nMy location for delivery:\n${userLocationLink}\n\nThank you!`;
@@ -211,15 +235,35 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                                     <div className="flex-grow">
                                                         <p className="font-bold">{item.name}</p>
                                                         <p className="text-sm text-muted-foreground">{item.description}</p>
-                                                        <p className="text-sm font-bold mt-1 text-primary">{item.price} DZD</p>
+                                                        <div className="flex items-center gap-2 mt-2">
+                                                            {item.options.length > 1 ? (
+                                                                <Select
+                                                                    value={order[item.id]?.option.price.toString() || item.options[0].price.toString()}
+                                                                    onValueChange={(price) => handleOptionChange(item.id, item, price)}
+                                                                >
+                                                                    <SelectTrigger className="w-auto h-8 text-xs">
+                                                                        <SelectValue placeholder="Select size" />
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        {item.options.map(opt => (
+                                                                            <SelectItem key={opt.size} value={opt.price.toString()}>
+                                                                                {opt.size} - {opt.price} DZD
+                                                                            </SelectItem>
+                                                                        ))}
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            ) : (
+                                                                <p className="text-sm font-bold text-primary">{item.options[0].price} DZD</p>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                     <div className="flex items-center gap-2">
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => updateOrder(item.id, (order[item.id] || 0) - 1)}>
-                                                            <MinusCircle className="w-5 h-5 text-muted-foreground" />
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, item, -1)}>
+                                                            <Minus className="w-5 h-5 text-muted-foreground" />
                                                          </Button>
-                                                         <span className="font-bold w-4 text-center">{order[item.id] || 0}</span>
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => updateOrder(item.id, (order[item.id] || 0) + 1)}>
-                                                             <PlusCircle className="w-5 h-5 text-primary"/>
+                                                         <span className="font-bold w-4 text-center">{order[item.id]?.quantity || 0}</span>
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, item, 1)}>
+                                                             <Plus className="w-5 h-5 text-primary"/>
                                                          </Button>
                                                     </div>
                                                 </div>
@@ -282,13 +326,13 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                     </SheetHeader>
                     <div className="max-h-60 overflow-y-auto my-4 pr-2">
                         <div className="space-y-2">
-                        {Object.entries(order).map(([itemId, quantity]) => {
+                        {Object.entries(order).map(([itemId, orderItem]) => {
                              const menuItem = selectedItem.menu?.find(item => item.id === itemId);
                              if (!menuItem) return null;
                              return (
                                 <div key={itemId} className="flex justify-between items-center text-sm">
-                                    <span className="font-medium">{menuItem.name} (x{quantity})</span>
-                                    <span className="text-muted-foreground">{menuItem.price * quantity} DZD</span>
+                                    <span className="font-medium">{menuItem.name} ({orderItem.option.size}) (x{orderItem.quantity})</span>
+                                    <span className="text-muted-foreground">{orderItem.option.price * orderItem.quantity} DZD</span>
                                 </div>
                              )
                         })}
@@ -331,8 +375,3 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
       </>
     );
 }
-
-
-    
-
-    

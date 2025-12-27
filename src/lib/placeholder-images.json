@@ -261,7 +261,7 @@
     {
       "id": "menu-tagine",
       "description": "A delicious lamb tagine in a traditional pot.",
-      "imageUrl": "https://images.unsplash.com/photo-1590393278949-06334a1796d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsYW1iJTIwdGFnaW5lfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1590393278949-06334a1796d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsYW1iJTIwdGFnaW5lfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "lamb tagine"
     },
     {
@@ -273,8 +273,32 @@
     {
       "id": "menu-grill",
       "description": "A plate of mixed grilled meats.",
-      "imageUrl": "https://images.unsplash.com/photo-1623423719018-8f8369018b48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtaXhlZCUyMGdyaWxsfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1623423719018-8f8369018b48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtaXhlZCUyMGdyaWxsfGVufDB8fHx8MTc2NzMwMjYxOXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "mixed grill"
+    },
+    {
+      "id": "menu-pizza-margherita",
+      "description": "A classic margherita pizza with fresh basil.",
+      "imageUrl": "https://images.unsplash.com/photo-1595854331613-2b63a0f62b4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYXJnaGVyaXRhJTIwcGl6emF8ZW58MHx8fHwxNzY3MzkwMjE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "margherita pizza"
+    },
+    {
+      "id": "menu-pizza-pepperoni",
+      "description": "A pepperoni pizza with melted cheese.",
+      "imageUrl": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXBwZXJvbmklMjBwaXp6YXxlbnwwfHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pepperoni pizza"
+    },
+    {
+      "id": "menu-coffee",
+      "description": "A cup of espresso with a rich crema.",
+      "imageUrl": "https://images.unsplash.com/photo-1597813249822-4467c69a7140?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxlc3ByZXNzb3xlbnwwfHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "espresso coffee"
+    },
+    {
+      "id": "menu-tea",
+      "description": "A glass of traditional mint tea.",
+      "imageUrl": "https://images.unsplash.com/photo-1594916327429-37367c0a9f5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaW50JTIwdGVhfGVufDB8fHx8fDE3NjczOTAyMTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mint tea"
     }
   ]
 }

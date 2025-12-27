@@ -6,11 +6,16 @@ export type Room = {
     availability: number;
 };
 
+export type MenuOption = {
+    size: 'Small' | 'Medium' | 'Large' | 'Standard';
+    price: number;
+}
+
 export type MenuItem = {
     id: string;
     name: string;
     description: string;
-    price: number;
+    options: MenuOption[];
     image: ImagePlaceholder;
     deliveryTime: number; // in minutes
 }
@@ -106,9 +111,9 @@ export const discoverData: DiscoverItem[] = [
         location: 'City Center',
         phone: '+213660218221',
         menu: [
-            { id: 'tagine', name: 'Lamb Tagine', description: 'Slow-cooked lamb with prunes and almonds.', price: 1800, image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 45 },
-            { id: 'couscous', name: 'Royal Couscous', description: 'A feast of couscous with seven vegetables, chicken, lamb, and merguez.', price: 2200, image: PlaceHolderImages.find((img) => img.id === 'menu-couscous')!, deliveryTime: 50 },
-            { id: 'grill', name: 'Mixed Grill', description: 'Assortment of grilled meats with Saharan spices.', price: 2000, image: PlaceHolderImages.find((img) => img.id === 'menu-grill')!, deliveryTime: 30 },
+            { id: 'tagine', name: 'Lamb Tagine', description: 'Slow-cooked lamb with prunes and almonds.', options: [{ size: 'Standard', price: 1800 }], image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 45 },
+            { id: 'couscous', name: 'Royal Couscous', description: 'A feast of couscous with seven vegetables, chicken, lamb, and merguez.', options: [{ size: 'Standard', price: 2200 }], image: PlaceHolderImages.find((img) => img.id === 'menu-couscous')!, deliveryTime: 50 },
+            { id: 'grill', name: 'Mixed Grill', description: 'Assortment of grilled meats with Saharan spices.', options: [{ size: 'Standard', price: 2000 }], image: PlaceHolderImages.find((img) => img.id === 'menu-grill')!, deliveryTime: 30 },
         ]
     },
      {
@@ -127,8 +132,48 @@ export const discoverData: DiscoverItem[] = [
         location: 'Near Market',
         phone: '+213660218221',
         menu: [
-             { id: 'grill', name: 'Mixed Grill', description: 'Assortment of grilled meats with Saharan spices.', price: 1900, image: PlaceHolderImages.find((img) => img.id === 'menu-grill')!, deliveryTime: 25 },
-             { id: 'tagine', name: 'Chicken Tagine', description: 'Slow-cooked chicken with olives and preserved lemons.', price: 1600, image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 40 },
+             { id: 'grill', name: 'Mixed Grill', description: 'Assortment of grilled meats with Saharan spices.', options: [{ size: 'Standard', price: 1900 }], image: PlaceHolderImages.find((img) => img.id === 'menu-grill')!, deliveryTime: 25 },
+             { id: 'tagine', name: 'Chicken Tagine', description: 'Slow-cooked chicken with olives and preserved lemons.', options: [{ size: 'Standard', price: 1600 }], image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 40 },
+        ]
+    },
+    {
+        id: 'pizzeria-napoli',
+        title: 'Pizzeria Napoli',
+        description: 'A taste of Italy in the heart of the Sahara. Serving authentic wood-fired pizzas with a variety of toppings. A great option for a casual dinner.',
+        shortDescription: 'A taste of Italy in the heart of the Sahara.',
+        category: 'Restaurants',
+        image: PlaceHolderImages.find((img) => img.id === 'menu-pizza-margherita')!,
+        images: [
+            PlaceHolderImages.find((img) => img.id === 'menu-pizza-margherita')!,
+            PlaceHolderImages.find((img) => img.id === 'menu-pizza-pepperoni')!,
+        ],
+        coords: [29.257, 0.236],
+        rating: 4.5,
+        location: 'Main Square',
+        phone: '+213660218221',
+        menu: [
+            { id: 'pizza-margherita', name: 'Pizza Margherita', description: 'Classic pizza with tomato, mozzarella, and basil.', options: [{ size: 'Medium', price: 800 }, { size: 'Large', price: 1200 }], image: PlaceHolderImages.find((img) => img.id === 'menu-pizza-margherita')!, deliveryTime: 25 },
+            { id: 'pizza-pepperoni', name: 'Pizza Pepperoni', description: 'A favorite with spicy pepperoni and cheese.', options: [{ size: 'Medium', price: 900 }, { size: 'Large', price: 1300 }], image: PlaceHolderImages.find((img) => img.id === 'menu-pizza-pepperoni')!, deliveryTime: 30 },
+        ]
+    },
+    {
+        id: 'cafe-central',
+        title: 'Café Central',
+        description: 'The main meeting point in Timimoun for a coffee, tea, or a light snack. Perfect for people-watching and soaking up the local atmosphere.',
+        shortDescription: 'The main meeting point for coffee and snacks.',
+        category: 'Restaurants',
+        image: PlaceHolderImages.find((img) => img.id === 'menu-coffee')!,
+        images: [
+            PlaceHolderImages.find((img) => img.id === 'menu-coffee')!,
+            PlaceHolderImages.find((img) => img.id === 'menu-tea')!,
+        ],
+        coords: [29.258, 0.233],
+        rating: 4.3,
+        location: 'Main Square',
+        phone: '+213660218221',
+        menu: [
+            { id: 'coffee', name: 'Espresso', description: 'Rich and aromatic.', options: [{ size: 'Standard', price: 100 }], image: PlaceHolderImages.find((img) => img.id === 'menu-coffee')!, deliveryTime: 5 },
+            { id: 'tea', name: 'Mint Tea', description: 'Traditional Saharan mint tea.', options: [{ size: 'Standard', price: 80 }], image: PlaceHolderImages.find((img) => img.id === 'menu-tea')!, deliveryTime: 10 },
         ]
     },
     {
@@ -142,7 +187,8 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.25, 0.233],
         featured: true,
         rating: 4.9,
-        location: 'Agency Office'
+        location: 'Agency Office',
+        phone: '+213660218221',
     },
     {
         id: 'rental-timimoun-bikes',
@@ -154,7 +200,8 @@ export const discoverData: DiscoverItem[] = [
         images: [PlaceHolderImages.find((img) => img.id === 'discover-rental-bike')!],
         coords: [29.252, 0.234],
         rating: 4.5,
-        location: 'Near Palmeraie'
+        location: 'Near Palmeraie',
+        phone: '+213660218221',
     },
     {
         id: 'shopping-ksar-artisans',
@@ -167,7 +214,8 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.26, 0.231],
         featured: true,
         rating: 4.7,
-        location: 'Old Ksar District'
+        location: 'Old Ksar District',
+        phone: '+213660218221',
     },
     {
         id: 'shopping-date-market',
@@ -179,7 +227,8 @@ export const discoverData: DiscoverItem[] = [
         images: [PlaceHolderImages.find((img) => img.id === 'discover-shopping-dates')!],
         coords: [29.259, 0.235],
         rating: 4.6,
-        location: 'Central Market'
+        location: 'Central Market',
+        phone: '+213660218221',
     },
     {
         id: 'camp-nuit-etoilee',
@@ -192,7 +241,8 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.18, 0.30],
         featured: true,
         rating: 4.9,
-        location: 'Deep Desert'
+        location: 'Deep Desert',
+        phone: '+213660218221',
     },
     {
         id: 'camp-oasis-retreat',
@@ -204,6 +254,7 @@ export const discoverData: DiscoverItem[] = [
         images: [PlaceHolderImages.find((img) => img.id === 'discover-camp-eco')!],
         coords: [29.28, 0.20],
         rating: 4.8,
-        location: 'Palmeraie Outskirts'
+        location: 'Palmeraie Outskirts',
+        phone: '+213660218221',
     },
 ];
