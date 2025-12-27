@@ -421,7 +421,7 @@ export default function Home() {
       </div>
 
       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-lg w-full h-[90vh] sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col rounded-t-lg sm:rounded-lg">
+        <DialogContent className="p-0 border-0 max-w-lg w-full h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-lg">
             {selectedPlace && (
                 <>
                 <div className="flex-shrink-0 group relative"
@@ -429,7 +429,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -539,7 +539,7 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
             {selectedRoute && (
                 <>
-                <div className="relative w-full h-1/2 sm:h-2/5">
+                <div className="relative w-full h-1/2 sm:h-2/5 sm:rounded-t-lg overflow-hidden">
                     <Image
                         src={selectedRoute.image.imageUrl}
                         alt={selectedRoute.title}
