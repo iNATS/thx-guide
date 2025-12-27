@@ -51,7 +51,7 @@ export const discoverData: DiscoverItem[] = [
             { name: 'Suite with Oasis View', availability: 1 },
             { name: 'Family Room', availability: 0 },
         ],
-        phone: '+213555112233'
+        phone: '+213660218221'
     },
     {
         id: 'desert-rose-camp',
@@ -82,7 +82,7 @@ export const discoverData: DiscoverItem[] = [
             { name: 'Standard Room', availability: 2 },
             { name: 'Terrace Room', availability: 0 },
         ],
-        phone: '+213555445566'
+        phone: '+213660218221'
     },
     {
         id: 'restaurant-oasis-rouge',
@@ -99,7 +99,7 @@ export const discoverData: DiscoverItem[] = [
         featured: true,
         rating: 4.6,
         location: 'City Center',
-        phone: '+213555778899',
+        phone: '+213660218221',
         menu: [
             { id: 'tagine', name: 'Lamb Tagine', description: 'Slow-cooked lamb with prunes and almonds.', price: 1800, image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 45 },
             { id: 'couscous', name: 'Royal Couscous', description: 'A feast of couscous with seven vegetables, chicken, lamb, and merguez.', price: 2200, image: PlaceHolderImages.find((img) => img.id === 'menu-couscous')!, deliveryTime: 50 },
@@ -119,7 +119,7 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.259, 0.234],
         rating: 4.4,
         location: 'Near Market',
-        phone: '+213555123123',
+        phone: '+213660218221',
         menu: [
              { id: 'grill', name: 'Mixed Grill', description: 'Assortment of grilled meats with Saharan spices.', price: 1900, image: PlaceHolderImages.find((img) => img.id === 'menu-grill')!, deliveryTime: 25 },
              { id: 'tagine', name: 'Chicken Tagine', description: 'Slow-cooked chicken with olives and preserved lemons.', price: 1600, image: PlaceHolderImages.find((img) => img.id === 'menu-tagine')!, deliveryTime: 40 },

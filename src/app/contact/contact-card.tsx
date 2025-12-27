@@ -34,7 +34,7 @@ export function ContactCard() {
                     </a>
                 </Button>
                 <Button asChild variant="outline" className="w-full">
-                    <a href="tel:+213-555-123-456">
+                    <a href="tel:+213660218221">
                         <Phone className="mr-2 h-4 w-4" />
                         Call Now
                     </a>

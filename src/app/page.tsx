@@ -524,16 +524,25 @@ export default function Home() {
                   <Share2 className="mr-2 h-4 w-4" />
                   Share
                 </Button>
-                <Button asChild size="lg" className="col-span-1">
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Navigation className="mr-2 h-4 w-4" />
-                    Directions
-                  </a>
-                </Button>
+                {selectedPlace.category === 'Adventure' ? (
+                    <Button asChild size="lg" className="col-span-1">
+                        <a href="https://wa.me/213660218221?text=I'm%20interested%20in%20booking%20an%20adventure%20at%20'{{selectedPlace.title}}'" target="_blank" rel="noopener noreferrer">
+                            <MessageSquare className="mr-2 h-4 w-4" />
+                            Book Now
+                        </a>
+                    </Button>
+                ) : (
+                    <Button asChild size="lg" className="col-span-1">
+                        <a
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Navigation className="mr-2 h-4 w-4" />
+                            Directions
+                        </a>
+                    </Button>
+                )}
               </div>
             </>
           )}
@@ -661,7 +670,7 @@ export default function Home() {
                          Share
                      </Button>
                      <Button asChild size="lg" className="col-span-2">
-                       <a href={`https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route.`} target="_blank" rel="noopener noreferrer">
+                       <a href={`https://wa.me/213660218221?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route.`} target="_blank" rel="noopener noreferrer">
                          <MessageSquare className="mr-2 h-4 w-4"/>
                          Book Now
                         </a>
