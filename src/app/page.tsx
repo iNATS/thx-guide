@@ -256,7 +256,7 @@ export default function Home() {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeİstance;
 
     if (isLeftSwipe) {
       nextImage();
@@ -491,7 +491,7 @@ export default function Home() {
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -600,43 +600,45 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className="relative px-4 sm:px-0">
-                  <DialogClose className="absolute top-2 right-6 sm:right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
+                <div className="relative pt-4">
+                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                       <X className="w-4 h-4" />
                       <span className="sr-only">Close</span>
                   </DialogClose>
-                  <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                      <CarouselContent className="-ml-4">
-                          {selectedRoute.images.map((image, index) => (
-                              <CarouselItem key={index} className="pl-4">
-                                  <Card className="overflow-hidden rounded-2xl shadow-none border-0">
-                                    <CardContent className="p-0">
-                                        <div className="relative w-full aspect-[4/3] sm:aspect-video">
-                                            <Image
-                                                src={image.imageUrl}
-                                                alt={`${selectedRoute.title} image ${index + 1}`}
-                                                fill
-                                                className="object-cover"
-                                                data-ai-hint={image.imageHint}
-                                            />
-                                        </div>
-                                    </CardContent>
-                                  </Card>
-                              </CarouselItem>
-                          ))}
-                      </CarouselContent>
-                  </Carousel>
-                  <div className="flex justify-center gap-2 mt-4">
-                    {selectedRoute.images.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => carouselApi?.scrollTo(index)}
-                            className={cn(
-                                "h-2 rounded-full transition-all",
-                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
-                            )}
-                        />
-                    ))}
+                  <div className='px-4'>
+                    <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
+                        <CarouselContent className="-ml-4">
+                            {selectedRoute.images.map((image, index) => (
+                                <CarouselItem key={index} className="pl-4">
+                                    <Card className="overflow-hidden rounded-2xl shadow-none border-0">
+                                      <CardContent className="p-0">
+                                          <div className="relative w-full aspect-[4/3] sm:aspect-video">
+                                              <Image
+                                                  src={image.imageUrl}
+                                                  alt={`${selectedRoute.title} image ${index + 1}`}
+                                                  fill
+                                                  className="object-cover"
+                                                  data-ai-hint={image.imageHint}
+                                              />
+                                          </div>
+                                      </CardContent>
+                                    </Card>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
+                    <div className="flex justify-center gap-2 mt-4">
+                      {selectedRoute.images.map((_, index) => (
+                          <button
+                              key={index}
+                              onClick={() => carouselApi?.scrollTo(index)}
+                              className={cn(
+                                  "h-2 rounded-full transition-all",
+                                  currentSlide === index ? "w-6 bg-primary" : "w-2 bg-muted"
+                              )}
+                          />
+                      ))}
+                    </div>
                   </div>
                 </div>
                 
