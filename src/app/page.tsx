@@ -363,9 +363,9 @@ export default function Home() {
                       <CarouselContent className="-ml-4">
                           {popularRoutes.map((route) => (
                           <CarouselItem key={route.id} className="basis-4/5 sm:basis-1/2 md:basis-1/3 pl-4">
-                              <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => setSelectedRoute(route)}>
+                              <Card className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border-0 bg-card" onClick={() => {}}>
                                 <CardContent className="p-0">
-                                  <div className="relative rounded-t-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-lg">
+                                  <div className="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer">
                                       {route.images[0] && (
                                           <Image
                                               src={route.images[0].imageUrl}
@@ -376,7 +376,7 @@ export default function Home() {
                                               data-ai-hint={route.images[0].imageHint}
                                           />
                                       )}
-                                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                                       
                                       <Button
                                         size="icon"
@@ -391,19 +391,17 @@ export default function Home() {
                                       </Button>
                                       
                                       <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                          <div className='flex items-center gap-2 mb-2'>
+                                            <div className="px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full flex items-center gap-1.5 text-sm font-medium">
+                                                <Clock className="w-4 h-4"/>
+                                                <span>{route.duration}</span>
+                                            </div>
+                                          </div>
                                           <h3 className="text-2xl font-bold font-headline">{route.title}</h3>
                                           <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
                                             <div className="flex items-center gap-1.5">
                                               <route.categoryIcon className="w-4 h-4"/>
                                               <span>{route.category}</span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Clock className="w-4 h-4"/>
-                                                <span>{route.duration}</span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
-                                                <span className="font-bold">{route.rating}</span>
                                             </div>
                                           </div>
                                       </div>
@@ -614,19 +612,19 @@ export default function Home() {
       )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
-        <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
+        <DialogContent className="p-0 sm:p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className='relative pt-4 px-4'>
+                 <div className='relative pt-4 px-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
                     </DialogClose>
                      <div className="relative">
                         <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
-                            <CarouselContent className="-ml-4">
+                            <CarouselContent>
                                 {selectedRoute.images.map((image, index) => (
-                                    <CarouselItem key={index} className="pl-4">
+                                    <CarouselItem key={index}>
                                         <Card className="overflow-hidden rounded-2xl shadow-none border-0">
                                         <CardContent className="p-0">
                                             <div className="relative w-full aspect-video">
@@ -645,15 +643,15 @@ export default function Home() {
                             </CarouselContent>
                         </Carousel>
                         <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setIsRouteZoomModalOpen(true)}
-                            className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setIsRouteZoomModalOpen(true)}
+                          className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
                         >
-                            <ZoomIn className="w-5 h-5" />
+                          <ZoomIn className="w-5 h-5" />
                         </Button>
                     </div>
-                    <div className="flex justify-center gap-2 mt-4">
+                     <div className="flex justify-center gap-2 mt-4">
                         {selectedRoute.images.map((_, index) => (
                             <button
                                 key={index}
@@ -671,7 +669,7 @@ export default function Home() {
                     <div className="p-6 pt-4">
                         <div className='flex justify-between items-start mb-2'>
                             <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
-                            <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                             <div className="flex items-center gap-1.5 shrink-0 pl-2">
                                 <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
                                 <span className="font-bold text-foreground">{selectedRoute.rating}</span>
                             </div>
