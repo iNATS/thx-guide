@@ -4,6 +4,7 @@ import { PlaceHolderImages, type ImagePlaceholder } from './placeholder-images';
 export type Room = {
     name: string;
     availability: number;
+    image: ImagePlaceholder;
 };
 
 export type MenuOption = {
@@ -54,9 +55,9 @@ export const discoverData: DiscoverItem[] = [
         rating: 4.8,
         location: 'Historic Center • 0.5km away',
         rooms: [
-            { name: 'Standard Double Room', availability: 3 },
-            { name: 'Suite with Oasis View', availability: 1 },
-            { name: 'Family Room', availability: 0 },
+            { name: 'Standard Double Room', availability: 3, image: PlaceHolderImages.find(img => img.id === 'hotel-room-standard')! },
+            { name: 'Suite with Oasis View', availability: 1, image: PlaceHolderImages.find(img => img.id === 'hotel-room-suite')! },
+            { name: 'Family Room', availability: 0, image: PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')! },
         ],
         phone: '+213660218221'
     },
@@ -71,7 +72,8 @@ export const discoverData: DiscoverItem[] = [
         coords: [29.18, 0.30],
         featured: false,
         rating: 4.9,
-        location: 'Dunes Edge • 15km away'
+        location: 'Dunes Edge • 15km away',
+        phone: '+213660218221'
     },
     {
         id: 'riad-dar-ahmed',
@@ -88,8 +90,8 @@ export const discoverData: DiscoverItem[] = [
         rating: 4.7,
         location: 'Old Ksar • 0.1km away',
         rooms: [
-            { name: 'Standard Room', availability: 2 },
-            { name: 'Terrace Room', availability: 0 },
+            { name: 'Standard Room', availability: 2, image: PlaceHolderImages.find(img => img.id === 'hotel-room-standard')! },
+            { name: 'Terrace Room', availability: 0, image: PlaceHolderImages.find(img => img.id === 'hotel-room-terrace')! },
         ],
         phone: '+213660218221'
     },

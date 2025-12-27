@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import type { DiscoverItem, MenuItem, MenuOption } from '@/lib/discover-data';
+import type { DiscoverItem, MenuItem, MenuOption, Room } from '@/lib/discover-data';
 
 type DiscoverModalProps = {
     selectedItem: DiscoverItem | null;
@@ -279,18 +279,33 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                 {selectedItem.category === 'Hotels' && selectedItem.rooms && (
                                     <div>
                                         <h3 className="font-bold text-lg mb-4 font-headline">Available Rooms</h3>
-                                        <div className="space-y-3">
+                                        <div className="space-y-4">
                                             {selectedItem.rooms.map(room => (
-                                                <div key={room.name} className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
-                                                    <p>{room.name}</p>
-                                                    <p className={cn("font-bold text-sm", room.availability > 0 ? "text-green-600" : "text-destructive")}>
-                                                        {room.availability > 0 ? `${room.availability} left` : 'Full'}
-                                                    </p>
-                                                </div>
+                                                <Card key={room.name} className="overflow-hidden">
+                                                    <CardContent className="p-0">
+                                                        <div className="relative aspect-video w-full">
+                                                            <Image src={room.image.imageUrl} alt={room.name} fill className="object-cover" />
+                                                        </div>
+                                                        <div className="p-4 space-y-2">
+                                                            <p className="font-bold">{room.name}</p>
+                                                            <div className='flex justify-between items-center'>
+                                                                <p className={cn("font-bold text-sm", room.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                                                    {room.availability > 0 ? `${room.availability} available` : 'Fully Booked'}
+                                                                </p>
+                                                                <Button asChild size="sm" disabled={room.availability === 0}>
+                                                                    <a href={`https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(`I'm interested in booking the '${room.name}' at ${selectedItem.title}.`)}`} target="_blank" rel="noopener noreferrer">
+                                                                        Book this Room
+                                                                    </a>
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             ))}
                                         </div>
                                     </div>
                                 )}
+
 
                                 {selectedItem.category === 'Restaurants' && selectedItem.menu && (
                                     <div>
@@ -347,17 +362,23 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                         </div>
 
                         <div className="p-4 bg-background mt-auto grid grid-cols-1 gap-2">
-                            {selectedItem.category === 'Hotels' && (
-                                <Button asChild size="lg" disabled={totalAvailableRooms === 0}>
-                                    <a 
-                                        href={`https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(`I'm interested in booking a room at ${selectedItem.title}.`)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <CalendarCheck2 className="mr-2 h-4 w-4" />
-                                        {totalAvailableRooms > 0 ? 'Book Now' : 'No Rooms Available'}
-                                    </a>
-                                </Button>
+                             {selectedItem.category === 'Hotels' && (
+                                <div className="grid grid-cols-3 gap-2">
+                                    <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
+                                        <Share2 className="mr-2 h-4 w-4" />
+                                        Share
+                                    </Button>
+                                    <Button asChild size="lg" className="col-span-2">
+                                        <a
+                                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Navigation className="mr-2 h-4 w-4" />
+                                            Directions
+                                        </a>
+                                    </Button>
+                                </div>
                             )}
                             {selectedItem.category === 'Restaurants' && (
                                 <div className="space-y-2">
