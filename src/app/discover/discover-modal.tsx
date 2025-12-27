@@ -365,10 +365,26 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                         <span>Total</span>
                                         <span>{totalOrderPrice} DZD</span>
                                     </div>
-                                    <Button size="lg" className="w-full" disabled={totalOrderPrice === 0} onClick={() => setIsConfirmingOrder(true)}>
-                                        <ShoppingCart className="mr-2 h-4 w-4" />
-                                        Place Order via WhatsApp
-                                    </Button>
+                                    <div className="grid grid-cols-3 gap-2">
+                                        <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
+                                            <Share2 className="mr-2 h-4 w-4" />
+                                            Share
+                                        </Button>
+                                        <Button asChild size="lg" variant="outline" className="col-span-1">
+                                            <a
+                                                href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <Navigation className="mr-2 h-4 w-4" />
+                                                Directions
+                                            </a>
+                                        </Button>
+                                        <Button size="lg" className="w-full col-span-1" disabled={totalOrderPrice === 0} onClick={() => setIsConfirmingOrder(true)}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            Order
+                                        </Button>
+                                    </div>
                                 </div>
                             )}
                             { selectedItem.category === 'Shopping' && (
@@ -462,5 +478,7 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
       </>
     );
 }
+
+    
 
     
