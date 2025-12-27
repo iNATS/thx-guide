@@ -617,12 +617,12 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className='relative pt-4'>
+                <div className='relative pt-4 px-4'>
                     <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
                     </DialogClose>
-                     <div className="px-4">
+                     <div className="relative">
                         <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
                             <CarouselContent className="-ml-4">
                                 {selectedRoute.images.map((image, index) => (
@@ -637,14 +637,6 @@ export default function Home() {
                                                     className="object-cover rounded-2xl"
                                                     data-ai-hint={image.imageHint}
                                                 />
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => setIsRouteZoomModalOpen(true)}
-                                                    className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
-                                                >
-                                                    <ZoomIn className="w-5 h-5" />
-                                                </Button>
                                             </div>
                                         </CardContent>
                                         </Card>
@@ -652,7 +644,16 @@ export default function Home() {
                                 ))}
                             </CarouselContent>
                         </Carousel>
-                        <div className="flex justify-center gap-2 mt-4">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setIsRouteZoomModalOpen(true)}
+                            className="absolute bottom-2 right-2 rounded-full bg-black/40 text-white h-8 w-8 transition-opacity hover:bg-black/60"
+                        >
+                            <ZoomIn className="w-5 h-5" />
+                        </Button>
+                    </div>
+                    <div className="flex justify-center gap-2 mt-4">
                         {selectedRoute.images.map((_, index) => (
                             <button
                                 key={index}
@@ -663,7 +664,6 @@ export default function Home() {
                                 )}
                             />
                         ))}
-                        </div>
                     </div>
                 </div>
                 
