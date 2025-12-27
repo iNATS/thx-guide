@@ -579,66 +579,68 @@ export default function Home() {
       )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
-        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background/95 backdrop-blur-sm text-foreground flex flex-col sm:rounded-2xl">
+        <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
                   <div className="flex-shrink-0 relative">
-                      <Carousel opts={{ loop: true }} className="w-full">
-                          <CarouselContent>
-                              {selectedRoute.images.map((image, index) => (
-                                  <CarouselItem key={index}>
-                                      <div className="relative w-full aspect-[4/3] sm:aspect-video overflow-hidden">
-                                          <Image
-                                              src={image.imageUrl}
-                                              alt={`${selectedRoute.title} image ${index + 1}`}
-                                              fill
-                                              className="object-cover"
-                                              data-ai-hint={image.imageHint}
-                                          />
-                                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                                      </div>
-                                  </CarouselItem>
-                              ))}
-                          </CarouselContent>
-                          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
-                          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
-                      </Carousel>
-
-                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
-                        <h2 className="text-3xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
-                        <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
-                          <div className="flex items-center gap-2 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
-                              <selectedRoute.categoryIcon className="w-4 h-4"/>
-                              <span>{selectedRoute.category}</span>
-                          </div>
-                           <div className="flex items-center gap-2 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
-                              <Clock className="w-4 h-4"/>
-                              <span>{selectedRoute.duration}</span>
-                          </div>
-                           <div className="flex items-center gap-1.5 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
-                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
-                                <span className="font-bold">{selectedRoute.rating}</span>
-                            </div>
-                        </div>
-                      </div>
-
                       <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
                           <X className="w-5 h-5" />
                           <span className="sr-only">Close</span>
                       </DialogClose>
+
+                      <Carousel opts={{ loop: true }} className="w-full">
+                          <CarouselContent className="-ml-4 px-4">
+                              {selectedRoute.images.map((image, index) => (
+                                  <CarouselItem key={index} className="pl-4">
+                                      <Card className="overflow-hidden rounded-2xl">
+                                        <CardContent className="p-0">
+                                            <div className="relative w-full aspect-[4/3] sm:aspect-video">
+                                                <Image
+                                                    src={image.imageUrl}
+                                                    alt={`${selectedRoute.title} image ${index + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                    data-ai-hint={image.imageHint}
+                                                />
+                                            </div>
+                                        </CardContent>
+                                      </Card>
+                                  </CarouselItem>
+                              ))}
+                          </CarouselContent>
+                          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
+                          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
+                      </Carousel>
                   </div>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
+                    <h2 className="text-2xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                      <div className="flex items-center gap-2">
+                          <selectedRoute.categoryIcon className="w-4 h-4 text-primary"/>
+                          <span>{selectedRoute.category}</span>
+                      </div>
+                       <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-primary"/>
+                          <span>{selectedRoute.duration}</span>
+                      </div>
+                       <div className="flex items-center gap-1.5">
+                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
+                            <span className="font-bold text-foreground">{selectedRoute.rating}</span>
+                        </div>
+                    </div>
+
                     <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
                 </div>
 
-                 <div className="p-4 bg-background/80 backdrop-blur-sm border-t mt-auto grid grid-cols-2 gap-4">
-                     <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)}>
+                 <div className="p-4 bg-background border-t mt-auto grid grid-cols-3 gap-4">
+                     <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)} className="col-span-1">
                          <Share2 className="mr-2"/>
                          Share
                      </Button>
-                     <Button asChild size="lg">
+                     <Button asChild size="lg" className="col-span-2">
                        <a href={`https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route.`} target="_blank" rel="noopener noreferrer">
+                         <MessageSquare className="mr-2"/>
                          Book Now
                         </a>
                      </Button>
