@@ -15,10 +15,6 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import type { DiscoverItem, MenuItem, MenuOption, Room } from '@/lib/discover-data';
-import { DateRange } from 'react-day-picker';
-import { addDays, format } from 'date-fns';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 
 type DiscoverModalProps = {
@@ -39,7 +35,6 @@ type Order = {
 type BookingDetails = {
     adults: number;
     children: number;
-    dateRange?: DateRange;
     room: Room | null;
 }
 
@@ -62,7 +57,6 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
         adults: 1,
         children: 0,
-        dateRange: { from: new Date(), to: addDays(new Date(), 1) },
         room: null,
     });
 
@@ -225,7 +219,6 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
             setBookingDetails({
                 adults: 1,
                 children: 0,
-                dateRange: { from: new Date(), to: addDays(new Date(), 1) },
                 room: room
             });
             setIsBookingSheetOpen(true);
@@ -244,16 +237,11 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
 
     const handleSendBookingToWhatsapp = () => {
         if (!selectedItem || !selectedItem.phone || !bookingDetails.room) return;
-        const { room, adults, children, dateRange } = bookingDetails;
+        const { room, adults, children } = bookingDetails;
         
-        const checkIn = dateRange?.from ? format(dateRange.from, 'PPP') : 'N/A';
-        const checkOut = dateRange?.to ? format(dateRange.to, 'PPP') : 'N/A';
-
         const message = `Hello ${selectedItem.title}, I would like to book the *${room.name}*.
 
 Details:
-- Check-in: ${checkIn}
-- Check-out: ${checkOut}
 - Guests: ${adults} Adult(s), ${children} Child(ren)
 
 Please let me know about availability and next steps. Thank you!`;
@@ -593,54 +581,6 @@ Please let me know about availability and next steps. Thank you!`;
                             </div>
                            
                             <div>
-                                <h4 className='font-semibold mb-3'>Select Dates</h4>
-                                 <div className="grid grid-cols-2 gap-2">
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button variant={'outline'} className={cn('justify-start text-left font-normal h-auto py-3')}>
-                                                <div className="flex flex-col items-start">
-                                                    <span className="text-xs text-muted-foreground">Check-in</span>
-                                                    <span className="font-bold">{bookingDetails.dateRange?.from ? format(bookingDetails.dateRange.from, 'LLL dd, y') : 'Select date'}</span>
-                                                    <span className="text-xs">{bookingDetails.dateRange?.from ? format(bookingDetails.dateRange.from, 'eeee') : ''}</span>
-                                                </div>
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                initialFocus
-                                                mode="range"
-                                                defaultMonth={bookingDetails.dateRange?.from}
-                                                selected={bookingDetails.dateRange}
-                                                onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
-                                                numberOfMonths={1}
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                     <Popover>
-                                        <PopoverTrigger asChild>
-                                             <Button variant={'outline'} className={cn('justify-start text-left font-normal h-auto py-3')}>
-                                                <div className="flex flex-col items-start">
-                                                    <span className="text-xs text-muted-foreground">Check-out</span>
-                                                    <span className="font-bold">{bookingDetails.dateRange?.to ? format(bookingDetails.dateRange.to, 'LLL dd, y') : 'Select date'}</span>
-                                                     <span className="text-xs">{bookingDetails.dateRange?.to ? format(bookingDetails.dateRange.to, 'eeee') : ''}</span>
-                                                </div>
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="end">
-                                            <Calendar
-                                                initialFocus
-                                                mode="range"
-                                                defaultMonth={bookingDetails.dateRange?.from}
-                                                selected={bookingDetails.dateRange}
-                                                onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
-                                                numberOfMonths={1}
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                </div>
-                            </div>
-
-                            <div>
                                 <h4 className='font-semibold mb-2'>Select Guests</h4>
                                 <div className='space-y-3'>
                                     <div className='flex justify-between items-center'>
@@ -691,8 +631,6 @@ Please let me know about availability and next steps. Thank you!`;
                     </SheetHeader>
                     <div className="my-4">
                         <div className="space-y-2 text-sm">
-                            <div className='flex justify-between'><span className='text-muted-foreground'>Check-in:</span> <span className='font-medium'>{bookingDetails.dateRange?.from ? format(bookingDetails.dateRange.from, 'PPP') : 'N/A'}</span></div>
-                            <div className='flex justify-between'><span className='text-muted-foreground'>Check-out:</span> <span className='font-medium'>{bookingDetails.dateRange?.to ? format(bookingDetails.dateRange.to, 'PPP') : 'N/A'}</span></div>
                             <div className='flex justify-between'><span className='text-muted-foreground'>Guests:</span> <span className='font-medium'>{bookingDetails.adults} Adult(s), {bookingDetails.children} Child(ren)</span></div>
                         </div>
                     </div>
@@ -733,6 +671,8 @@ Please let me know about availability and next steps. Thank you!`;
 
 
 
+
+    
 
     
 
