@@ -483,7 +483,7 @@ export default function Home() {
       </div>
 
       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-lg bg-transparent shadow-none text-foreground flex flex-col w-[calc(100%_-_2rem)] h-full sm:h-auto sm:max-h-[90vh]">
+        <DialogContent className="p-0 border-0 max-w-lg bg-transparent shadow-none text-foreground flex flex-col w-full h-full sm:h-auto sm:max-h-[90vh]">
             {selectedPlace && (
                 <>
                 <div className="flex-shrink-0 group relative"
@@ -597,11 +597,11 @@ export default function Home() {
       )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
-        <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
+        <DialogContent className="p-0 sm:p-4 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                <div className="relative p-4">
-                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1.5 hover:bg-background/80 transition-colors">
+                <div className="relative">
+                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-background/50 text-foreground p-1 hover:bg-background/80 transition-colors">
                       <X className="w-4 h-4" />
                       <span className="sr-only">Close</span>
                   </DialogClose>
@@ -640,7 +640,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="p-6 pt-0 flex-grow overflow-y-auto">
+                <div className="p-6 pt-4 flex-grow overflow-y-auto">
                     <div className='flex justify-between items-start mb-2'>
                         <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
                         <div className="flex items-center gap-1.5 shrink-0 pl-2">
