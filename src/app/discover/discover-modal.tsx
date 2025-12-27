@@ -594,37 +594,15 @@ Please let me know about availability and next steps. Thank you!`;
                            
                             <div>
                                 <h4 className='font-semibold mb-3'>Select Dates</h4>
-                                 <Popover>
-                                    <PopoverTrigger asChild>
-                                    <Button
-                                        variant={"outline"}
-                                        className={cn("w-full justify-start text-left font-normal", !bookingDetails.dateRange && "text-muted-foreground")}>
-                                        <CalendarCheck2 className="mr-2 h-4 w-4" />
-                                        {bookingDetails.dateRange?.from ? (
-                                        bookingDetails.dateRange.to ? (
-                                            <>
-                                            {format(bookingDetails.dateRange.from, "LLL dd, y")} -{" "}
-                                            {format(bookingDetails.dateRange.to, "LLL dd, y")}
-                                            </>
-                                        ) : (
-                                            format(bookingDetails.dateRange.from, "LLL dd, y")
-                                        )
-                                        ) : (
-                                        <span>Pick a date</span>
-                                        )}
-                                    </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="center">
-                                    <Calendar
-                                        initialFocus
-                                        mode="range"
-                                        defaultMonth={bookingDetails.dateRange?.from}
-                                        selected={bookingDetails.dateRange}
-                                        onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
-                                        numberOfMonths={1}
-                                    />
-                                    </PopoverContent>
-                                </Popover>
+                                <Calendar
+                                    initialFocus
+                                    mode="range"
+                                    defaultMonth={bookingDetails.dateRange?.from}
+                                    selected={bookingDetails.dateRange}
+                                    onSelect={(range) => setBookingDetails(prev => ({...prev, dateRange: range}))}
+                                    numberOfMonths={1}
+                                    className="rounded-md border p-0"
+                                />
                             </div>
 
                             <div>
@@ -716,4 +694,5 @@ Please let me know about availability and next steps. Thank you!`;
 }
 
     
+
 
