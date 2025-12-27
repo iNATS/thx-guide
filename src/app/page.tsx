@@ -309,7 +309,7 @@ export default function Home() {
               {/* Popular Routes Section */}
               <div className="mb-8">
                   <div className="flex justify-between items-center mb-4">
-                      <h2 className="text-xl font-bold font-headline">Popular Routes</h2>
+                      <h2 className="text-xl font-bold font-headline">Popular Activities</h2>
                   </div>
                   <Carousel opts={{ align: "start" }} className="w-full">
                       <CarouselContent className="-ml-4">
@@ -519,20 +519,20 @@ export default function Home() {
                  <div className="sticky bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
               </div>
 
-              <div className="p-4 bg-background mt-auto grid grid-cols-2 gap-2">
+              <div className="p-4 bg-background mt-auto grid grid-cols-3 gap-2">
                 <Button variant="outline" size="lg" onClick={() => handleShare(selectedPlace.title, selectedPlace.shortInfo)} className="col-span-1">
                   <Share2 className="mr-2 h-4 w-4" />
                   Share
                 </Button>
                 {selectedPlace.category === 'Adventure' ? (
-                    <Button asChild size="lg" className="col-span-1">
+                    <Button asChild size="lg" className="col-span-2">
                         <a href="https://wa.me/213660218221?text=I'm%20interested%20in%20booking%20an%20adventure%20at%20'{{selectedPlace.title}}'" target="_blank" rel="noopener noreferrer">
                             <MessageSquare className="mr-2 h-4 w-4" />
                             Book Now
                         </a>
                     </Button>
                 ) : (
-                    <Button asChild size="lg" className="col-span-1">
+                    <Button asChild size="lg" className="col-span-2">
                         <a
                             href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
                             target="_blank"
@@ -720,5 +720,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
