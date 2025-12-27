@@ -470,6 +470,11 @@ export default function Home() {
                         >
                           <ZoomIn className="w-5 h-5" />
                         </Button>
+
+                        <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
+                          <X className="w-5 h-5" />
+                          <span className="sr-only">Close</span>
+                        </DialogClose>
                     </div>
                 </div>
                 
@@ -505,11 +510,6 @@ export default function Home() {
                         </a>
                     </Button>
                 </div>
-
-                <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
-                    <X className="w-5 h-5" />
-                    <span className="sr-only">Close</span>
-                </DialogClose>
                 </>
             )}
         </DialogContent>
