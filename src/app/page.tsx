@@ -6,8 +6,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -212,6 +211,25 @@ export default function Home() {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const minSwipeDistance = 50;
+
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>()
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  useEffect(() => {
+    if (!carouselApi) return
+
+    setCurrentSlide(carouselApi.selectedScrollSnap())
+    
+    const onSelect = (api: CarouselApi) => {
+        setCurrentSlide(api.selectedScrollSnap())
+    }
+    
+    carouselApi.on('select', onSelect)
+
+    return () => {
+        carouselApi.off('select', onSelect)
+    }
+  }, [carouselApi])
 
   const nextImage = useCallback(() => {
     if (selectedPlace) {
@@ -582,39 +600,54 @@ export default function Home() {
         <DialogContent className="p-0 border-0 w-full max-w-md h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
             {selectedRoute && (
                 <>
-                  <div className="flex-shrink-0 relative">
-                      <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
-                          <X className="w-5 h-5" />
-                          <span className="sr-only">Close</span>
-                      </DialogClose>
-
-                      <Carousel opts={{ loop: true }} className="w-full">
-                          <CarouselContent className="-ml-4 px-4">
-                              {selectedRoute.images.map((image, index) => (
-                                  <CarouselItem key={index} className="pl-4">
-                                      <Card className="overflow-hidden rounded-2xl">
-                                        <CardContent className="p-0">
-                                            <div className="relative w-full aspect-[4/3] sm:aspect-video">
-                                                <Image
-                                                    src={image.imageUrl}
-                                                    alt={`${selectedRoute.title} image ${index + 1}`}
-                                                    fill
-                                                    className="object-cover"
-                                                    data-ai-hint={image.imageHint}
-                                                />
-                                            </div>
-                                        </CardContent>
-                                      </Card>
-                                  </CarouselItem>
-                              ))}
-                          </CarouselContent>
-                          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
-                          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
-                      </Carousel>
+                <div className="relative">
+                  <DialogClose className="absolute top-2 right-2 z-20 rounded-full bg-black/30 text-white p-1.5 hover:bg-black/50 transition-colors">
+                      <X className="w-4 h-4" />
+                      <span className="sr-only">Close</span>
+                  </DialogClose>
+                  <Carousel setApi={setCarouselApi} opts={{ loop: true }} className="w-full">
+                      <CarouselContent>
+                          {selectedRoute.images.map((image, index) => (
+                              <CarouselItem key={index}>
+                                  <Card className="overflow-hidden rounded-t-2xl shadow-none border-0">
+                                    <CardContent className="p-0">
+                                        <div className="relative w-full aspect-[4/3] sm:aspect-video">
+                                            <Image
+                                                src={image.imageUrl}
+                                                alt={`${selectedRoute.title} image ${index + 1}`}
+                                                fill
+                                                className="object-cover"
+                                                data-ai-hint={image.imageHint}
+                                            />
+                                        </div>
+                                    </CardContent>
+                                  </Card>
+                              </CarouselItem>
+                          ))}
+                      </CarouselContent>
+                  </Carousel>
+                  <div className="flex justify-center gap-2 absolute bottom-4 left-0 right-0">
+                    {selectedRoute.images.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => carouselApi?.scrollTo(index)}
+                            className={cn(
+                                "h-2 rounded-full transition-all",
+                                currentSlide === index ? "w-6 bg-primary" : "w-2 bg-white/50"
+                            )}
+                        />
+                    ))}
                   </div>
+                </div>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
-                    <h2 className="text-2xl font-bold font-headline mb-2">{selectedRoute.title}</h2>
+                    <div className='flex justify-between items-start mb-2'>
+                        <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
+                        <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                            <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
+                            <span className="font-bold text-foreground">{selectedRoute.rating}</span>
+                        </div>
+                    </div>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                       <div className="flex items-center gap-2">
                           <selectedRoute.categoryIcon className="w-4 h-4 text-primary"/>
@@ -624,23 +657,19 @@ export default function Home() {
                           <Clock className="w-4 h-4 text-primary"/>
                           <span>{selectedRoute.duration}</span>
                       </div>
-                       <div className="flex items-center gap-1.5">
-                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
-                            <span className="font-bold text-foreground">{selectedRoute.rating}</span>
-                        </div>
                     </div>
 
                     <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
                 </div>
 
-                 <div className="p-4 bg-background border-t mt-auto grid grid-cols-3 gap-4">
+                 <div className="p-4 bg-background border-t mt-auto grid grid-cols-3 gap-2">
                      <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)} className="col-span-1">
-                         <Share2 className="mr-2"/>
+                         <Share2 className="mr-2 h-4 w-4"/>
                          Share
                      </Button>
                      <Button asChild size="lg" className="col-span-2">
                        <a href={`https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route.`} target="_blank" rel="noopener noreferrer">
-                         <MessageSquare className="mr-2"/>
+                         <MessageSquare className="mr-2 h-4 w-4"/>
                          Book Now
                         </a>
                      </Button>
