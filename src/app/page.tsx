@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -25,6 +25,8 @@ import {
   Star,
   MessageSquare,
   Footprints,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -178,6 +180,19 @@ export default function Home() {
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [favoritedPlaces, setFavoritedPlaces] = useState<Set<string>>(new Set());
+  
+  const nextImage = useCallback(() => {
+    if (selectedPlace) {
+      setSelectedImageIndex((prevIndex) => (prevIndex + 1) % selectedPlace.images.length);
+    }
+  }, [selectedPlace]);
+
+  const prevImage = useCallback(() => {
+    if (selectedPlace) {
+      setSelectedImageIndex((prevIndex) => (prevIndex - 1 + selectedPlace.images.length) % selectedPlace.images.length);
+    }
+  }, [selectedPlace]);
+
 
   const toggleFavoriteRoute = (routeId: string) => {
     setPopularRoutes(
@@ -378,8 +393,8 @@ export default function Home() {
         <DialogContent className="p-0 border-0 max-w-lg w-full h-[90vh] sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col rounded-t-lg sm:rounded-lg">
             {selectedPlace && (
                 <>
-                <div className="flex-shrink-0">
-                    <div className="relative w-full aspect-[4/3]">
+                <div className="flex-shrink-0 group">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden sm:rounded-t-lg">
                       {selectedPlace.images.map((image, index) => (
                           <Image
                           key={image.id}
@@ -393,34 +408,24 @@ export default function Home() {
                           data-ai-hint={image.imageHint}
                           />
                       ))}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-                    </div>
-                     <div className="p-2 pb-0">
-                        <div className="grid grid-cols-4 gap-2">
-                          {selectedPlace.images.map((image, index) => (
-                            <button
-                              key={`thumb-${image.id}`}
-                              onClick={() => setSelectedImageIndex(index)}
-                              className={cn(
-                                "relative w-full aspect-video rounded-md overflow-hidden ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring",
-                                index === selectedImageIndex && "ring-2 ring-primary"
-                              )}
-                            >
-                              <Image
-                                src={image.imageUrl}
-                                alt={`Thumbnail ${index + 1}`}
-                                fill
-                                className="object-cover"
-                                data-ai-hint={image.imageHint}
-                              />
-                               <div className={cn(
-                                "absolute inset-0 bg-black/20 transition-opacity",
-                                index !== selectedImageIndex && "hover:bg-transparent",
-                                index === selectedImageIndex && "bg-black/50"
-                              )}></div>
-                            </button>
-                          ))}
-                        </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={prevImage}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={nextImage}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </Button>
                     </div>
                 </div>
                 
@@ -517,3 +522,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
