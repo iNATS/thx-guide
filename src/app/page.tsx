@@ -465,7 +465,7 @@ export default function Home() {
       </div>
 
       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-lg bg-background text-foreground flex flex-col sm:rounded-lg w-[calc(100%_-_2rem)] h-full sm:h-auto sm:max-h-[90vh]">
+        <DialogContent className="p-0 border-0 max-w-lg bg-transparent shadow-none text-foreground flex flex-col w-[calc(100%_-_2rem)] h-full sm:h-auto sm:max-h-[90vh]">
             {selectedPlace && (
                 <>
                 <div className="flex-shrink-0 group relative"
@@ -521,7 +521,7 @@ export default function Home() {
                     </div>
                 </div>
                 
-                <div className="p-6 flex-grow overflow-y-auto">
+                <div className="p-6 pt-4 bg-background rounded-b-lg flex-grow overflow-y-auto">
                     <div className="flex justify-between items-start mb-2">
                       <h2 className="text-3xl font-bold font-headline">{selectedPlace.title}</h2>
                        <div className="flex items-center gap-1.5 text-lg shrink-0 pl-2">
@@ -541,7 +541,7 @@ export default function Home() {
 
                     <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
                 </div>
-                 <div className="p-6 pt-0 mt-auto">
+                 <div className="p-6 pt-0 mt-auto bg-background rounded-b-lg">
                     <Button asChild className="w-full">
                     <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
@@ -579,7 +579,7 @@ export default function Home() {
       )}
       
       <Dialog open={!!selectedRoute} onOpenChange={(isOpen) => !isOpen && setSelectedRoute(null)}>
-        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
+        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background/95 backdrop-blur-sm text-foreground flex flex-col sm:rounded-2xl">
             {selectedRoute && (
                 <>
                   <div className="flex-shrink-0 relative">
@@ -587,7 +587,7 @@ export default function Home() {
                           <CarouselContent>
                               {selectedRoute.images.map((image, index) => (
                                   <CarouselItem key={index}>
-                                      <div className="relative w-full aspect-video sm:aspect-[16/9] overflow-hidden">
+                                      <div className="relative w-full aspect-[4/3] sm:aspect-video overflow-hidden">
                                           <Image
                                               src={image.imageUrl}
                                               alt={`${selectedRoute.title} image ${index + 1}`}
@@ -595,14 +595,35 @@ export default function Home() {
                                               className="object-cover"
                                               data-ai-hint={image.imageHint}
                                           />
-                                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                                       </div>
                                   </CarouselItem>
                               ))}
                           </CarouselContent>
-                          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 hover:bg-black/60 border-none" />
-                          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-8 w-8 hover:bg-black/60 border-none" />
+                          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
+                          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/40 text-white h-10 w-10 hover:bg-black/60 border-none" />
                       </Carousel>
+
+                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                        <div className="flex justify-between items-end">
+                            <h2 className="text-3xl font-bold font-headline">{selectedRoute.title}</h2>
+                            <div className="flex items-center gap-1.5 text-lg shrink-0 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full">
+                                <Star className="w-5 h-5 text-yellow-400 fill-yellow-400"/>
+                                <span className="font-bold">{selectedRoute.rating}</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm mt-2 opacity-90">
+                          <div className="flex items-center gap-2 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
+                              <selectedRoute.categoryIcon className="w-4 h-4"/>
+                              <span>{selectedRoute.category}</span>
+                          </div>
+                           <div className="flex items-center gap-2 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
+                              <Clock className="w-4 h-4"/>
+                              <span>{selectedRoute.duration}</span>
+                          </div>
+                        </div>
+                      </div>
+
                       <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
                           <X className="w-5 h-5" />
                           <span className="sr-only">Close</span>
@@ -610,35 +631,16 @@ export default function Home() {
                   </div>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
-                    <div className="flex justify-between items-start mb-2">
-                        <h2 className="text-2xl font-bold font-headline">{selectedRoute.title}</h2>
-                        <div className="flex items-center gap-1.5 text-base shrink-0 pl-2">
-                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400"/>
-                            <span className="font-bold">{selectedRoute.rating}</span>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center gap-2">
-                            <selectedRoute.categoryIcon className="w-4 h-4 text-primary" />
-                            <span>{selectedRoute.category}</span>
-                        </div>
-                         <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-primary"/>
-                            <span>{selectedRoute.duration}</span>
-                        </div>
-                    </div>
-
-                    <p className="text-foreground/80">{selectedRoute.description}</p>
+                    <p className="text-foreground/80 leading-relaxed">{selectedRoute.description}</p>
                 </div>
 
-                 <div className="p-6 bg-background border-t mt-auto grid grid-cols-2 gap-4">
-                     <Button variant="outline" onClick={() => handleShare(selectedRoute)}>
+                 <div className="p-4 bg-background/80 backdrop-blur-sm border-t mt-auto grid grid-cols-2 gap-4">
+                     <Button variant="outline" size="lg" onClick={() => handleShare(selectedRoute)}>
                          <Share2 className="mr-2"/>
                          Share
                      </Button>
-                     <Button asChild>
-                       <a href="https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route." target="_blank" rel="noopener noreferrer">
+                     <Button asChild size="lg">
+                       <a href={`https://wa.me/213555123456?text=I'm%20interested%20in%20booking%20the%20'${encodeURIComponent(selectedRoute.title)}'%20route.`} target="_blank" rel="noopener noreferrer">
                          Book Now
                         </a>
                      </Button>
@@ -650,5 +652,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
