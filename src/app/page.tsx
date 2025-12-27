@@ -23,8 +23,8 @@ import {
   Heart,
   Clock,
   Star,
-  Footprints,
   MessageSquare,
+  Footprints,
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -173,6 +173,7 @@ const initialPopularRoutes: PopularRoute[] = [
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedRoute, setSelectedRoute] = useState<PopularRoute | null>(null);
   const [popularRoutes, setPopularRoutes] = useState(initialPopularRoutes);
   const [view, setView] = useState<'list' | 'map'>('list');
@@ -205,6 +206,12 @@ export default function Home() {
     return topPlaces.filter(place => place.category === activeFilter);
   }, [activeFilter]);
   
+  const handleSelectPlace = (place: Place | null) => {
+    setSelectedPlace(place);
+    if (place) {
+      setSelectedImageIndex(0);
+    }
+  };
 
   return (
     <div className={cn(
@@ -316,7 +323,7 @@ export default function Home() {
                       {filteredPlaces.map(place => {
                          const CategoryIcon = filterButtons.find(f => f.category === place.category)?.icon || Landmark;
                          return (
-                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => setSelectedPlace(place)}>
+                           <Card key={place.id} className="group cursor-pointer overflow-hidden rounded-3xl shadow-sm border bg-card" onClick={() => handleSelectPlace(place)}>
                              <CardContent className="p-0">
                               <div className="relative aspect-[4/3]">
                                   <Image
@@ -361,37 +368,60 @@ export default function Home() {
                 onToggleView={() => setView('list')} 
                 initialFilter={activeFilter}
                 onFilterChange={setActiveFilter}
-                onPlaceSelect={setSelectedPlace}
+                onPlaceSelect={(place) => handleSelectPlace(place)}
             />
           )}
 
       </div>
 
-       <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && setSelectedPlace(null)}>
-        <DialogContent className="p-0 border-0 max-w-full w-full h-full sm:max-h-full sm:w-full bg-background text-foreground flex flex-col">
+      <Dialog open={!!selectedPlace} onOpenChange={(isOpen) => !isOpen && handleSelectPlace(null)}>
+        <DialogContent className="p-0 border-0 max-w-lg w-full h-[90vh] sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col rounded-t-lg sm:rounded-lg">
             {selectedPlace && (
                 <>
-                <div className="relative w-full h-1/2 sm:h-3/5">
-                  <Carousel className="w-full h-full" opts={{ loop: true }}>
-                      <CarouselContent>
+                <div className="flex-shrink-0">
+                    <div className="relative w-full aspect-[4/3]">
                       {selectedPlace.images.map((image, index) => (
-                          <CarouselItem key={index}>
-                          <div className="relative w-full h-full">
-                              <Image
-                              src={image.imageUrl}
-                              alt={`${selectedPlace.title} - image ${index + 1}`}
-                              fill
-                              className="object-cover"
-                              data-ai-hint={image.imageHint}
-                              />
-                               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
-                          </div>
-                          </CarouselItem>
+                          <Image
+                          key={image.id}
+                          src={image.imageUrl}
+                          alt={`${selectedPlace.title} - image ${index + 1}`}
+                          fill
+                          className={cn(
+                            "object-cover transition-opacity duration-300",
+                            index === selectedImageIndex ? "opacity-100" : "opacity-0"
+                          )}
+                          data-ai-hint={image.imageHint}
+                          />
                       ))}
-                      </CarouselContent>
-                      <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
-                      <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white" />
-                  </Carousel>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                    </div>
+                     <div className="p-2 pb-0">
+                        <div className="grid grid-cols-4 gap-2">
+                          {selectedPlace.images.map((image, index) => (
+                            <button
+                              key={`thumb-${image.id}`}
+                              onClick={() => setSelectedImageIndex(index)}
+                              className={cn(
+                                "relative w-full aspect-video rounded-md overflow-hidden ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring",
+                                index === selectedImageIndex && "ring-2 ring-primary"
+                              )}
+                            >
+                              <Image
+                                src={image.imageUrl}
+                                alt={`Thumbnail ${index + 1}`}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={image.imageHint}
+                              />
+                               <div className={cn(
+                                "absolute inset-0 bg-black/20 transition-opacity",
+                                index !== selectedImageIndex && "hover:bg-transparent",
+                                index === selectedImageIndex && "bg-black/50"
+                              )}></div>
+                            </button>
+                          ))}
+                        </div>
+                    </div>
                 </div>
                 
                 <div className="p-6 flex-grow overflow-y-auto">
@@ -414,16 +444,18 @@ export default function Home() {
 
                     <p className="text-muted-foreground prose prose-lg">{selectedPlace.info}</p>
                 </div>
-                 <Button asChild className="m-6 sm:m-8">
-                   <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                     <Navigation className="mr-2 h-5 w-5" />
-                     Get Directions
-                    </a>
-                 </Button>
+                 <div className="p-6 pt-0 mt-auto">
+                    <Button asChild className="w-full">
+                    <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coords[0]},${selectedPlace.coords[1]}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Navigation className="mr-2 h-5 w-5" />
+                        Get Directions
+                        </a>
+                    </Button>
+                </div>
 
                 <DialogClose className="absolute top-4 right-4 z-20 rounded-full bg-black/40 text-white p-2 hover:bg-black/60 transition-colors">
                     <X className="w-5 h-5" />
@@ -485,5 +517,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
