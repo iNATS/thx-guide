@@ -42,6 +42,7 @@ export default function RootLayout({
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
           crossOrigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/react-day-picker/dist/style.css" />
       </head>
       <body
         className={cn(
