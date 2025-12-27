@@ -19,6 +19,7 @@ export type DiscoverItem = {
     id: string;
     title: string;
     description: string;
+    shortDescription: string;
     category: 'Hotels' | 'Restaurants' | 'Rentals' | 'Shopping' | 'Camps';
     image: ImagePlaceholder;
     images?: ImagePlaceholder[];
@@ -36,6 +37,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'hotel-gourara',
         title: 'Hotel Gourara',
         description: 'A classic hotel offering stunning views over the palmeraie and the sebkha. Known for its exceptional service and historic charm, Hotel Gourara provides a tranquil retreat with modern amenities. The architecture reflects traditional Saharan design, offering an authentic Timimoun experience.',
+        shortDescription: 'Classic hotel with stunning oasis views and historic charm.',
         category: 'Hotels',
         image: PlaceHolderImages.find((img) => img.id === 'hotel-gourara-pool')!,
         images: [
@@ -57,6 +59,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'desert-rose-camp',
         title: 'Desert Rose Camp',
         description: 'An unforgettable night under the Saharan stars in a traditional bivouac. Experience true desert hospitality with comfortable tents, delicious local food cooked over a campfire, and traditional music. A magical escape from the everyday.',
+        shortDescription: 'An unforgettable night under the Saharan stars.',
         category: 'Camps',
         image: PlaceHolderImages.find((img) => img.id === 'desert-rose-camp-night')!,
         images: [PlaceHolderImages.find((img) => img.id === 'desert-rose-camp-night')!],
@@ -69,6 +72,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'riad-dar-ahmed',
         title: 'Riad Dar Ahmed',
         description: 'A charming and authentic guesthouse in the heart of the old town. This beautifully restored riad offers an intimate and peaceful atmosphere, with a central courtyard and traditionally decorated rooms. Perfect for those seeking a cultural immersion.',
+        shortDescription: 'Charming guesthouse in the heart of the old town.',
         category: 'Hotels',
         image: PlaceHolderImages.find((img) => img.id === 'discover-hotel-riad')!,
         images: [
@@ -88,6 +92,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'restaurant-oasis-rouge',
         title: 'Le Restaurant de l\'Oasis Rouge',
         description: 'Savor traditional Timimoun cuisine in a beautiful setting. The menu features local specialties prepared with fresh ingredients from the oasis. Enjoy your meal in a romantic courtyard under the stars.',
+        shortDescription: 'Savor traditional Timimoun cuisine in a beautiful setting.',
         category: 'Restaurants',
         image: PlaceHolderImages.find((img) => img.id === 'discover-restaurant')!,
         images: [
@@ -110,6 +115,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'restaurant-taghit',
         title: 'Restaurant Taghit',
         description: 'Enjoy delicious grilled meats and local specialties near the market. A popular spot for a quick and satisfying lunch. Known for its friendly service and bustling atmosphere.',
+        shortDescription: 'Delicious grilled meats and local specialties near the market.',
         category: 'Restaurants',
         image: PlaceHolderImages.find((img) => img.id === 'discover-restaurant-2')!,
         images: [
@@ -129,6 +135,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'rental-sahara-expeditions',
         title: 'Sahara Expeditions 4x4',
         description: 'Rent a reliable 4x4 to conquer the dunes of the Grand Erg Occidental. We offer guided tours or simple rentals for experienced drivers. All vehicles are equipped for desert travel.',
+        shortDescription: 'Rent a reliable 4x4 to conquer the dunes.',
         category: 'Rentals',
         image: PlaceHolderImages.find((img) => img.id === 'discover-rental')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-rental')!],
@@ -141,6 +148,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'rental-timimoun-bikes',
         title: 'Timimoun Bike Rentals',
         description: 'Explore the oasis at your own pace by renting a bicycle. A perfect way to discover the shady lanes of the palmeraie and the narrow streets of the ksar.',
+        shortDescription: 'Explore the oasis at your own pace on a bicycle.',
         category: 'Rentals',
         image: PlaceHolderImages.find((img) => img.id === 'discover-rental-bike')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-rental-bike')!],
@@ -152,6 +160,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'shopping-ksar-artisans',
         title: 'Ksar Artisans Cooperative',
         description: 'Find authentic local crafts, from leatherwork to pottery and carpets. A great place to buy unique souvenirs and support local artisans. You can often see the craftspeople at work.',
+        shortDescription: 'Find authentic local crafts and unique souvenirs.',
         category: 'Shopping',
         image: PlaceHolderImages.find((img) => img.id === 'discover-souk')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-souk')!],
@@ -164,6 +173,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'shopping-date-market',
         title: 'Date & Spice Market',
         description: 'Purchase the famous dates of Timimoun and a variety of Saharan spices. The market is a vibrant hub of activity, especially in the morning. A feast for the senses.',
+        shortDescription: 'Purchase famous dates and a variety of Saharan spices.',
         category: 'Shopping',
         image: PlaceHolderImages.find((img) => img.id === 'discover-shopping-dates')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-shopping-dates')!],
@@ -175,6 +185,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'camp-nuit-etoilee',
         title: 'Camp Nuit Étoilée',
         description: 'An unforgettable night under the Saharan stars in a traditional bivouac. This luxury camp offers private tents with comfortable bedding, gourmet meals, and guided stargazing sessions.',
+        shortDescription: 'Luxury desert camp for a night under the stars.',
         category: 'Camps',
         image: PlaceHolderImages.find((img) => img.id === 'discover-camp')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-camp')!],
@@ -187,6 +198,7 @@ export const discoverData: DiscoverItem[] = [
         id: 'camp-oasis-retreat',
         title: 'Oasis Eco-Retreat',
         description: 'A sustainable and peaceful camp located within a secluded part of the palm grove. Perfect for those looking to disconnect and enjoy nature. The retreat focuses on wellness and tranquility.',
+        shortDescription: 'Sustainable and peaceful camp in a secluded oasis.',
         category: 'Camps',
         image: PlaceHolderImages.find((img) => img.id === 'discover-camp-eco')!,
         images: [PlaceHolderImages.find((img) => img.id === 'discover-camp-eco')!],
