@@ -24,10 +24,11 @@ type DiscoverModalProps = {
 type OrderItem = {
     quantity: number;
     option: MenuOption;
+    item: MenuItem;
 };
 
 type Order = {
-    [itemId: string]: OrderItem;
+    [compositeKey: string]: OrderItem;
 };
 
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
@@ -37,10 +38,21 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
     const [order, setOrder] = useState<Order>({});
     const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
     const { toast } = useToast();
+     // State to hold the selected option for each menu item before adding to order
+    const [selectedOptions, setSelectedOptions] = useState<{ [itemId: string]: MenuOption }>({});
+
 
     useEffect(() => {
       // Reset order when a new item is selected
       setOrder({});
+      // Initialize selected options for the new item's menu
+      if (selectedItem?.menu) {
+          const initialOptions: { [itemId: string]: MenuOption } = {};
+          selectedItem.menu.forEach(item => {
+              initialOptions[item.id] = item.options[0];
+          });
+          setSelectedOptions(initialOptions);
+      }
     }, [selectedItem]);
 
     const handleClose = () => {
@@ -59,41 +71,54 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         return selectedItem.rooms.reduce((acc, room) => acc + room.availability, 0);
     }, [selectedItem]);
 
-    const updateOrder = (itemId: string, item: MenuItem, newQuantity: number, selectedOption: MenuOption) => {
+    const handleQuantityChange = (item: MenuItem, change: number) => {
+        const selectedOption = selectedOptions[item.id] || item.options[0];
+        const compositeKey = `${item.id}-${selectedOption.size}`;
+        
+        const currentQuantity = order[compositeKey]?.quantity || 0;
+        const newQuantity = currentQuantity + change;
+
         const newOrder = { ...order };
+
         if (newQuantity <= 0) {
-            delete newOrder[itemId];
+            delete newOrder[compositeKey];
         } else {
-            newOrder[itemId] = { quantity: newQuantity, option: selectedOption };
+            newOrder[compositeKey] = {
+                quantity: newQuantity,
+                option: selectedOption,
+                item: item,
+            };
         }
         setOrder(newOrder);
     };
 
-    const handleQuantityChange = (itemId: string, item: MenuItem, change: number) => {
-        const currentOrderItem = order[itemId];
-        const currentQuantity = currentOrderItem?.quantity || 0;
-        const newQuantity = currentQuantity + change;
+    const handleOptionChange = (itemId: string, optionPrice: string) => {
+        const menuItem = selectedItem?.menu?.find(item => item.id === itemId);
+        if (!menuItem) return;
 
-        // If item is not in order and we are adding, use the first option as default
-        const selectedOption = currentOrderItem?.option || item.options[0];
-        
-        updateOrder(itemId, item, newQuantity, selectedOption);
+        const newSelectedOption = menuItem.options.find(opt => opt.price === parseInt(optionPrice));
+        if (!newSelectedOption) return;
+
+        setSelectedOptions(prev => ({
+            ...prev,
+            [itemId]: newSelectedOption,
+        }));
     };
-
-    const handleOptionChange = (itemId: string, item: MenuItem, optionPrice: string) => {
-        const selectedOption = item.options.find(opt => opt.price === parseInt(optionPrice));
-        if (!selectedOption) return;
-
-        const currentQuantity = order[itemId]?.quantity || 1; // Default to 1 if not in order yet
-        updateOrder(itemId, item, currentQuantity, selectedOption);
-    };
+    
+    const getQuantityForItem = (itemId: string) => {
+        return Object.entries(order).reduce((total, [key, orderItem]) => {
+            if (key.startsWith(`${itemId}-`)) {
+                return total + orderItem.quantity;
+            }
+            return total;
+        }, 0);
+    }
 
     const totalOrderPrice = useMemo(() => {
-        if (!selectedItem || selectedItem.category !== 'Restaurants' || !selectedItem.menu) return 0;
         return Object.values(order).reduce((total, orderItem) => {
             return total + (orderItem.option.price * orderItem.quantity);
         }, 0);
-    }, [order, selectedItem]);
+    }, [order]);
 
     const handleSendOrderToWhatsapp = () => {
         if (!selectedItem || !selectedItem.phone || totalOrderPrice === 0) return;
@@ -106,11 +131,8 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                 const userLocationLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
                 let orderDetails = `Hello ${selectedItem.title}, I would like to place an order:\n\n`;
-                Object.entries(order).forEach(([itemId, orderItem]) => {
-                    const menuItem = selectedItem.menu?.find(item => item.id === itemId);
-                    if (menuItem) {
-                        orderDetails += `*${menuItem.name}* (x${orderItem.quantity}) - Size: ${orderItem.option.size} - ${orderItem.option.price * orderItem.quantity} DZD\n`;
-                    }
+                Object.values(order).forEach((orderItem) => {
+                    orderDetails += `*${orderItem.item.name}* (x${orderItem.quantity}) - Size: ${orderItem.option.size} - ${orderItem.option.price * orderItem.quantity} DZD\n`;
                 });
                 orderDetails += `\n*Total: ${totalOrderPrice} DZD*\n\nMy location for delivery:\n${userLocationLink}\n\nThank you!`;
                 
@@ -238,8 +260,8 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                                         <div className="flex items-center gap-2 mt-2">
                                                             {item.options.length > 1 ? (
                                                                 <Select
-                                                                    value={order[item.id]?.option.price.toString() || item.options[0].price.toString()}
-                                                                    onValueChange={(price) => handleOptionChange(item.id, item, price)}
+                                                                    value={selectedOptions[item.id]?.price.toString() || item.options[0].price.toString()}
+                                                                    onValueChange={(price) => handleOptionChange(item.id, price)}
                                                                 >
                                                                     <SelectTrigger className="w-auto h-8 text-xs">
                                                                         <SelectValue placeholder="Select size" />
@@ -258,11 +280,11 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-2">
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, item, -1)}>
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, -1)}>
                                                             <Minus className="w-5 h-5 text-muted-foreground" />
                                                          </Button>
-                                                         <span className="font-bold w-4 text-center">{order[item.id]?.quantity || 0}</span>
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, item, 1)}>
+                                                         <span className="font-bold w-4 text-center">{getQuantityForItem(item.id)}</span>
+                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, 1)}>
                                                              <Plus className="w-5 h-5 text-primary"/>
                                                          </Button>
                                                     </div>
@@ -326,12 +348,11 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
                     </SheetHeader>
                     <div className="max-h-60 overflow-y-auto my-4 pr-2">
                         <div className="space-y-2">
-                        {Object.entries(order).map(([itemId, orderItem]) => {
-                             const menuItem = selectedItem.menu?.find(item => item.id === itemId);
-                             if (!menuItem) return null;
+                        {Object.values(order).map((orderItem) => {
+                             if (!orderItem) return null;
                              return (
-                                <div key={itemId} className="flex justify-between items-center text-sm">
-                                    <span className="font-medium">{menuItem.name} ({orderItem.option.size}) (x{orderItem.quantity})</span>
+                                <div key={`${orderItem.item.id}-${orderItem.option.size}`} className="flex justify-between items-center text-sm">
+                                    <span className="font-medium">{orderItem.item.name} ({orderItem.option.size}) (x{orderItem.quantity})</span>
                                     <span className="text-muted-foreground">{orderItem.option.price * orderItem.quantity} DZD</span>
                                 </div>
                              )
