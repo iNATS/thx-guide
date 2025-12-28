@@ -144,17 +144,21 @@ export function QrScannerView() {
           </main>
           
           {/* Bottom Bar */}
-          <footer className="p-6 flex justify-around items-center">
-            <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 rounded-full h-14 w-14">
-                <ImageIcon className="w-6 h-6"/>
+          <footer className="p-4 pb-24 flex justify-around items-center">
+            <Button variant="ghost" size="icon" className="bg-black/30 hover:bg-black/50 rounded-full h-12 w-12 text-white">
+                <ImageIcon className="w-5 h-5"/>
             </Button>
-             <Button variant="ghost" size="icon" className="bg-white hover:bg-gray-200 rounded-full h-20 w-20 shadow-lg" onClick={handleScan}>
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center border-4 border-black">
-                     <Camera className="w-8 h-8 text-black"/>
+            <Button
+                variant="outline"
+                className="bg-white/90 hover:bg-white text-black rounded-full h-16 w-16 shadow-lg p-0 border-2 border-black"
+                onClick={handleScan}
+            >
+                <div className="w-full h-full rounded-full flex items-center justify-center">
+                    <Camera className="w-7 h-7"/>
                 </div>
             </Button>
-             <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 rounded-full h-14 w-14">
-                <Trash2 className="w-6 h-6"/>
+            <Button variant="ghost" size="icon" className="bg-black/30 hover:bg-black/50 rounded-full h-12 w-12 text-white">
+                <Trash2 className="w-5 h-5"/>
             </Button>
           </footer>
         </div>
