@@ -265,7 +265,7 @@ Please let me know about availability and next steps. Thank you!`;
     };
 
     return (
-      
+      <>
         <Dialog open={!!selectedItem} onOpenChange={(isOpen) => !isOpen && handleClose()}>
             <DialogContent className="p-0 border-0 w-full max-w-lg h-full sm:h-auto sm:max-h-[90vh] bg-background text-foreground flex flex-col sm:rounded-2xl overflow-hidden">
                 {selectedItem && (
@@ -352,7 +352,7 @@ Please let me know about availability and next steps. Thank you!`;
                                             <div className="grid grid-cols-2 gap-4">
                                                 {selectedItem.features.map(feature => (
                                                     <div key={feature.name} className="flex items-center gap-3">
-                                                        <div className="bg-muted p-2 rounded-lg">
+                                                        <div className="bg-primary/10 p-2 rounded-lg">
                                                           <DynamicIcon name={feature.icon} />
                                                         </div>
                                                         <span className="text-sm font-medium text-foreground">{feature.name}</span>
@@ -709,6 +709,6 @@ Please let me know about availability and next steps. Thank you!`;
                 </DialogContent>
             </Dialog>
         )}
-       
+       </>
     );
 }
