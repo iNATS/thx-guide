@@ -22,6 +22,14 @@ export type MenuItem = {
     deliveryTime: number; // in minutes
 }
 
+export type Car = {
+    id: string;
+    name: string;
+    pricePerDay: number;
+    passengers: number;
+    images: ImagePlaceholder[];
+}
+
 export type HotelFeature = {
     name: string;
     icon: string; // lucide-react icon name
@@ -41,6 +49,7 @@ export type DiscoverItem = {
     location?: string;
     rooms?: Room[];
     menu?: MenuItem[];
+    cars?: Car[];
     phone?: string;
     features?: HotelFeature[];
 };
@@ -206,12 +215,20 @@ export const discoverData: DiscoverItem[] = [
         shortDescription: 'Rent a reliable 4x4 to conquer the dunes.',
         category: 'Rentals',
         image: PlaceHolderImages.find((img) => img.id === 'discover-rental')!,
-        images: [PlaceHolderImages.find((img) => img.id === 'discover-rental')!],
+        images: [
+             PlaceHolderImages.find((img) => img.id === 'discover-rental')!,
+             PlaceHolderImages.find((img) => img.id === 'car-rental-2')!,
+             PlaceHolderImages.find((img) => img.id === 'car-rental-3')!,
+        ],
         coords: [29.25, 0.233],
         featured: true,
         rating: 4.9,
         location: 'Agency Office',
         phone: '+213660218221',
+        cars: [
+            { id: 'toyota-land-cruiser', name: 'Toyota Land Cruiser', pricePerDay: 25000, passengers: 7, images: [PlaceHolderImages.find(img => img.id === 'discover-rental')!, PlaceHolderImages.find(img => img.id === 'car-rental-2')!] },
+            { id: 'mitsubishi-pajero', name: 'Mitsubishi Pajero', pricePerDay: 22000, passengers: 5, images: [PlaceHolderImages.find(img => img.id === 'car-rental-3')!] },
+        ]
     },
     {
         id: 'rental-timimoun-bikes',

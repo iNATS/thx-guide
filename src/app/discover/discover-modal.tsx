@@ -11,13 +11,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble, Phone, MapPin } from 'lucide-react';
+import { format, addDays } from 'date-fns';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble, Phone, MapPin, Car } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import type { DiscoverItem, MenuItem, MenuOption, Room } from '@/lib/discover-data';
+import type { DiscoverItem, MenuItem, MenuOption, Room, Car as CarType } from '@/lib/discover-data';
 import type { DateRange } from 'react-day-picker';
 import * as LucideIcons from 'lucide-react';
 
@@ -43,16 +43,25 @@ type BookingDetails = {
     room: Room | null;
 }
 
+type CarRentalDetails = {
+    passengers: number;
+    car: CarType | null;
+    dateRange: DateRange | undefined;
+}
+
 export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalProps) {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [roomCarouselApi, setRoomCarouselApi] = useState<CarouselApi>();
+    const [carCarouselApi, setCarCarouselApi] = useState<CarouselApi>();
+
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentRoomSlide, setCurrentRoomSlide] = useState(0);
+    const [currentCarSlide, setCurrentCarSlide] = useState(0);
+
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
     const [order, setOrder] = useState<Order>({});
     const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
     const { toast } = useToast();
-     // State to hold the selected option for each menu item before adding to order
     const [selectedOptions, setSelectedOptions] = useState<{ [itemId: string]: MenuOption }>({});
     
     // Hotel booking states
@@ -64,12 +73,24 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         children: 0,
         room: null,
     });
+    
+    // Car rental states
+    const [selectedCar, setSelectedCar] = useState<CarType | null>(null);
+    const [isCarRentalSheetOpen, setIsCarRentalSheetOpen] = useState(false);
+    const [isCarConfirmationOpen, setIsCarConfirmationOpen] = useState(false);
+    const [carRentalDetails, setCarRentalDetails] = useState<CarRentalDetails>({
+        passengers: 1,
+        car: null,
+        dateRange: { from: new Date(), to: addDays(new Date(), 1) }
+    });
 
 
     useEffect(() => {
-      // Reset order when a new item is selected
+      // Reset states when a new item is selected
       setOrder({});
-      // Initialize selected options for the new item's menu
+      setSelectedRoom(null);
+      setSelectedCar(null);
+
       if (selectedItem?.menu) {
           const initialOptions: { [itemId: string]: MenuOption } = {};
           selectedItem.menu.forEach(item => {
@@ -98,6 +119,13 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         roomCarouselApi.on('select', onSelect);
         return () => roomCarouselApi.off('select', onSelect);
     }, [roomCarouselApi]);
+
+    useEffect(() => {
+        if (!carCarouselApi) return;
+        const onSelect = (api: CarouselApi) => setCurrentCarSlide(api.selectedScrollSnap());
+        carCarouselApi.on('select', onSelect);
+        return () => carCarouselApi.off('select', onSelect);
+    }, [carCarouselApi]);
     
     const handleShare = async () => {
         if (!selectedItem) return;
@@ -153,7 +181,6 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
         const newOrder = { ...order };
         const currentQuantity = order[oldCompositeKey]?.quantity;
 
-        // If the item with the old option was in the order, move its quantity to the new option
         if (currentQuantity > 0) {
             delete newOrder[oldCompositeKey];
             newOrder[newCompositeKey] = {
@@ -169,16 +196,6 @@ export function DiscoverModal({ selectedItem, setSelectedItem }: DiscoverModalPr
             [itemId]: newSelectedOption,
         }));
     };
-    
-    const getQuantityForItem = (itemId: string) => {
-        // This function now needs to sum quantities across all options for a given item id.
-        return Object.entries(order).reduce((total, [key, orderItem]) => {
-            if (key.startsWith(`${itemId}-`)) {
-                return total + orderItem.quantity;
-            }
-            return total;
-        }, 0);
-    }
     
     const getQuantityForCompositeKey = (compositeKey: string) => {
         return order[compositeKey]?.quantity || 0;
@@ -255,13 +272,58 @@ Please let me know about availability and next steps. Thank you!`;
         toast({ title: "Redirecting to WhatsApp", description: "Your booking request is ready." });
         setIsBookingConfirmationOpen(false);
     }
+    
+    const handleCarSelect = (car: CarType) => {
+        setSelectedCar(car);
+        setCarRentalDetails(prev => ({
+            ...prev,
+            car: car,
+            passengers: 1
+        }));
+        setIsCarRentalSheetOpen(true);
+    }
+
+    const handlePassengerCountChange = (change: number) => {
+        setCarRentalDetails(prev => {
+            const newCount = prev.passengers + change;
+            if (!prev.car) return prev;
+            const maxPassengers = prev.car.passengers;
+            return {
+                ...prev,
+                passengers: Math.max(1, Math.min(newCount, maxPassengers))
+            }
+        });
+    }
+    
+    const handleSendCarRentalToWhatsapp = () => {
+        if (!selectedItem || !selectedItem.phone || !carRentalDetails.car || !carRentalDetails.dateRange) return;
+        const { car, passengers, dateRange } = carRentalDetails;
+
+        const startDate = dateRange.from ? format(dateRange.from, "PPP") : 'Not selected';
+        const endDate = dateRange.to ? format(dateRange.to, "PPP") : 'Not selected';
+
+        const message = `Hello ${selectedItem.title}, I would like to book a car.
+        
+Details:
+- Car: *${car.name}*
+- Passengers: ${passengers}
+- From: ${startDate}
+- To: ${endDate}
+
+Please let me know about availability and next steps. Thank you!`;
+
+        const whatsappUrl = `https://wa.me/${selectedItem.phone}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        toast({ title: "Redirecting to WhatsApp", description: "Your car rental request is ready." });
+        setIsCarConfirmationOpen(false);
+    };
 
     const imagesToShow = selectedItem?.images || (selectedItem?.image ? [selectedItem.image] : []);
 
     const DynamicIcon = ({ name }: { name: string }) => {
         const IconComponent = (LucideIcons as any)[name];
         if (!IconComponent) return null;
-        return <IconComponent className="w-5 h-5 text-primary" />;
+        return <IconComponent className="w-4 h-4 text-muted-foreground" />;
     };
 
     return (
@@ -335,20 +397,50 @@ Please let me know about availability and next steps. Thank you!`;
                                             </div>
                                         )}
                                     </div>
-
-                                    {selectedItem.features && selectedItem.features.length > 0 && (
-                                        <div className="flex flex-wrap gap-x-4 gap-y-2 items-center text-muted-foreground mb-4">
+                                    
+                                     {selectedItem.features && selectedItem.features.length > 0 && (
+                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground mb-4">
                                             {selectedItem.features.map(feature => (
-                                                <div key={feature.name} className="flex items-center gap-2 text-sm">
+                                                <div key={feature.name} className="flex items-center gap-1.5 text-sm">
                                                     <DynamicIcon name={feature.icon} />
-                                                    <span className="sr-only">{feature.name}</span>
+                                                    <span>{feature.name}</span>
                                                 </div>
                                             ))}
                                         </div>
                                     )}
-                                    
+
                                     <p className="text-foreground/80 leading-relaxed">{selectedItem.description}</p>
                                 </div>
+
+                                 {selectedItem.category === 'Rentals' && selectedItem.cars && (
+                                    <>
+                                        <Separator />
+                                        <div>
+                                            <h3 className="font-bold text-lg mb-4 font-headline">Available Cars</h3>
+                                            <div className="space-y-4">
+                                                {selectedItem.cars.map(car => (
+                                                    <Card key={car.id} className="overflow-hidden bg-card shadow-none border-border/80 cursor-pointer hover:border-primary/50 transition-colors" onClick={() => handleCarSelect(car)}>
+                                                        <div className="flex">
+                                                            <div className="relative aspect-square w-28 flex-shrink-0">
+                                                                <Image src={car.images[0].imageUrl} alt={car.name} fill className="object-cover" />
+                                                            </div>
+                                                            <div className="p-4 flex flex-col justify-between flex-grow">
+                                                                <div>
+                                                                    <p className="font-bold">{car.name}</p>
+                                                                    <p className="text-sm font-bold text-primary">{car.pricePerDay.toLocaleString()} DZD / day</p>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
+                                                                    <Users className="w-4 h-4" />
+                                                                    <span>{car.passengers} passengers</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Card>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
 
                                 {selectedItem.category === 'Hotels' && selectedItem.rooms && (
                                     <>
@@ -474,6 +566,22 @@ Please let me know about availability and next steps. Thank you!`;
                                     )}
                                 </div>
                             )}
+                            {selectedItem.category === 'Rentals' && (
+                                <div className="grid grid-cols-2 gap-2">
+                                    <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
+                                        <Share2 className="mr-2 h-4 w-4" />
+                                        Share
+                                    </Button>
+                                    {selectedItem.phone && (
+                                        <Button asChild variant="default" size="lg" className="col-span-1">
+                                            <a href={`tel:${selectedItem.phone}`}>
+                                                <Phone className="mr-2 h-4 w-4" />
+                                                Call
+                                            </a>
+                                        </Button>
+                                    )}
+                                </div>
+                            )}
                             {selectedItem.category === 'Restaurants' && (
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center text-lg font-bold p-3 bg-muted/50 rounded-lg">
@@ -510,7 +618,7 @@ Please let me know about availability and next steps. Thank you!`;
                                     </Button>
                                 </div>
                             )}
-                            { (selectedItem.category !== 'Hotels' && selectedItem.category !== 'Restaurants' && selectedItem.category !== 'Shopping') && (
+                            { (selectedItem.category !== 'Hotels' && selectedItem.category !== 'Restaurants' && selectedItem.category !== 'Shopping' && selectedItem.category !== 'Rentals') && (
                                 <Button asChild size="lg">
                                   <a href={`https://wa.me/${selectedItem.phone}?text=I'm%20interested%20in%20'${encodeURIComponent(selectedItem.title)}'`} target="_blank" rel="noopener noreferrer">
                                      <MessageSquare className="mr-2 h-4 w-4"/>
@@ -674,6 +782,150 @@ Please let me know about availability and next steps. Thank you!`;
                      <SheetFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
                          <Button variant="outline" onClick={() => { setIsBookingConfirmationOpen(false); }}>Edit Booking</Button>
                         <Button onClick={handleSendBookingToWhatsapp}>Confirm & Send</Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+        )}
+
+        {/* Car Rental Booking Sheet */}
+        {selectedItem && selectedItem.category === 'Rentals' && selectedCar && (
+            <Sheet open={isCarRentalSheetOpen} onOpenChange={setIsCarRentalSheetOpen}>
+                <SheetContent side="bottom" className="w-full rounded-t-2xl p-0 h-[90vh] flex flex-col">
+                     <SheetHeader className="p-6 pb-0">
+                        <DialogTitle>{selectedCar.name}</DialogTitle>
+                    </SheetHeader>
+                    <div className='flex-grow overflow-y-auto'>
+                        <Carousel setApi={setCarCarouselApi} opts={{ loop: true }} className="w-full mb-4">
+                            <CarouselContent>
+                                {selectedCar.images.map((image, index) => (
+                                    <CarouselItem key={image.id || index}>
+                                        <div className="relative w-full aspect-video">
+                                            <Image src={image.imageUrl} alt={`${selectedCar.name} image ${index + 1}`} fill className="object-cover" data-ai-hint={image.imageHint} />
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                             {selectedCar.images.length > 1 && (
+                                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                                    {selectedCar.images.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => carCarouselApi?.scrollTo(index)}
+                                            className={cn("h-2 rounded-full transition-all", currentCarSlide === index ? "w-6 bg-white" : "w-2 bg-white/50")}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </Carousel>
+
+                         <div className="p-6 space-y-6">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                                    <div className="bg-primary/10 p-2 rounded-full">
+                                        <CircleDollarSign className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Price / day</p>
+                                        <p className="font-bold text-foreground">{selectedCar.pricePerDay.toLocaleString()} DZD</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                                    <div className="bg-primary/10 p-2 rounded-full">
+                                        <Users className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Max Passengers</p>
+                                        <p className="font-bold text-foreground">{selectedCar.passengers}</p>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div>
+                                <h4 className='font-semibold mb-2'>Select Passengers</h4>
+                                <div className='flex justify-between items-center'>
+                                    <div className='flex items-center gap-2'>
+                                        <Users className='w-5 h-5 text-muted-foreground'/>
+                                        <span className='font-medium'>Passengers</span>
+                                    </div>
+                                    <div className='flex items-center gap-2'>
+                                        <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePassengerCountChange(-1)}><Minus className="w-4 h-4"/></Button>
+                                        <span className='font-bold w-4 text-center'>{carRentalDetails.passengers}</span>
+                                        <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handlePassengerCountChange(1)}><Plus className="w-4 h-4"/></Button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className='font-semibold mb-2'>Select Dates</h4>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                    <Button
+                                        id="date"
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal h-12",
+                                            !carRentalDetails.dateRange && "text-muted-foreground"
+                                        )}
+                                        >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {carRentalDetails.dateRange?.from ? (
+                                            carRentalDetails.dateRange.to ? (
+                                            <>
+                                                {format(carRentalDetails.dateRange.from, "LLL dd, y")} -{" "}
+                                                {format(carRentalDetails.dateRange.to, "LLL dd, y")}
+                                            </>
+                                            ) : (
+                                            format(carRentalDetails.dateRange.from, "LLL dd, y")
+                                            )
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                    </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="center">
+                                    <Calendar
+                                        initialFocus
+                                        mode="range"
+                                        defaultMonth={carRentalDetails.dateRange?.from}
+                                        selected={carRentalDetails.dateRange}
+                                        onSelect={(range) => setCarRentalDetails(prev => ({...prev, dateRange: range}))}
+                                        numberOfMonths={1}
+                                    />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </div>
+                    </div>
+
+                    <SheetFooter className="p-6 bg-background border-t">
+                        <Button size="lg" className="w-full" disabled={!carRentalDetails.dateRange} onClick={() => { setIsCarConfirmationOpen(true);}}>
+                            Request to Book
+                        </Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+        )}
+
+        {/* Car Rental Confirmation Sheet */}
+        {selectedItem && selectedItem.category === 'Rentals' && selectedCar && (
+             <Sheet open={isCarConfirmationOpen} onOpenChange={setIsCarConfirmationOpen}>
+                <SheetContent side="bottom" className="w-full rounded-t-2xl p-6">
+                    <SheetHeader className="text-left">
+                        <DialogTitle>Confirm Your Rental</DialogTitle>
+                        <SheetDescription>
+                           Review your rental details for the <span className='font-bold'>{selectedCar.name}</span> at <span className='font-bold'>{selectedItem.title}</span>.
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className="my-4">
+                        <div className="space-y-2 text-sm">
+                            <div className='flex justify-between'><span className='text-muted-foreground'>Passengers:</span> <span className='font-medium'>{carRentalDetails.passengers}</span></div>
+                            <div className='flex justify-between'><span className='text-muted-foreground'>From:</span> <span className='font-medium'>{carRentalDetails.dateRange?.from ? format(carRentalDetails.dateRange.from, "PPP") : 'N/A'}</span></div>
+                            <div className='flex justify-between'><span className='text-muted-foreground'>To:</span> <span className='font-medium'>{carRentalDetails.dateRange?.to ? format(carRentalDetails.dateRange.to, "PPP") : 'N/A'}</span></div>
+                        </div>
+                    </div>
+                     <SheetFooter className="grid grid-cols-2 gap-2 sm:grid-cols-2">
+                         <Button variant="outline" onClick={() => { setIsCarConfirmationOpen(false); }}>Edit</Button>
+                        <Button onClick={handleSendCarRentalToWhatsapp}>Confirm & Send</Button>
                     </SheetFooter>
                 </SheetContent>
             </Sheet>

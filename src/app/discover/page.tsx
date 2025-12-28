@@ -171,7 +171,7 @@ export default function DiscoverPage() {
                                         </div>
                                         <div className="text-muted-foreground text-sm">
                                             {item.location?.split('•').map((part, index) => (
-                                                <p key={index} className={index > 0 ? 'text-xs' : ''}>{part.trim()}</p>
+                                                <p key={index}>{part.trim()}</p>
                                             ))}
                                         </div>
                                     </div>
@@ -193,4 +193,3 @@ export default function DiscoverPage() {
         </div>
     );
 }
-

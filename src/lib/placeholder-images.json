@@ -335,6 +335,18 @@
       "description": "A spacious family room in a hotel with multiple beds.",
       "imageUrl": "https://images.unsplash.com/photo-1560185012-348f1b6a2b85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBob3RlbCUyMHJvb218ZW58MHx8fHwxNzE4NzY2NDQyfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "family room"
+    },
+    {
+      "id": "car-rental-2",
+      "description": "Interior of a modern 4x4 vehicle.",
+      "imageUrl": "https://images.unsplash.com/photo-1551522435-a131bf53448d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHw0eDRfaW50ZXJpb3J8ZW58MHx8fHwxNzE4NzY2NDQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "4x4 interior"
+    },
+    {
+      "id": "car-rental-3",
+      "description": "A different model of a 4x4 vehicle for rent.",
+      "imageUrl": "https://images.unsplash.com/photo-1580273916550-4185d68b4883?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaXRzdWJpc2hpJTIwcGFqZXJvfGVufDB8fHx8MTcxODc2NjQ0Mnww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "suv car"
     }
   ]
 }
