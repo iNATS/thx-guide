@@ -12,7 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble, Phone } from 'lucide-react';
+import { Bed, Minus, MessageSquare, Plus, Send, Share2, Star, Utensils, X, ZoomIn, Clock, CalendarCheck2, ShoppingCart, Navigation, Users, User, Baby, Calendar as CalendarIcon, Wifi, ParkingSquare, Waves, Coffee, AirVent, CigaretteOff, CircleDollarSign, BedDouble, Phone, MapPin } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -334,16 +334,27 @@ Please let me know about availability and next steps. Thank you!`;
                                         </div>
                                     )}
                                 </div>
-                                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                                    <div className="flex items-center gap-2">
-                                        {selectedItem.category === 'Hotels' && <Bed className="w-4 h-4 text-primary" />}
-                                        {selectedItem.category === 'Restaurants' && <Utensils className="w-4 h-4 text-primary" />}
-                                        {selectedItem.category === 'Shopping' && <ShoppingCart className="w-4 h-4 text-primary" />}
-                                        <span>{selectedItem.location}</span>
-                                    </div>
-                                </div>
+                                
                                 <p className="text-foreground/80 leading-relaxed mb-6">{selectedItem.description}</p>
                                 
+                                <Card className="mb-6 bg-muted/50">
+                                    <CardContent className="p-4 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <MapPin className="w-5 h-5 text-primary" />
+                                            <p className="font-medium text-foreground">{selectedItem.location}</p>
+                                        </div>
+                                        <Button asChild size="sm">
+                                             <a
+                                                href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Get Directions
+                                            </a>
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+
                                 {selectedItem.features && selectedItem.features.length > 0 && (
                                     <>
                                         <Separator className="my-6" />
@@ -449,29 +460,19 @@ Please let me know about availability and next steps. Thank you!`;
 
                         <div className="p-4 bg-background mt-auto grid grid-cols-1 gap-2">
                              {selectedItem.category === 'Hotels' && (
-                                <div className="grid grid-cols-3 gap-2">
+                                <div className="grid grid-cols-2 gap-2">
                                     <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
                                         <Share2 className="mr-2 h-4 w-4" />
                                         Share
                                     </Button>
                                     {selectedItem.phone && (
-                                        <Button asChild variant="outline" size="lg" className="col-span-1">
+                                        <Button asChild variant="default" size="lg" className="col-span-1">
                                             <a href={`tel:${selectedItem.phone}`}>
                                                 <Phone className="mr-2 h-4 w-4" />
                                                 Call
                                             </a>
                                         </Button>
                                     )}
-                                    <Button asChild size="lg" className={cn(selectedItem.phone ? "col-span-1" : "col-span-2")}>
-                                        <a
-                                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Navigation className="mr-2 h-4 w-4" />
-                                            Directions
-                                        </a>
-                                    </Button>
                                 </div>
                             )}
                             {selectedItem.category === 'Restaurants' && (
@@ -480,20 +481,10 @@ Please let me know about availability and next steps. Thank you!`;
                                         <span>Total</span>
                                         <span>{totalOrderPrice} DZD</span>
                                     </div>
-                                    <div className="grid grid-cols-3 gap-2">
+                                    <div className="grid grid-cols-2 gap-2">
                                         <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
                                             <Share2 className="mr-2 h-4 w-4" />
                                             Share
-                                        </Button>
-                                        <Button asChild size="lg" variant="outline" className="col-span-1">
-                                            <a
-                                                href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                <Navigation className="mr-2 h-4 w-4" />
-                                                Directions
-                                            </a>
                                         </Button>
                                         <Button size="lg" className="w-full col-span-1" disabled={totalOrderPrice === 0} onClick={() => setIsConfirmingOrder(true)}>
                                             <ShoppingCart className="mr-2 h-4 w-4" />
@@ -503,12 +494,12 @@ Please let me know about availability and next steps. Thank you!`;
                                 </div>
                             )}
                             { selectedItem.category === 'Shopping' && (
-                                <div className="grid grid-cols-3 gap-2">
+                                <div className="grid grid-cols-2 gap-2">
                                     <Button variant="outline" size="lg" onClick={handleShare} className="col-span-1">
                                     <Share2 className="mr-2 h-4 w-4" />
                                     Share
                                     </Button>
-                                    <Button asChild size="lg" className="col-span-2">
+                                    <Button asChild size="lg" className="col-span-1">
                                         <a
                                             href={`https://www.google.com/maps/dir/?api=1&destination=${selectedItem.coords[0]},${selectedItem.coords[1]}`}
                                             target="_blank"
