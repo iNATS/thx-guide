@@ -324,20 +324,126 @@ Please let me know about availability and next steps. Thank you!`;
                         </div>
 
                         <div className="relative flex-grow overflow-y-auto">
-                            <div className="p-6 pt-4">
-                                <div className='flex justify-between items-start mb-2'>
-                                    <h2 className="text-2xl font-bold font-headline">{selectedItem.title}</h2>
-                                    {selectedItem.rating && (
-                                        <div className="flex items-center gap-1.5 shrink-0 pl-2">
-                                            <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                                            <span className="font-bold text-foreground">{selectedItem.rating}</span>
-                                        </div>
-                                    )}
+                            <div className="p-6 pt-4 space-y-6">
+                                <div>
+                                    <div className='flex justify-between items-start mb-2'>
+                                        <h2 className="text-2xl font-bold font-headline">{selectedItem.title}</h2>
+                                        {selectedItem.rating && (
+                                            <div className="flex items-center gap-1.5 shrink-0 pl-2">
+                                                <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                                                <span className="font-bold text-foreground">{selectedItem.rating}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    <p className="text-foreground/80 leading-relaxed">{selectedItem.description}</p>
                                 </div>
+
+                                {selectedItem.features && selectedItem.features.length > 0 && (
+                                    <>
+                                        <Separator />
+                                        <div>
+                                            <h3 className="font-bold text-lg mb-4 font-headline">Features</h3>
+                                            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+                                                {selectedItem.features.map(feature => (
+                                                    <div key={feature.name} className="flex items-center gap-3">
+                                                        <div className="bg-primary/10 p-2 rounded-lg">
+                                                            <DynamicIcon name={feature.icon} />
+                                                        </div>
+                                                        <span className="text-sm font-medium text-foreground">{feature.name}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+                                {selectedItem.category === 'Hotels' && selectedItem.rooms && (
+                                    <>
+                                        <Separator />
+                                        <div>
+                                            <h3 className="font-bold text-lg mb-4 font-headline">Available Rooms</h3>
+                                            <div className="space-y-4">
+                                                {selectedItem.rooms.map(room => (
+                                                    <Card key={room.name} className="overflow-hidden bg-card shadow-none border-border/80 cursor-pointer hover:border-primary/50 transition-colors" onClick={() => handleRoomSelect(room)}>
+                                                        <div className="flex">
+                                                            <div className="relative aspect-square w-24 flex-shrink-0">
+                                                                <Image src={room.images[0].imageUrl} alt={room.name} fill className="object-cover" />
+                                                            </div>
+                                                            <div className="p-4 flex flex-col justify-between flex-grow">
+                                                            <div>
+                                                                    <p className="font-bold">{room.name}</p>
+                                                                    <p className="text-sm font-bold text-primary">{room.price.toLocaleString()} DZD / night</p>
+                                                            </div>
+                                                            <p className={cn("font-semibold text-sm mt-2", room.availability > 0 ? "text-green-600" : "text-destructive")}>
+                                                                    {room.availability > 0 ? `${room.availability} available` : 'Fully Booked'}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Card>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+
+                                {selectedItem.category === 'Restaurants' && selectedItem.menu && (
+                                     <>
+                                        <Separator />
+                                        <div>
+                                            <h3 className="font-bold text-lg mb-4 font-headline">Menu</h3>
+                                            <div className="space-y-4">
+                                                {selectedItem.menu.map(item => {
+                                                    const selectedOption = selectedOptions[item.id] || item.options[0];
+                                                    const compositeKey = `${item.id}-${selectedOption.size}`;
+                                                    return (
+                                                    <div key={item.id} className="flex gap-4 items-center">
+                                                        <Image src={item.image.imageUrl} alt={item.name} width={80} height={80} className="rounded-lg object-cover aspect-square" />
+                                                        <div className="flex-grow">
+                                                            <p className="font-bold">{item.name}</p>
+                                                            <p className="text-sm text-muted-foreground">{item.description}</p>
+                                                            <div className="flex items-center gap-2 mt-2">
+                                                                {item.options.length > 1 ? (
+                                                                    <Select
+                                                                        value={selectedOptions[item.id]?.price.toString() || item.options[0].price.toString()}
+                                                                        onValueChange={(price) => handleOptionChange(item.id, price)}
+                                                                    >
+                                                                        <SelectTrigger className="w-auto h-8 text-xs">
+                                                                            <SelectValue placeholder="Select size" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            {item.options.map(opt => (
+                                                                                <SelectItem key={opt.size} value={opt.price.toString()}>
+                                                                                    {opt.size} - {opt.price} DZD
+                                                                                </SelectItem>
+                                                                            ))}
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                ) : (
+                                                                    <p className="text-sm font-bold text-primary">{item.options[0].price} DZD</p>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, -1)}>
+                                                                <Minus className="w-5 h-5 text-muted-foreground" />
+                                                            </Button>
+                                                            <span className="font-bold w-4 text-center">{getQuantityForCompositeKey(compositeKey)}</span>
+                                                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, 1)}>
+                                                                <Plus className="w-5 h-5 text-primary"/>
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                )})}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+                                <Separator />
                                 
-                                <p className="text-foreground/80 leading-relaxed mb-6">{selectedItem.description}</p>
-                                
-                                <Card className="mb-6 bg-muted/50">
+                                <Card className="bg-muted/50 border-0 shadow-none">
                                     <CardContent className="p-4 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <MapPin className="w-5 h-5 text-primary" />
@@ -354,105 +460,6 @@ Please let me know about availability and next steps. Thank you!`;
                                         </Button>
                                     </CardContent>
                                 </Card>
-
-                                {selectedItem.features && selectedItem.features.length > 0 && (
-                                    <>
-                                        <Separator className="my-6" />
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-4 font-headline">Features</h3>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                {selectedItem.features.map(feature => (
-                                                    <div key={feature.name} className="flex items-center gap-3">
-                                                        <div className="bg-primary/10 p-2 rounded-lg">
-                                                          <DynamicIcon name={feature.icon} />
-                                                        </div>
-                                                        <span className="text-sm font-medium text-foreground">{feature.name}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
-
-                                <Separator className="my-6" />
-
-                                {/* Category-specific content */}
-                                {selectedItem.category === 'Hotels' && selectedItem.rooms && (
-                                    <div>
-                                        <h3 className="font-bold text-lg mb-4 font-headline">Available Rooms</h3>
-                                        <div className="space-y-4">
-                                            {selectedItem.rooms.map(room => (
-                                                <Card key={room.name} className="overflow-hidden bg-card shadow-none border-border/80 cursor-pointer hover:border-primary/50 transition-colors" onClick={() => handleRoomSelect(room)}>
-                                                    <div className="flex">
-                                                        <div className="relative aspect-square w-24 flex-shrink-0">
-                                                            <Image src={room.images[0].imageUrl} alt={room.name} fill className="object-cover" />
-                                                        </div>
-                                                        <div className="p-4 flex flex-col justify-between flex-grow">
-                                                           <div>
-                                                                <p className="font-bold">{room.name}</p>
-                                                                <p className="text-sm font-bold text-primary">{room.price.toLocaleString()} DZD / night</p>
-                                                           </div>
-                                                           <p className={cn("font-semibold text-sm mt-2", room.availability > 0 ? "text-green-600" : "text-destructive")}>
-                                                                {room.availability > 0 ? `${room.availability} available` : 'Fully Booked'}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </Card>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-
-                                {selectedItem.category === 'Restaurants' && selectedItem.menu && (
-                                    <div>
-                                        <h3 className="font-bold text-lg mb-4 font-headline">Menu</h3>
-                                        <div className="space-y-4">
-                                            {selectedItem.menu.map(item => {
-                                                const selectedOption = selectedOptions[item.id] || item.options[0];
-                                                const compositeKey = `${item.id}-${selectedOption.size}`;
-                                                return (
-                                                <div key={item.id} className="flex gap-4 items-center">
-                                                    <Image src={item.image.imageUrl} alt={item.name} width={80} height={80} className="rounded-lg object-cover aspect-square" />
-                                                    <div className="flex-grow">
-                                                        <p className="font-bold">{item.name}</p>
-                                                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                                                        <div className="flex items-center gap-2 mt-2">
-                                                            {item.options.length > 1 ? (
-                                                                <Select
-                                                                    value={selectedOptions[item.id]?.price.toString() || item.options[0].price.toString()}
-                                                                    onValueChange={(price) => handleOptionChange(item.id, price)}
-                                                                >
-                                                                    <SelectTrigger className="w-auto h-8 text-xs">
-                                                                        <SelectValue placeholder="Select size" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        {item.options.map(opt => (
-                                                                            <SelectItem key={opt.size} value={opt.price.toString()}>
-                                                                                {opt.size} - {opt.price} DZD
-                                                                            </SelectItem>
-                                                                        ))}
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            ) : (
-                                                                <p className="text-sm font-bold text-primary">{item.options[0].price} DZD</p>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, -1)}>
-                                                            <Minus className="w-5 h-5 text-muted-foreground" />
-                                                         </Button>
-                                                         <span className="font-bold w-4 text-center">{getQuantityForCompositeKey(compositeKey)}</span>
-                                                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleQuantityChange(item, 1)}>
-                                                             <Plus className="w-5 h-5 text-primary"/>
-                                                         </Button>
-                                                    </div>
-                                                </div>
-                                            )})}
-                                        </div>
-                                    </div>
-                                )}
 
                             </div>
                              <div className="sticky bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent pointer-events-none" />
