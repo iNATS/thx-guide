@@ -349,15 +349,13 @@ Please let me know about availability and next steps. Thank you!`;
                                         <Separator className="my-6" />
                                         <div>
                                             <h3 className="font-bold text-lg mb-4 font-headline">Features</h3>
-                                            <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-hide">
+                                            <div className="grid grid-cols-2 gap-4">
                                                 {selectedItem.features.map(feature => (
-                                                    <div key={feature.name} className="flex-shrink-0 w-24">
-                                                        <div className="aspect-square bg-muted/70 rounded-2xl flex flex-col items-center justify-center gap-2 p-2">
-                                                          <div className="bg-background p-3 rounded-full shadow-sm">
-                                                            <DynamicIcon name={feature.icon} />
-                                                          </div>
-                                                          <span className="text-xs font-medium text-center text-foreground">{feature.name}</span>
+                                                    <div key={feature.name} className="flex items-center gap-3">
+                                                        <div className="bg-muted p-2 rounded-lg">
+                                                          <DynamicIcon name={feature.icon} />
                                                         </div>
+                                                        <span className="text-sm font-medium text-foreground">{feature.name}</span>
                                                     </div>
                                                 ))}
                                             </div>
