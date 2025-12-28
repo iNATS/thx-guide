@@ -335,28 +335,20 @@ Please let me know about availability and next steps. Thank you!`;
                                             </div>
                                         )}
                                     </div>
+
+                                    {selectedItem.features && selectedItem.features.length > 0 && (
+                                        <div className="flex flex-wrap gap-x-4 gap-y-2 items-center text-muted-foreground mb-4">
+                                            {selectedItem.features.map(feature => (
+                                                <div key={feature.name} className="flex items-center gap-2 text-sm">
+                                                    <DynamicIcon name={feature.icon} />
+                                                    <span className="sr-only">{feature.name}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                     
                                     <p className="text-foreground/80 leading-relaxed">{selectedItem.description}</p>
                                 </div>
-
-                                {selectedItem.features && selectedItem.features.length > 0 && (
-                                    <>
-                                        <Separator />
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-4 font-headline">Features</h3>
-                                            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-                                                {selectedItem.features.map(feature => (
-                                                    <div key={feature.name} className="flex items-center gap-3">
-                                                        <div className="bg-primary/10 p-2 rounded-lg">
-                                                            <DynamicIcon name={feature.icon} />
-                                                        </div>
-                                                        <span className="text-sm font-medium text-foreground">{feature.name}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
 
                                 {selectedItem.category === 'Hotels' && selectedItem.rooms && (
                                     <>
