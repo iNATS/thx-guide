@@ -117,7 +117,9 @@ export default function DiscoverPage() {
                                                 <p className="text-sm max-w-xs mt-1 opacity-90">{experience.shortDescription}</p>
                                             </div>
                                             <div className="mt-4">
-                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base" onClick={(e) => {e.stopPropagation(); setSelectedItem(experience)}}>Book Now</Button>
+                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 px-6 font-bold text-base" onClick={(e) => {e.stopPropagation(); setSelectedItem(experience)}}>
+                                                    {experience.category === 'Restaurants' ? 'See Menu' : 'Book Now'}
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>
