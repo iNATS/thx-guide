@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, History, Camera, QrCode, X, Share2, Image as ImageIcon, Trash2, CheckCircle, MapPin } from 'lucide-react';
@@ -41,6 +41,42 @@ export function QrScannerView() {
   const { toast } = useToast();
   const [isResultSheetOpen, setIsResultSheetOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+  const animationFrameId = useRef<number>();
+
+  const tick = useCallback(() => {
+    if (videoRef.current && videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA) {
+      const video = videoRef.current;
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        import('jsqr').then(jsQRModule => {
+          const jsQR = jsQRModule.default;
+          const code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: 'dontInvert',
+          });
+
+          if (code) {
+            setIsScanning(false);
+            // Mock result for demonstration
+            if (code.data === 'Grand Ksar') {
+                setScanResult(mockScanResult);
+                setIsResultSheetOpen(true);
+            } else {
+                toast({ title: "QR Code Scanned", description: code.data });
+            }
+          }
+        });
+      }
+    }
+    if (isScanning) {
+        animationFrameId.current = requestAnimationFrame(tick);
+    }
+  }, [isScanning, toast]);
+
 
   useEffect(() => {
     const getCameraPermission = async () => {
@@ -69,16 +105,26 @@ export function QrScannerView() {
             const stream = videoRef.current.srcObject as MediaStream;
             stream.getTracks().forEach(track => track.stop());
         }
+        if (animationFrameId.current) {
+            cancelAnimationFrame(animationFrameId.current);
+        }
     }
   }, [toast]);
+  
+  useEffect(() => {
+    if (isScanning) {
+        animationFrameId.current = requestAnimationFrame(tick);
+    } else {
+        if(animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+    }
+
+    return () => {
+        if(animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+    }
+  }, [isScanning, tick])
 
   const handleScan = () => {
     setIsScanning(true);
-    setTimeout(() => {
-      setScanResult(mockScanResult);
-      setIsResultSheetOpen(true);
-      setIsScanning(false);
-    }, 1500);
   };
   
   const handleCloseResultSheet = () => {
@@ -103,7 +149,16 @@ export function QrScannerView() {
             <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-black">
-                <Camera className="w-24 h-24 text-muted-foreground/20" />
+                {hasCameraPermission === false ? (
+                    <Alert variant="destructive" className="max-w-sm">
+                        <AlertTitle>Camera Access Denied</AlertTitle>
+                        <AlertDescription>
+                        Please enable camera permissions in your browser settings to use this feature.
+                        </AlertDescription>
+                    </Alert>
+                ) : (
+                    <Camera className="w-24 h-24 text-muted-foreground/20" />
+                )}
             </div>
           )}
 
@@ -133,6 +188,7 @@ export function QrScannerView() {
                 <div className="absolute w-12 h-12 border-t-4 border-r-4 border-primary top-0 right-0 rounded-tr-xl glow" />
                 <div className="absolute w-12 h-12 border-b-4 border-l-4 border-primary bottom-0 left-0 rounded-bl-xl glow" />
                 <div className="absolute w-12 h-12 border-b-4 border-r-4 border-primary bottom-0 right-0 rounded-br-xl glow" />
+                {isScanning && <div className="absolute w-full h-1 bg-primary/50 animate-ping" />}
                 <span className="text-4xl font-thin opacity-50">+</span>
              </div>
              <div className='mt-8'>
@@ -150,15 +206,16 @@ export function QrScannerView() {
             </Button>
             <Button
                 variant="outline"
-                className="bg-white/90 hover:bg-white text-black rounded-full h-16 w-16 shadow-lg p-0 border-2 border-black"
+                className={cn("bg-white/90 hover:bg-white text-black rounded-full h-16 w-16 shadow-lg p-0 border-2 border-black transition-all", isScanning && "scale-90 opacity-50")}
                 onClick={handleScan}
+                disabled={isScanning || hasCameraPermission !== true}
             >
                 <div className="w-full h-full rounded-full flex items-center justify-center">
                     <Camera className="w-7 h-7"/>
                 </div>
             </Button>
-            <Button variant="ghost" size="icon" className="bg-black/30 hover:bg-black/50 rounded-full h-12 w-12 text-white">
-                <Trash2 className="w-5 h-5"/>
+            <Button variant="ghost" size="icon" className="bg-black/30 hover:bg-black/50 rounded-full h-12 w-12 text-white" onClick={() => setIsScanning(false)} disabled={!isScanning}>
+                <X className="w-5 h-5"/>
             </Button>
           </footer>
         </div>
@@ -251,10 +308,4 @@ export function QrScannerView() {
       )}
     </>
   );
-}
-
-declare module 'react' {
-  interface CSSProperties {
-    [key: `--${string}`]: string | number;
-  }
 }

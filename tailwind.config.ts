@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -10,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"Jost"', 'sans-serif'],
-        headline: ['"Jost"', 'sans-serif'],
+        body: ['var(--font-jost)', 'sans-serif'],
+        headline: ['var(--font-jost)', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

@@ -17,7 +17,7 @@ export default function MapPage() {
             Interactive Map
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4">
           <p className="text-muted-foreground mb-4">
             Explore Timimoun and its surrounding points of interest. You can pan and zoom on the map.
           </p>

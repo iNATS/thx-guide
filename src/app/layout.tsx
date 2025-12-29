@@ -1,11 +1,17 @@
 
 import type { Metadata, Viewport } from 'next';
-import { manifest } from 'next/dist/lib/metadata/manifest';
+import { Jost } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import BottomNav from '@/app/bottom-nav';
 import { Toaster } from '@/components/ui/toaster';
 import { PwaRegistration } from '@/components/pwa-registration';
+
+const jost = Jost({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jost',
+});
 
 export const metadata: Metadata = {
   title: 'Timimoun Oasis Guide',
@@ -24,18 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={cn('h-full', jost.variable)}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""/>
@@ -57,5 +53,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    
