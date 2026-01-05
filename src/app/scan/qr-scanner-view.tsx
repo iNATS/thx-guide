@@ -14,6 +14,8 @@ import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-imag
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import Link from 'next/link';
+import jsQR from 'jsqr';
+
 
 type ScanResult = {
   title: string;
@@ -53,23 +55,20 @@ export function QrScannerView() {
       if (ctx) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        import('jsqr').then(jsQRModule => {
-          const jsQR = jsQRModule.default;
-          const code = jsQR(imageData.data, imageData.width, imageData.height, {
-            inversionAttempts: 'dontInvert',
-          });
-
-          if (code) {
-            setIsScanning(false);
-            // Mock result for demonstration
-            if (code.data === 'Grand Ksar') {
-                setScanResult(mockScanResult);
-                setIsResultSheetOpen(true);
-            } else {
-                toast({ title: "QR Code Scanned", description: code.data });
-            }
-          }
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert',
         });
+
+        if (code) {
+          setIsScanning(false);
+          // Mock result for demonstration
+          if (code.data === 'Grand Ksar') {
+            setScanResult(mockScanResult);
+            setIsResultSheetOpen(true);
+          } else {
+            toast({ title: "QR Code Scanned", description: code.data });
+          }
+        }
       }
     }
     if (isScanning) {
